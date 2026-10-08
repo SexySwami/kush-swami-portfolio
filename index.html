@@ -762,7 +762,7 @@ window.EMBEDDED_IMAGES = {
       float d = dist(p, mouse);
       if (fx == 1.) {                        // flashlight
         float light = smoothstep(.34, .0, d);
-        c *= mix(1., mix(.6, 1.5, light), k);   // surroundings dimmed to 60%
+        c *= mix(1., mix(.8, 1.45, light), k);   // surroundings dimmed to 80%
         c += vec3(.22, .09, .04) * light * light * k;
       } else if (fx == 2.) {                 // smoke trail drifting upward
         float v = 0.;

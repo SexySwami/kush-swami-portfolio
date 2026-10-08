@@ -115,7 +115,8 @@
   /* Row of vertical 9:16 cards */
   .scene-media--tall { width: auto; }
   .scene-media--tall .vcard { flex: 0 0 auto; width: clamp(110px, 9.5vw, 180px); aspect-ratio: 9 / 16; }
-  .scene-media--tall .vcard__title { display: none; }
+  .scene-media--tall .vcard__meta { flex-direction: column; gap: 3px; }
+  .scene-media--tall .vcard__title { white-space: normal; font-size: 13px; line-height: 1.15; }
   .vcard {
     position: relative; flex: 1; aspect-ratio: 16 / 9; padding: 0; border: 0;
     border-radius: 6px; overflow: hidden; cursor: pointer; color: #fff; text-align: left;
@@ -717,7 +718,7 @@ window.EMBEDDED_IMAGES = {
     { bg: 'story-3', fg: { name: 'story-3-fg', cx: .78, cxPortrait: .64, scalePortrait: .66, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
       layout: 'tall', // vertical poster-style cards
-      videos: [{ vimeo: '1234213221' }, { vimeo: '1234213035' }, { vimeo: '1234212820' }],
+      videos: [{ vimeo: '1234213221', title: 'Supply Chain Management' }, { vimeo: '1234213035', title: 'Digital Marketing' }, { vimeo: '1234212820', title: 'Low Code' }],
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
     { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' }, fx: 4,
       title: ['Turn it', 'up'],
@@ -749,12 +750,12 @@ window.EMBEDDED_IMAGES = {
       [1, 2, 3].map(k => `<span class="echo" aria-hidden="true" data-k="${k}">${lines}</span>`).join('') +
       `</h2><p class="scene-text__body">${s.body}</p>` +
       (s.videos ? `<div class="scene-media${s.layout ? ' scene-media--' + s.layout : ''}">${s.videos.map((v, k) => {
-        const label = v.tall ? 'Short' : 'Video';
+        const label = v.title || `${v.tall ? 'Short' : 'Video'} ${k + 1}`;
         return `<button class="vcard${v.tall ? ' vcard--tall' : ''}" type="button"
                   data-provider="${v.yt ? 'youtube' : 'vimeo'}" data-video="${v.yt || v.vimeo}"${v.tall ? ' data-tall' : ''}
-                  aria-label="Play ${label.toLowerCase()} ${k + 1}">
+                  aria-label="Play ${label}"${v.title ? ' data-fixed-title' : ''}>
            <span class="vcard__play" aria-hidden="true"></span>
-           <span class="vcard__meta"><span class="vcard__num">${String(k + 1).padStart(2, '0')}</span><span class="vcard__title">${label} ${k + 1}</span></span>
+           <span class="vcard__meta"><span class="vcard__num">${String(k + 1).padStart(2, '0')}</span><span class="vcard__title">${label}</span></span>
          </button>`;
       }).join('')}</div>` : '');
     section.querySelector('.story__texts').appendChild(el);
@@ -804,7 +805,7 @@ window.EMBEDDED_IMAGES = {
     card.prepend(im);
   }
   function setTitle(card, title) {
-    if (!title) return;
+    if (!title || card.hasAttribute('data-fixed-title')) return;
     card.querySelector('.vcard__title').textContent = title;
     card.setAttribute('aria-label', `Play ${title}`);
   }

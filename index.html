@@ -100,17 +100,23 @@
     pointer-events: none;
   }
   .scene-text.is-active .scene-media { pointer-events: auto; }
-  /* Bento: two 16:9 cards stacked on the left, two 9:16 Shorts beside them */
+  /* Bento: a large 16:9 lead video over a 2x2 of smaller ones, with two 9:16 Shorts beside.
+     --w is one small card's width, sized so the whole block fits the screen height. */
   .scene-media--bento {
-    display: grid; width: min(40vw, 700px); aspect-ratio: 2.05;
-    grid-template-columns: 1.6fr 1fr 1fr; grid-template-rows: 1fr 1fr;
+    --w: min(11vw, calc((100svh - 400px) / 2.3)); --g: 10px;
+    display: grid; gap: var(--g); width: auto;
+    grid-template-columns: var(--w) var(--w) calc(var(--w) * .63);
   }
-  .scene-media--bento .vcard { aspect-ratio: auto; min-height: 0; }
-  .scene-media--bento .vcard--tall { grid-row: 1 / 3; }
-  .scene-media--bento .vcard:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .scene-media--bento .vcard { width: auto; }
+  .scene-media--bento .vcard--tall { aspect-ratio: auto; }
+  .scene-media--bento .vcard:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
   .scene-media--bento .vcard:nth-child(2) { grid-column: 1; grid-row: 2; }
-  .scene-media--bento .vcard:nth-child(3) { grid-column: 2; }
-  .scene-media--bento .vcard:nth-child(4) { grid-column: 3; transition-delay: .27s; }
+  .scene-media--bento .vcard:nth-child(3) { grid-column: 2; grid-row: 2; }
+  .scene-media--bento .vcard:nth-child(4) { grid-column: 1; grid-row: 3; transition-delay: .27s; }
+  .scene-media--bento .vcard:nth-child(5) { grid-column: 2; grid-row: 3; transition-delay: .36s; }
+  .scene-media--bento .vcard:nth-child(6) { grid-column: 3; grid-row: 1; transition-delay: .45s; }
+  .scene-media--bento .vcard:nth-child(7) { grid-column: 3; grid-row: 2 / 4; transition-delay: .54s; }
+  .scene-media--bento .vcard:not(:nth-child(1)) .vcard__title { display: none; }
   .vcard--tall .vcard__title { display: none; }
   /* Row of vertical 9:16 cards */
   /* three across, then the rest on a second row; sized so both rows fit the screen height */
@@ -308,7 +314,7 @@
     .vcard__meta { left: 7px; bottom: 5px; font-size: 10px; }
     .vcard__title { display: none; }
     .scene-media--tall .vcard { width: min(18vw, calc((100svh - 520px) / 2 * .5625)); }
-    .scene-media--bento { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 8svh; width: auto; margin: 0; }
+    .scene-media--bento { position: absolute; left: var(--gutter); bottom: 7svh; margin: 0; --w: calc((100vw - 2 * var(--gutter) - 20px) / 2.63); --g: 8px; }
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
     .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
     .project__grid { grid-template-columns: repeat(2, 1fr); }
@@ -764,9 +770,10 @@ window.EMBEDDED_IMAGES = {
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
     { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' }, fx: 4,
       title: ['Turn it', 'up'],
-      // Two widescreen videos stacked beside two vertical Shorts
+      // Five widescreen videos (the first one large) beside two vertical Shorts
       layout: 'bento',
-      videos: [{ yt: 'wrPQJzGlx-U' }, { yt: '55mGzUQg8to' }, { yt: '2M4Q4Dfzw-s', tall: true }, { yt: 'x4erne97UvU', tall: true }],
+      videos: [{ yt: 'wrPQJzGlx-U' }, { yt: '55mGzUQg8to' }, { yt: 'KigaYdw3fY8' }, { yt: 'Yt143g73GpU' }, { yt: 'pbLlCi8Wg0U' },
+               { yt: '2M4Q4Dfzw-s', tall: true }, { yt: 'x4erne97UvU', tall: true }],
       body: 'Sound is half the picture. Original music, mixing and audio that give your content a rhythm of its own.' },
   ];
 

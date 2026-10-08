@@ -769,8 +769,8 @@ window.EMBEDDED_IMAGES = {
         for (int i = 0; i < 16; i++) {
           vec3 q = trail[i];
           if (q.z >= 1.) continue;
-          vec2 ctr = q.xy + vec2(sin(q.z*6. + float(i))*.02, q.z*.16);
-          float r = .055 + q.z*.17;
+          vec2 ctr = q.xy + vec2(sin(q.z*6. + float(i))*.012, q.z*.09);
+          float r = .028 + q.z*.085;
           v += smoothstep(r, 0., dist(p, ctr)) * (1. - q.z) * 1.15;
         }
         v *= .7 + .8 * fbm(p*vec2(7., 10.) + vec2(0., -time*.35));
@@ -783,10 +783,10 @@ window.EMBEDDED_IMAGES = {
         for (int i = 0; i < 16; i++) {
           vec3 q = trail[i];
           if (q.z >= 1.) continue;
-          float rr = q.z * .38;
-          ring += smoothstep(.014, 0., abs(dist(p, q.xy) - rr)) * (1. - q.z) * (1. - q.z);
+          float rr = q.z * .2;
+          ring += smoothstep(.009, 0., abs(dist(p, q.xy) - rr)) * (1. - q.z) * (1. - q.z);
         }
-        ring += smoothstep(.02, 0., abs(d - .03 - .015*sin(time*8.))) * .5 * fxOn;   // pulsing ring at the cursor
+        ring += smoothstep(.011, 0., abs(d - .016 - .007*sin(time*8.))) * .5 * fxOn;   // pulsing ring at the cursor
         c += vec3(1., .28, .16) * clamp(ring, 0., 1.6) * k * .8;
       } else if (fx == 5.) {                 // stage spotlight following the cursor
         float dx = abs(p.x - mouse.x) * aspect;

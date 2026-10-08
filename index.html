@@ -94,6 +94,60 @@
     margin: 22px 0 0; font-size: 14px; line-height: 1.4; font-weight: 500; opacity: .85;
   }
   .story__index { position: absolute; right: var(--gutter); top: 28px; font-size: 13px; font-weight: 500; opacity: .7; font-variant-numeric: tabular-nums; }
+  /* Video cards inside a scene (thumbnails from Vimeo; click opens the player) */
+  .scene-media {
+    display: flex; gap: 14px; margin-top: 34px; width: min(44vw, 760px);
+    pointer-events: none;
+  }
+  .scene-text.is-active .scene-media { pointer-events: auto; }
+  .vcard {
+    position: relative; flex: 1; aspect-ratio: 16 / 9; padding: 0; border: 0;
+    border-radius: 6px; overflow: hidden; cursor: pointer; color: #fff; text-align: left;
+    background: linear-gradient(135deg, #3a0b07, #12040300);
+    box-shadow: 0 24px 40px -22px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.12) inset;
+    opacity: 0; transform: translateY(26px) scale(.96);
+    transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;
+  }
+  .vcard:nth-child(2) { transition-delay: .09s; }
+  .vcard:nth-child(3) { transition-delay: .18s; }
+  .scene-text.is-active .vcard { opacity: 1; transform: none; }
+  .vcard img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    filter: saturate(.85) brightness(.78); transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s ease;
+  }
+  .vcard::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.7), rgba(0,0,0,0) 55%); }
+  .vcard:hover img, .vcard:focus-visible img { transform: scale(1.06); filter: none; }
+  .vcard:hover, .vcard:focus-visible { box-shadow: 0 30px 50px -22px rgba(0,0,0,.9), 0 0 0 1px rgba(255,120,90,.55) inset; outline: none; }
+  .vcard__play {
+    position: absolute; left: 50%; top: 50%; z-index: 1; width: 46px; height: 46px; margin: -23px 0 0 -23px;
+    border-radius: 50%; background: rgba(255,255,255,.14); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,.4); transition: transform .3s ease, background .3s ease;
+  }
+  .vcard__play::before { content: ''; position: absolute; left: 18px; top: 14px; border-style: solid; border-width: 9px 0 9px 14px; border-color: transparent transparent transparent #fff; }
+  .vcard:hover .vcard__play { transform: scale(1.12); background: #e00000; border-color: #e00000; }
+  .vcard__meta { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 1; display: flex; gap: 8px; align-items: baseline; font-size: 12px; font-weight: 600; line-height: 1.2; }
+  .vcard__num { opacity: .6; font-variant-numeric: tabular-nums; }
+  .vcard__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Full-screen video player */
+  .vplayer {
+    position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
+    background: rgba(8,2,2,.94); opacity: 0; visibility: hidden;
+    transition: opacity .35s ease, visibility 0s linear .35s;
+  }
+  .vplayer.is-open { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+  .vplayer__frame {
+    width: min(92vw, calc(84svh * 16 / 9)); aspect-ratio: 16 / 9; background: #000;
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,.9); transform: scale(.96); transition: transform .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .vplayer.is-open .vplayer__frame { transform: none; }
+  .vplayer__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .vplayer__close {
+    position: absolute; top: 18px; right: 22px; width: 44px; height: 44px; border: 0; border-radius: 50%;
+    background: rgba(255,255,255,.1); color: #fff; font-size: 22px; line-height: 44px; cursor: pointer;
+  }
+  .vplayer__close:hover { background: #e00000; }
+
   .story__hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .6; }
   /* ---------- Works carousel ---------- */
   .works {
@@ -200,6 +254,11 @@
     .story__fallback { background-position: 64% center; }
     .scene-text { padding-top: 11svh; }
     .scene-text__body { width: auto; max-width: 80vw; }
+    .scene-media { width: auto; max-width: none; margin-right: var(--gutter); gap: 8px; margin-top: 22px; }
+    .vcard__meta { left: 7px; bottom: 5px; font-size: 10px; }
+    .vcard__title { display: none; }
+    .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
+    .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
     .project__grid { grid-template-columns: repeat(2, 1fr); }
     .project__meta { grid-template-columns: 1fr 2fr 1fr; }
     .project__meta .m-client, .project__meta .m-year { display: none; }
@@ -635,8 +694,9 @@ window.EMBEDDED_IMAGES = {
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Strategy', 'ideas that flow'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
-    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .645, bottom: .11, h: .59, enter: 'slide' }, fx: 3,
+    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .78, cxPortrait: .64, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
+      videos: ['1234213221', '1234213035', '1234212820'],
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
     { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' }, fx: 4,
       title: ['Turn it', 'up'],
@@ -663,9 +723,55 @@ window.EMBEDDED_IMAGES = {
     const lines = s.title.map(l => `<span>${l}</span>`).join('');
     el.innerHTML = `<h2 class="scene-text__title"${s.titleSize ? ` style="font-size: calc(${s.titleSize} * clamp(44px, 6.4vw, 120px))"` : ''}>${lines}` +
       [1, 2, 3].map(k => `<span class="echo" aria-hidden="true" data-k="${k}">${lines}</span>`).join('') +
-      `</h2><p class="scene-text__body">${s.body}</p>`;
+      `</h2><p class="scene-text__body">${s.body}</p>` +
+      (s.videos ? `<div class="scene-media">${s.videos.map((id, k) =>
+        `<button class="vcard" type="button" data-video="${id}" aria-label="Play film ${k + 1}">
+           <span class="vcard__play" aria-hidden="true"></span>
+           <span class="vcard__meta"><span class="vcard__num">${String(k + 1).padStart(2, '0')}</span><span class="vcard__title">Film ${k + 1}</span></span>
+         </button>`).join('')}</div>` : '');
     section.querySelector('.story__texts').appendChild(el);
     return { el, echoes: [...el.querySelectorAll('.echo')] };
+  });
+
+  // ---- Vimeo cards: thumbnails/titles via oEmbed, click opens a full-screen player ----
+  const player = document.createElement('div');
+  player.className = 'vplayer';
+  player.setAttribute('role', 'dialog'); player.setAttribute('aria-modal', 'true'); player.setAttribute('aria-label', 'Video player');
+  player.innerHTML = '<button class="vplayer__close" type="button" aria-label="Close video">✕</button><div class="vplayer__frame"></div>';
+  document.body.appendChild(player);
+  const playerFrame = player.querySelector('.vplayer__frame');
+  let lastCard = null;
+  function openVideo(id, card) {
+    lastCard = card;
+    playerFrame.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&dnt=1&color=e00000" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Video"></iframe>`;
+    player.classList.add('is-open');
+    player.querySelector('.vplayer__close').focus();
+  }
+  function closeVideo() {
+    player.classList.remove('is-open');
+    setTimeout(() => { if (!player.classList.contains('is-open')) playerFrame.innerHTML = ''; }, 350);
+    lastCard?.focus({ preventScroll: true });
+  }
+  player.addEventListener('click', e => { if (!e.target.closest('.vplayer__frame')) closeVideo(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && player.classList.contains('is-open')) closeVideo(); });
+  section.querySelectorAll('.vcard').forEach(card => {
+    const id = card.dataset.video;
+    card.addEventListener('click', () => openVideo(id, card));
+    fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent('https://vimeo.com/' + id)}&width=960`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => {
+        if (d.thumbnail_url) {
+          const im = new Image();
+          im.alt = ''; im.decoding = 'async';
+          im.src = d.thumbnail_url.replace(/_\d+x\d+/, '_960x540');
+          card.prepend(im);
+        }
+        if (d.title) {
+          card.querySelector('.vcard__title').textContent = d.title;
+          card.setAttribute('aria-label', `Play ${d.title}`);
+        }
+      })
+      .catch(() => {});
   });
 
   // ---- Scroll progress (smoothed) ----
@@ -695,6 +801,7 @@ window.EMBEDDED_IMAGES = {
       if (j === i) { y = -e * vh; o = 1 - e * .3; echo = Math.sin(Math.PI * t); }
       else if (j === i + 1) { y = (1 - e) * 60; o = e; echo = 0; }
       el.style.opacity = o;
+      el.classList.toggle('is-active', (j === i && t < .35) || (j === i + 1 && t > .7));
       el.style.transform = `translate3d(0, ${y}px, 0)`;
       echoes.forEach((s, k) => {
         s.style.opacity = echo * (.5 - k * .14);
@@ -885,7 +992,8 @@ window.EMBEDDED_IMAGES = {
 
     const bgAspect = L.bg.w / L.bg.h, fgAspect = L.fg.w / L.fg.h;
     let w = s.full ? 1 : s.h * fgAspect / bgAspect, h = s.full ? 1 : s.h;
-    let cx = s.cx, y = s.bottom, alpha = 1, scale = 1;
+    const portrait = canvas.width < canvas.height;
+    let cx = portrait && s.cxPortrait != null ? s.cxPortrait : s.cx, y = s.bottom, alpha = 1, scale = 1;
     const k = 1 - a; // remaining entrance
 
     if (s.enter === 'walk')  { scale = .45 + .55 * a; y += .16 * k; alpha = clamp01(a * 1.6); }     // walks toward camera
@@ -894,7 +1002,7 @@ window.EMBEDDED_IMAGES = {
     if (s.enter === 'rise')  { y -= .6 * k; }                                                          // clouds well up
 
     y += .04 * clamp01(rel / .3) + .32 * leave;  // gentle drift while holding, then lift away
-    if (!s.full && canvas.width < canvas.height) scale *= .8; // phones: keep heads below the top text
+    if (!s.full && portrait) scale *= .8; // phones: keep heads below the top text
     w *= scale; h *= scale;
     return { rect: [cx - w / 2, y, w, h], alpha, zoom };
   }

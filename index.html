@@ -85,7 +85,7 @@
   .scene-text__title {
     position: relative;
     margin: 0; font-weight: 800; font-size: clamp(44px, 6.4vw, 120px);
-    line-height: .86; letter-spacing: -.045em; text-transform: lowercase;
+    line-height: .86; letter-spacing: -.045em;
   }
   .scene-text__title span { display: block; }
   .scene-text__title .echo { position: absolute; inset: 0; opacity: 0; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.55); }
@@ -630,19 +630,19 @@ window.EMBEDDED_IMAGES = {
   const SCENES = [
     { bg: 'story-1', fg: { name: 'story-1-fg', cx: .615, bottom: .053, h: .70, enter: 'walk' },
       titleSize: .72, // longer headline: smaller so it sits beside Kush
-      title: ['hey, I’m Kush.', 'let me introduce', 'myself.'],
+      title: ['Let me', 'introduce myself.'],
       body: 'I’m Kush — a creative strategist and video producer. Every brand has a story behind the door. I help you open it.' },
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' },
-      title: ['strategy', 'ideas that flow'],
+      title: ['Strategy', 'ideas that flow'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
     { bg: 'story-3', fg: { name: 'story-3-fg', cx: .645, bottom: .11, h: .59, enter: 'slide' },
-      title: ['capture what', 'matters'],
+      title: ['Capture what', 'matters'],
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
     { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' },
-      title: ['turn it', 'up'],
+      title: ['Turn it', 'up'],
       body: 'Sound is half the picture. Original music, mixing and audio that give your content a rhythm of its own.' },
     { bg: 'story-5',
-      title: ['the stage', 'is ours'],
+      title: ['The stage', 'is ours'],
       body: 'Selected work below — scroll on.' },
   ];
 

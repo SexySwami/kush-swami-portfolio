@@ -629,16 +629,16 @@ window.EMBEDDED_IMAGES = {
    own speed for depth. Images: images/story-<n>.jpg and story-<n>-fg.png. */
 (() => {
   const SCENES = [
-    { bg: 'story-1', fg: { name: 'story-1-fg', cx: .575, bottom: .053, h: .70 },
+    { bg: 'story-1', fg: { name: 'story-1-fg', cx: .575, bottom: .053, h: .70, enter: 'walk' },
       title: ['every door,', 'a story'],
       body: 'I’m Kush — a creative strategist and video producer. Every brand has a story behind the door. I help you open it.' },
-    { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, rise: true },
+    { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' },
       title: ['ideas that', 'overflow'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
-    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .645, bottom: .11, h: .59 },
+    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .645, bottom: .11, h: .59, enter: 'slide' },
       title: ['capture what', 'matters'],
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
-    { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34 },
+    { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' },
       title: ['turn it', 'up'],
       body: 'Sound is half the picture. Original music, mixing and audio that give your content a rhythm of its own.' },
     { bg: 'story-5',
@@ -673,7 +673,7 @@ window.EMBEDDED_IMAGES = {
   function readScroll() {
     const r = section.getBoundingClientRect();
     const span = section.offsetHeight - stage.offsetHeight;
-    target = Math.min(N - 1, Math.max(0, -r.top / span * (N - 1)));
+    target = Math.min(N - 1, Math.max(-1, -r.top / span * (N - 1)));
   }
   addEventListener('scroll', readScroll, { passive: true });
   addEventListener('resize', readScroll);
@@ -682,6 +682,7 @@ window.EMBEDDED_IMAGES = {
   const ease = t => t * t * (3 - 2 * t);
   // Hold each scene for the first part of its scroll range, then transition
   const split = v => {
+    if (v <= 0) return { i: 0, t: 0 };
     const i = Math.min(N - 1, Math.floor(v));
     const f = v - i;
     return { i, t: i >= N - 1 ? 0 : Math.min(1, Math.max(0, (f - .3) / .7)) };
@@ -713,19 +714,20 @@ window.EMBEDDED_IMAGES = {
     varying vec2 uv;
     uniform sampler2D bgA, fgA, bgB, fgB;
     uniform vec4 rectA, rectB;      // fg rect in image space: x, y, w, h
-    uniform float onA, onB, offA, offB;
+    uniform float alphaA, alphaB, zoomA, zoomB;
     uniform vec2 cover;             // cover scale (16:9 images)
     uniform vec2 focus;             // crop centre in image space
     uniform float t, blur;
     float hash(float n){ return fract(sin(n*91.345)*47453.21); }
-    vec3 scene(sampler2D bg, sampler2D fg, vec4 r, float on, float off, vec2 s){
+    vec3 scene(sampler2D bg, sampler2D fg, vec4 r, float alpha, float zoom, vec2 s){
       vec2 im = (s - .5) * cover + focus;
-      vec3 c = texture2D(bg, im).rgb;
-      if (on > .5) {
-        vec2 f = (im - r.xy - vec2(0., off)) / r.zw;
+      // background zooms around the crop centre; the cutout rect is animated in JS
+      vec3 c = texture2D(bg, (im - focus) / zoom + focus).rgb;
+      if (alpha > 0.) {
+        vec2 f = (im - r.xy) / r.zw;
         if (f.x > 0. && f.x < 1. && f.y > 0. && f.y < 1.) {
           vec4 k = texture2D(fg, f);
-          c = mix(c, k.rgb, k.a);
+          c = mix(c, k.rgb, k.a * alpha);
         }
       }
       return c;
@@ -734,13 +736,13 @@ window.EMBEDDED_IMAGES = {
       float e = t*t*(3.-2.*t);
       // incoming scene: slight zoom-out and brighten
       vec2 sb = (uv - .5) * (1. - .06*(1.-e)) + .5;
-      vec3 colB = scene(bgB, fgB, rectB, onB, offB, sb) * (.55 + .45*e);
+      vec3 colB = scene(bgB, fgB, rectB, alphaB, zoomB, sb) * (.55 + .45*e);
       // outgoing scene slides up with vertical blur
       float yA = uv.y - e;
       vec3 colA = vec3(0.);
       for (int k = 0; k < 12; k++) {
         float d = (float(k)/11. - .5) * blur;
-        colA += scene(bgA, fgA, rectA, onA, offA, vec2(uv.x, clamp(yA + d, 0., 1.)));
+        colA += scene(bgA, fgA, rectA, alphaA, zoomA, vec2(uv.x, clamp(yA + d, 0., 1.)));
       }
       colA /= 12.;
       float inside = step(0., yA);
@@ -748,7 +750,7 @@ window.EMBEDDED_IMAGES = {
       float n = hash(floor(uv.x * 260.));
       float len = (.04 + .32*n) * sin(3.14159*t);
       float sm = (1. - inside) * smoothstep(-len - .001, 0., yA);
-      vec3 edge = scene(bgA, fgA, rectA, onA, offA, vec2(uv.x, .004));
+      vec3 edge = scene(bgA, fgA, rectA, alphaA, zoomA, vec2(uv.x, .004));
       vec3 col = mix(colB, colA, inside);
       col = mix(col, edge, sm * .85);
       gl_FragColor = vec4(col, 1.);
@@ -796,35 +798,47 @@ window.EMBEDDED_IMAGES = {
     fg: s.fg ? loadTex(src(s.fg.name, 'png')) : null,
   }));
 
-  function fgRect(i) {
-    const s = SCENES[i].fg, L = layers[i];
-    if (!s || !L.fg.ready) return null;
-    const bgAspect = L.bg.w / L.bg.h, fgAspect = L.fg.w / L.fg.h;
-    const w = s.rise ? 1 : s.h * fgAspect / bgAspect, h = s.rise ? 1 : s.h;
-    return [s.cx - w / 2, s.bottom, w, h];
-  }
+  const clamp01 = x => Math.min(1, Math.max(0, x));
 
-  // Foreground offset (image-space y) for scene i at progress v: cutouts
-  // settle into place as the scene arrives and lift away faster than the
-  // background when it leaves; clouds rise into the room.
-  function fgOffset(i, v) {
-    const s = SCENES[i].fg; if (!s) return 0;
-    const rel = v - i; // -1..0 arriving, 0..1 leaving
-    if (s.rise) return -.55 * (1 - ease(Math.min(1, Math.max(0, (rel + .7) / .9))));
-    if (rel < 0) return -.06 * ease(-rel);
-    return .18 * ease(split(v).t);
+  // Scroll-driven animation for scene i at progress v. rel runs -1..0 while
+  // the scene is being revealed and 0..1 while it holds and then leaves.
+  // `a` (0..1) is the cutout's entrance: it starts as the scene appears and
+  // finishes shortly after it settles, so the cutout keeps moving as you
+  // scroll in. The background eases out of a slight zoom at the same time,
+  // and the cutout lifts away faster than the background when it leaves.
+  function anim(i, v) {
+    const s = SCENES[i].fg, L = layers[i];
+    const rel = v - i;
+    const a = ease(clamp01((rel + .55) / .8));
+    const leave = Math.floor(v) === i ? ease(split(v).t) : 0;
+    const zoom = 1 + .08 * (1 - a);
+    if (!s || !L.fg.ready) return { rect: [0, 0, 1, 1], alpha: 0, zoom };
+
+    const bgAspect = L.bg.w / L.bg.h, fgAspect = L.fg.w / L.fg.h;
+    let w = s.full ? 1 : s.h * fgAspect / bgAspect, h = s.full ? 1 : s.h;
+    let cx = s.cx, y = s.bottom, alpha = 1, scale = 1;
+    const k = 1 - a; // remaining entrance
+
+    if (s.enter === 'walk')  { scale = .45 + .55 * a; y += .16 * k; alpha = clamp01(a * 1.6); }     // walks toward camera
+    if (s.enter === 'slide') { cx += .45 * k; alpha = clamp01(a * 2); }                               // slides in from the right
+    if (s.enter === 'drop')  { y += .55 * k * k; alpha = clamp01(a * 2.5); }                          // drops onto the speaker
+    if (s.enter === 'rise')  { y -= .6 * k; }                                                          // clouds well up
+
+    y += .04 * clamp01(rel / .3) + .32 * leave;  // gentle drift while holding, then lift away
+    w *= scale; h *= scale;
+    return { rect: [cx - w / 2, y, w, h], alpha, zoom };
   }
 
   function bindScene(slot, i, v) {
-    const L = layers[i], r = fgRect(i);
+    const L = layers[i], m = anim(i, v);
     const unit = slot === 'A' ? 0 : 2;
     gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, L.bg.gl);
     gl.uniform1i(U('bg' + slot), unit);
-    gl.activeTexture(gl.TEXTURE0 + unit + 1); gl.bindTexture(gl.TEXTURE_2D, r ? L.fg.gl : blank);
+    gl.activeTexture(gl.TEXTURE0 + unit + 1); gl.bindTexture(gl.TEXTURE_2D, m.alpha > 0 ? L.fg.gl : blank);
     gl.uniform1i(U('fg' + slot), unit + 1);
-    gl.uniform4fv(U('rect' + slot), r || [0, 0, 1, 1]);
-    gl.uniform1f(U('on' + slot), r ? 1 : 0);
-    gl.uniform1f(U('off' + slot), fgOffset(i, v));
+    gl.uniform4fv(U('rect' + slot), m.rect);
+    gl.uniform1f(U('alpha' + slot), m.alpha);
+    gl.uniform1f(U('zoom' + slot), m.zoom);
   }
 
   let dirty = true, visible = false;

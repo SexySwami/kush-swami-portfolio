@@ -114,9 +114,9 @@
   .vcard--tall .vcard__title { display: none; }
   /* Row of vertical 9:16 cards */
   .scene-media--tall { width: auto; }
-  .scene-media--tall .vcard { flex: 0 0 auto; width: clamp(110px, 9.5vw, 180px); aspect-ratio: 9 / 16; }
+  .scene-media--tall .vcard { flex: 0 0 auto; width: clamp(96px, 8vw, 156px); aspect-ratio: 9 / 16; }
   .scene-media--tall .vcard__meta { flex-direction: column; gap: 3px; }
-  .scene-media--tall .vcard__title { white-space: normal; font-size: 13px; line-height: 1.15; }
+  .scene-media--tall .vcard__title { white-space: normal; font-size: 11.5px; line-height: 1.15; }
   .vcard {
     position: relative; flex: 1; aspect-ratio: 16 / 9; padding: 0; border: 0;
     border-radius: 6px; overflow: hidden; cursor: pointer; color: #fff; text-align: left;
@@ -128,6 +128,7 @@
   .vcard:nth-child(2) { transition-delay: .09s; }
   .vcard:nth-child(3) { transition-delay: .18s; }
   .vcard:nth-child(4) { transition-delay: .27s; }
+  .vcard:nth-child(5) { transition-delay: .36s; }
   .scene-text.is-active .vcard { opacity: 1; transform: none; }
   .vcard img {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
@@ -304,7 +305,7 @@
     .scene-media { width: auto; max-width: none; margin-right: var(--gutter); gap: 8px; margin-top: 22px; }
     .vcard__meta { left: 7px; bottom: 5px; font-size: 10px; }
     .vcard__title { display: none; }
-    .scene-media--tall .vcard { width: 19vw; }
+    .scene-media--tall .vcard { width: 16vw; }
     .scene-media--bento { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 8svh; width: auto; margin: 0; }
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
     .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
@@ -754,10 +755,10 @@ window.EMBEDDED_IMAGES = {
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Strategy', 'ideas that flow'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
-    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .78, cxPortrait: .64, scalePortrait: .66, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
+    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .8, cxPortrait: .64, scalePortrait: .66, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
       layout: 'tall', // vertical poster-style cards
-      videos: [{ vimeo: '1234213035', title: 'Supply Chain Management' }, { vimeo: '1234213221', title: 'Digital Marketing' }, { vimeo: '1234212820', title: 'Low Code' }, { yt: 'Zq7hA_1XPM8' }],
+      videos: [{ vimeo: '1234213035', title: 'Supply Chain Management' }, { vimeo: '1234213221', title: 'Digital Marketing' }, { vimeo: '1234212820', title: 'Low Code' }, { yt: 'Zq7hA_1XPM8' }, { yt: '2EtWv2c_vq0' }],
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
     { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' }, fx: 4,
       title: ['Turn it', 'up'],

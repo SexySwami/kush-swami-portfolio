@@ -628,20 +628,20 @@ window.EMBEDDED_IMAGES = {
    own speed for depth. Images: images/story-<n>.jpg and story-<n>-fg.png. */
 (() => {
   const SCENES = [
-    { bg: 'story-1', fg: { name: 'story-1-fg', cx: .615, bottom: .053, h: .70, enter: 'walk' },
+    { bg: 'story-1', fg: { name: 'story-1-fg', cx: .615, bottom: .053, h: .70, enter: 'walk' }, fx: 1,
       titleSize: .72, // longer headline: smaller so it sits beside Kush
       title: ['Let me', 'introduce myself.'],
       body: 'I’m Kush — a creative strategist and video producer. Every brand has a story behind the door. I help you open it.' },
-    { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' },
+    { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Strategy', 'ideas that flow'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
-    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .645, bottom: .11, h: .59, enter: 'slide' },
+    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .645, bottom: .11, h: .59, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
       body: 'From shoot to final cut: directing, filming and editing video that feels cinematic and lands the message.' },
-    { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' },
+    { bg: 'story-4', fg: { name: 'story-4-fg', cx: .68, bottom: .44, h: .34, enter: 'drop' }, fx: 4,
       title: ['Turn it', 'up'],
       body: 'Sound is half the picture. Original music, mixing and audio that give your content a rhythm of its own.' },
-    { bg: 'story-5',
+    { bg: 'story-5', fx: 5,
       title: ['The stage', 'is ours'],
       body: 'Selected work below — scroll on.' },
   ];
@@ -718,13 +718,29 @@ window.EMBEDDED_IMAGES = {
     uniform vec2 cover;             // cover scale (16:9 images)
     uniform vec2 focus;             // crop centre in image space
     uniform float t, blur;
+    // cursor effects
+    uniform float fxA, fxB;         // 1 flashlight, 2 smoke, 3 heat haze, 4 sound waves, 5 spotlight
+    uniform vec2 mouse;             // smoothed cursor, screen uv (y up)
+    uniform vec2 par;               // magnetic parallax offset (-.5..5)
+    uniform float time, aspect, fxOn;
+    uniform vec3 trail[16];         // recent cursor points: x, y, age 0..1 (1 = expired)
+    const float PI = 3.14159265;
+
     float hash(float n){ return fract(sin(n*91.345)*47453.21); }
+    float hash2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+    float noise(vec2 p){
+      vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+      return mix(mix(hash2(i), hash2(i+vec2(1.,0.)), f.x), mix(hash2(i+vec2(0.,1.)), hash2(i+vec2(1.,1.)), f.x), f.y);
+    }
+    float fbm(vec2 p){ return .5*noise(p) + .25*noise(p*2.03) + .125*noise(p*4.01); }
+    float dist(vec2 a, vec2 b){ return length((a - b) * vec2(aspect, 1.)); }
+
     vec3 scene(sampler2D bg, sampler2D fg, vec4 r, float alpha, float zoom, vec2 s){
       vec2 im = (s - .5) * cover + focus;
-      // background zooms around the crop centre; the cutout rect is animated in JS
-      vec3 c = texture2D(bg, (im - focus) / zoom + focus).rgb;
+      // background zooms around the crop centre and drifts a touch against the cursor
+      vec3 c = texture2D(bg, (im - focus) / zoom + focus - par * .012).rgb;
       if (alpha > 0.) {
-        vec2 f = (im - r.xy) / r.zw;
+        vec2 f = (im - r.xy - par * vec2(.03, .02)) / r.zw;   // cutout leans toward the cursor
         if (f.x > 0. && f.x < 1. && f.y > 0. && f.y < 1.) {
           vec4 k = texture2D(fg, f);
           c = mix(c, k.rgb, k.a * alpha);
@@ -732,23 +748,76 @@ window.EMBEDDED_IMAGES = {
       }
       return c;
     }
+
+    // heat haze: shimmering offset around the cursor
+    vec2 haze(vec2 s, float fx){
+      if (fx != 3.) return s;
+      float h = smoothstep(.34, 0., dist(s, mouse)) * fxOn;
+      vec2 w = vec2(fbm(s*vec2(9., 22.) + vec2(0., time*1.7)) - .5, fbm(s*vec2(14., 30.) - vec2(time*1.3, 0.)) - .5);
+      return s + w * .022 * h;
+    }
+
+    vec3 effect(float fx, vec3 c, vec2 p, float k){
+      if (k <= 0.) return c;
+      float d = dist(p, mouse);
+      if (fx == 1.) {                        // flashlight
+        float light = smoothstep(.34, .0, d);
+        c *= mix(1., mix(.28, 1.7, light), k);
+        c += vec3(.22, .09, .04) * light * light * k;
+      } else if (fx == 2.) {                 // smoke trail drifting upward
+        float v = 0.;
+        for (int i = 0; i < 16; i++) {
+          vec3 q = trail[i];
+          if (q.z >= 1.) continue;
+          vec2 ctr = q.xy + vec2(sin(q.z*6. + float(i))*.02, q.z*.16);
+          float r = .055 + q.z*.17;
+          v += smoothstep(r, 0., dist(p, ctr)) * (1. - q.z) * 1.15;
+        }
+        v *= .7 + .8 * fbm(p*vec2(7., 10.) + vec2(0., -time*.35));
+        v = clamp(v, 0., 1.);
+        c = mix(c, vec3(1., .92, .9), v * .85 * k);
+      } else if (fx == 3.) {                 // heat haze glow
+        c += vec3(.35, .14, .02) * smoothstep(.36, 0., d) * k;
+      } else if (fx == 4.) {                 // sound waves
+        float ring = 0.;
+        for (int i = 0; i < 16; i++) {
+          vec3 q = trail[i];
+          if (q.z >= 1.) continue;
+          float rr = q.z * .38;
+          ring += smoothstep(.014, 0., abs(dist(p, q.xy) - rr)) * (1. - q.z) * (1. - q.z);
+        }
+        ring += smoothstep(.02, 0., abs(d - .03 - .015*sin(time*8.))) * .5 * fxOn;   // pulsing ring at the cursor
+        c += vec3(1., .28, .16) * clamp(ring, 0., 1.6) * k * .8;
+      } else if (fx == 5.) {                 // stage spotlight following the cursor
+        float dx = abs(p.x - mouse.x) * aspect;
+        float spread = mix(.03, .2, clamp((1. - p.y) / max(.05, 1. - mouse.y), 0., 1.));
+        float beam = smoothstep(spread, spread * .2, dx) * smoothstep(mouse.y - .06, mouse.y + .02, p.y) * .7;
+        float pool = smoothstep(.3, .0, length((p - mouse) * vec2(aspect, 2.2)));
+        float light = clamp(beam + pool, 0., 1.);
+        c *= mix(1., .3 + 1.6 * light, k);
+      }
+      return c;
+    }
+
     void main(){
       float e = t*t*(3.-2.*t);
       // incoming scene: slight zoom-out and brighten
-      vec2 sb = (uv - .5) * (1. - .06*(1.-e)) + .5;
+      vec2 sb = haze((uv - .5) * (1. - .06*(1.-e)) + .5, fxB);
       vec3 colB = scene(bgB, fgB, rectB, alphaB, zoomB, sb) * (.55 + .45*e);
+      colB = effect(fxB, colB, uv, e * fxOn);
       // outgoing scene slides up with vertical blur
       float yA = uv.y - e;
       vec3 colA = vec3(0.);
       for (int k = 0; k < 12; k++) {
         float d = (float(k)/11. - .5) * blur;
-        colA += scene(bgA, fgA, rectA, alphaA, zoomA, vec2(uv.x, clamp(yA + d, 0., 1.)));
+        colA += scene(bgA, fgA, rectA, alphaA, zoomA, haze(vec2(uv.x, clamp(yA + d, 0., 1.)), fxA));
       }
       colA /= 12.;
+      colA = effect(fxA, colA, uv, (1. - e) * fxOn);
       float inside = step(0., yA);
       // smear: streaks dragged off the bottom edge
       float n = hash(floor(uv.x * 260.));
-      float len = (.04 + .32*n) * sin(3.14159*t);
+      float len = (.04 + .32*n) * sin(PI*t);
       float sm = (1. - inside) * smoothstep(-len - .001, 0., yA);
       vec3 edge = scene(bgA, fgA, rectA, alphaA, zoomA, vec2(uv.x, .004));
       vec3 col = mix(colB, colA, inside);
@@ -842,6 +911,27 @@ window.EMBEDDED_IMAGES = {
     gl.uniform1f(U('zoom' + slot), m.zoom);
   }
 
+  // ---- Cursor: smoothed position, trail for smoke / sound waves ----
+  const TRAIL = 16, LIFE = 1600; // ms
+  const trail = Array.from({ length: TRAIL }, () => ({ x: 0, y: 0, t0: -1e9 }));
+  let trailHead = 0, lastPt = null, lastMove = -1e9;
+  const mouse = { x: .55, y: .45, tx: .55, ty: .45 };
+  let fxOn = 0, fxTarget = 0;
+  stage.addEventListener('pointermove', ev => {
+    const r = stage.getBoundingClientRect();
+    const x = (ev.clientX - r.left) / r.width, y = 1 - (ev.clientY - r.top) / r.height;
+    mouse.tx = x; mouse.ty = y; fxTarget = 1;
+    const now = performance.now();
+    lastMove = now;
+    if (!lastPt || Math.hypot((x - lastPt.x) * r.width / r.height, y - lastPt.y) > .03 || now - lastPt.t > 90) {
+      trail[trailHead] = { x, y, t0: now };
+      trailHead = (trailHead + 1) % TRAIL;
+      lastPt = { x, y, t: now };
+    }
+  });
+  stage.addEventListener('pointerleave', () => { fxTarget = 0; lastPt = null; });
+  const trailData = new Float32Array(TRAIL * 3);
+
   let dirty = true, visible = false;
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(section);
 
@@ -859,7 +949,11 @@ window.EMBEDDED_IMAGES = {
     const prev = p;
     p += (target - p) * (reduced ? 1 : .12);
     if (Math.abs(target - p) < 1e-4) p = target;
-    if (!dirty && p === prev) return;
+    const now = performance.now();
+    mouse.x += (mouse.tx - mouse.x) * .18; mouse.y += (mouse.ty - mouse.y) * .18;
+    fxOn += (fxTarget - fxOn) * .08;
+    const live = now - lastMove < LIFE + 400 || Math.abs(fxTarget - fxOn) > .002;
+    if (!dirty && p === prev && !live) return;
     dirty = false;
 
     const { i, t } = split(p);
@@ -874,6 +968,18 @@ window.EMBEDDED_IMAGES = {
     const fx = Math.min(1 - cx / 2, Math.max(cx / 2, ca < 1 ? .64 : .5));
     gl.uniform2f(U('focus'), fx, .5);
     gl.uniform1f(U('t'), t);
+    gl.uniform1f(U('fxA'), SCENES[i].fx || 0);
+    gl.uniform1f(U('fxB'), SCENES[j].fx || 0);
+    gl.uniform2f(U('mouse'), mouse.x, mouse.y);
+    gl.uniform2f(U('par'), (mouse.x - .5) * fxOn, (mouse.y - .5) * fxOn);
+    gl.uniform1f(U('time'), now / 1000);
+    gl.uniform1f(U('aspect'), canvas.width / canvas.height);
+    gl.uniform1f(U('fxOn'), reduced ? 0 : fxOn);
+    for (let k = 0; k < TRAIL; k++) {
+      const q = trail[k];
+      trailData.set([q.x, q.y, Math.min(1, (now - q.t0) / LIFE)], k * 3);
+    }
+    gl.uniform3fv(U('trail[0]'), trailData);
     gl.uniform1f(U('blur'), reduced ? 0 : Math.sin(Math.PI * t) * .14);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     updateText(i, t);

@@ -279,6 +279,23 @@
     line-height: 1.2; letter-spacing: -.02em;
   }
 
+  /* ---------- Contact ---------- */
+  .contact { padding: 120px var(--gutter) 90px; background: #120404; color: #fff; text-align: center; }
+  .contact__kicker { margin: 0 0 18px; font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
+  .contact__title { margin: 0 auto 44px; max-width: 14em; font-weight: 800; font-size: clamp(40px, 6vw, 110px); line-height: .9; letter-spacing: -.045em; }
+  .contact__title em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.85); }
+  .contact__btn {
+    display: inline-flex; align-items: center; gap: .6em;
+    background: #e00000; color: #fff; padding: 18px 38px; border-radius: 999px;
+    font-size: 16px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
+    transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+    box-shadow: 0 14px 40px -14px rgba(224,0,0,.7);
+  }
+  .contact__btn span { transition: transform .25s ease; }
+  .contact__btn:hover, .contact__btn:focus-visible { background: #ff1a1a; transform: translateY(-2px); outline: none; }
+  .contact__btn:hover span { transform: translateX(4px); }
+  .contact__addr { margin: 22px 0 0; font-size: 14px; opacity: .6; user-select: all; }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) {
     .story__fallback { background-position: 64% center; }
@@ -375,6 +392,13 @@
   </div>
   <p class="about__lead">I’m Kush Swami, a creative strategist and video producer with a passion for turning ambitious ideas into clear, expressive, and culturally relevant creative work. I work across brand identity, campaigns, editorial, and digital, building visual systems that feel as bold as the ideas behind them — and work just as hard.</p>
 </section>
+
+<footer class="contact" id="contact">
+  <p class="contact__kicker">Have a project in mind?</p>
+  <h2 class="contact__title">Let’s make something <em>together.</em></h2>
+  <a class="contact__btn" href="mailto:swami.kush@gmail.com">Email me <span aria-hidden="true">→</span></a>
+  <p class="contact__addr">swami.kush@gmail.com</p>
+</footer>
 
 <script>
 /* Water ripple on the hero photo: a height-field wave simulation runs in

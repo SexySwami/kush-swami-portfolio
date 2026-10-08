@@ -108,6 +108,7 @@
     display: flex; justify-content: center; gap: 1.6em;
   }
   .works__caption span:not(:first-child) { opacity: .55; }
+  .works__caption span:empty { display: none; }
 
   /* ---------- Project view ---------- */
   .project {
@@ -134,8 +135,8 @@
     position: fixed; left: 0; right: 0; top: 50%; z-index: 3;
     transform: translateY(-50%);
     display: grid; grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
-    padding: 0 28px 0 12px; align-items: center; font-size: 13px; pointer-events: none;
-    text-shadow: 0 1px 8px rgba(0,0,0,.35);
+    padding: 0 28px 0 12px; align-items: center; font-size: 13px; font-weight: 500; pointer-events: none;
+    mix-blend-mode: difference; /* stays legible over light and dark images */
     opacity: 0; transition: opacity .4s ease;
   }
   .project__meta > * { pointer-events: auto; }
@@ -150,8 +151,9 @@
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
   }
   .project__cell { aspect-ratio: 4 / 5; overflow: hidden; background: #0b0b0b; }
+  .project__cell { background: #1c1c1c; }
   .project__cell img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
+    width: 100%; height: 100%; object-fit: contain; display: block;
     clip-path: inset(100% 0 0 0); transform: scale(1.12);
     transition: clip-path .9s cubic-bezier(.7,0,.2,1), transform 1.3s cubic-bezier(.2,.7,.2,1);
   }
@@ -515,28 +517,44 @@
 <script>
 /* Works carousel: an endless strip of project tiles that drifts, follows
    drag / horizontal wheel / page scroll, and bulges toward the middle.
-   Clicking a tile opens the project view. Images are placeholders. */
+   Clicking a tile opens the project view. Images live in images/<slug>-<n>.jpg. */
 (() => {
+  const IMAGE_COUNTS = {
+    'computation-and-design': 6,
+    'experimenting-with-curves': 6,
+    'horizontal-vs-vertical': 6,
+    'library': 6,
+    'light-sculpture': 3,
+    'mapping-air-pollution': 6,
+    'model-making-in-context': 6,
+    'office-building': 6,
+    'pavilion': 2,
+    'puzzle': 2,
+    'studio-sketching': 3,
+    'twisted-tower': 5,
+  };
+  // Projects from Kush's architecture portfolio (University of Toronto + personal work)
   const PROJECTS = [
-    { title: 'Riverline',     client: 'Northwind',     year: 2026, img: 1015 },
-    { title: 'Low Tide',      client: 'Atlas Coffee',  year: 2025, img: 1016 },
-    { title: 'Good Boy',      client: 'Barkhaus',      year: 2025, img: 1025 },
-    { title: 'Summit',        client: 'Alpine Co.',    year: 2025, img: 1035 },
-    { title: 'Falls',         client: 'Meridian',      year: 2024, img: 1039 },
-    { title: 'Afterglow',     client: 'Solstice',      year: 2024, img: 1043 },
-    { title: 'Coastline',     client: 'Harbor & Co.',  year: 2024, img: 1050 },
-    { title: 'Companion',     client: 'Field Notes',   year: 2023, img: 1062 },
-    { title: 'Drift',         client: 'Bluewater',     year: 2023, img: 1069 },
-    { title: 'King',          client: 'Savanna',       year: 2023, img: 1074 },
-    { title: 'Harvest',       client: 'Fresh Market',  year: 2022, img: 1080 },
-    { title: 'Arctic',        client: 'Polar Studio',  year: 2022, img: 1084 },
-  ].map(p => ({
-    ...p,
-    cover: `https://picsum.photos/id/${p.img}/900/1200`,
-    gallery: Array.from({ length: 6 }, (_, k) =>
-      k === 0 ? `https://picsum.photos/id/${p.img}/1000/1250`
-              : `https://picsum.photos/seed/${p.title.toLowerCase()}-${k}/1000/1250`),
-  }));
+    { title: 'Office Building',            client: 'Personal Project',      year: 2021, slug: 'office-building' },
+    { title: 'Library',                    client: 'Personal Project',      year: 2021, slug: 'library' },
+    { title: 'Twisted Tower',              client: 'Repetition & Automation', year: '', slug: 'twisted-tower' },
+    { title: 'Light Sculpture',            client: 'Form Making',           year: '',   slug: 'light-sculpture' },
+    { title: 'Computation and Design',     client: 'Form Making',           year: 2019, slug: 'computation-and-design' },
+    { title: 'Experimenting with Curves',  client: 'Form Making',           year: '',   slug: 'experimenting-with-curves' },
+    { title: 'Mapping Air Pollution',      client: 'Site Analysis',         year: '',   slug: 'mapping-air-pollution' },
+    { title: 'Model Making in Context',    client: 'Model Making',          year: 2017, slug: 'model-making-in-context' },
+    { title: 'Horizontal vs Vertical',     client: 'Drafting & Drawing',    year: '',   slug: 'horizontal-vs-vertical' },
+    { title: 'Pavilion',                   client: 'Design Competition',    year: '',   slug: 'pavilion' },
+    { title: 'Puzzle',                     client: 'Design Exercise',       year: 2019, slug: 'puzzle' },
+    { title: 'Studio Sketching',           client: 'Rough Sketching',       year: '',   slug: 'studio-sketching' },
+  ].map(p => {
+    const count = IMAGE_COUNTS[p.slug];
+    return {
+      ...p,
+      cover: `images/${p.slug}-1.jpg`,
+      gallery: Array.from({ length: count }, (_, k) => `images/${p.slug}-${k + 1}.jpg`),
+    };
+  });
 
   const section = document.querySelector('.works');
   const strip = section.querySelector('.works__strip');
@@ -562,7 +580,7 @@
       el.className = 'tile';
       el.type = 'button';
       el.dataset.index = i;
-      el.setAttribute('aria-label', `${p.title} — ${p.client}, ${p.year}`);
+      el.setAttribute('aria-label', [p.title, p.client, p.year].filter(Boolean).join(', '));
       if (r > 0) el.tabIndex = -1;
       const img = new Image();
       img.src = p.cover; img.alt = ''; img.draggable = false; img.loading = 'lazy';
@@ -644,7 +662,7 @@
     bgs[bgTop].style.backgroundImage = `url("${p.cover}")`;
     bgs[bgTop].classList.add('is-on');
     bgs[bgTop ^ 1].classList.remove('is-on');
-    cap.title.textContent = p.title; cap.client.textContent = p.client; cap.year.textContent = p.year;
+    cap.title.textContent = p.title; cap.client.textContent = p.client; cap.year.textContent = p.year || '';
   }
 
   // ---- Layout loop ----
@@ -698,7 +716,7 @@
   function fill(i) {
     const p = PROJECTS[i];
     openIndex = i;
-    meta.client.textContent = p.client; meta.title.textContent = p.title; meta.year.textContent = p.year;
+    meta.client.textContent = p.client; meta.title.textContent = p.title; meta.year.textContent = p.year || '';
     view.setAttribute('aria-label', `${p.title} — ${p.client}`);
     grid.textContent = '';
     p.gallery.forEach((src, k) => {

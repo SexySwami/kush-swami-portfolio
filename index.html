@@ -113,8 +113,9 @@
   .scene-media--bento .vcard:nth-child(4) { grid-column: 3; transition-delay: .27s; }
   .vcard--tall .vcard__title { display: none; }
   /* Row of vertical 9:16 cards */
-  .scene-media--tall { width: auto; }
-  .scene-media--tall .vcard { flex: 0 0 auto; width: clamp(96px, 8vw, 156px); aspect-ratio: 9 / 16; }
+  /* three across, then the rest on a second row; sized so both rows fit the screen height */
+  .scene-media--tall { width: auto; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; }
+  .scene-media--tall .vcard { width: min(clamp(96px, 8vw, 156px), calc((100svh - 400px) / 2 * .5625)); aspect-ratio: 9 / 16; }
   .scene-media--tall .vcard__meta { flex-direction: column; gap: 3px; }
   .scene-media--tall .vcard__title { white-space: normal; font-size: 11.5px; line-height: 1.15; }
   .vcard {
@@ -305,7 +306,7 @@
     .scene-media { width: auto; max-width: none; margin-right: var(--gutter); gap: 8px; margin-top: 22px; }
     .vcard__meta { left: 7px; bottom: 5px; font-size: 10px; }
     .vcard__title { display: none; }
-    .scene-media--tall .vcard { width: 16vw; }
+    .scene-media--tall .vcard { width: min(18vw, calc((100svh - 520px) / 2 * .5625)); }
     .scene-media--bento { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 8svh; width: auto; margin: 0; }
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
     .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
@@ -755,7 +756,7 @@ window.EMBEDDED_IMAGES = {
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Strategy', 'ideas that flow'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
-    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .8, cxPortrait: .64, scalePortrait: .66, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
+    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .8, cxPortrait: .66, scalePortrait: .5, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
       layout: 'tall', // vertical poster-style cards
       videos: [{ vimeo: '1234213035', title: 'Digital Marketing' }, { vimeo: '1234213221', title: 'Skills Competition' }, { vimeo: '1234212820', title: 'Low Code' }, { yt: 'Zq7hA_1XPM8' }, { yt: '2EtWv2c_vq0' }],

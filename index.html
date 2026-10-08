@@ -769,13 +769,20 @@ window.EMBEDDED_IMAGES = {
   const playerFrame = player.querySelector('.vplayer__frame');
   let lastCard = null;
   function openVideo(card) {
-    lastCard = card;
     const id = card.dataset.video;
+    // YouTube refuses embeds that don't say which site they're on (error 153).
+    // A page opened straight from disk (file://) has no site address to send,
+    // so there we open the video on YouTube in a new tab instead.
+    if (card.dataset.provider === 'youtube' && location.protocol === 'file:') {
+      open(card.hasAttribute('data-tall') ? `https://www.youtube.com/shorts/${id}` : `https://www.youtube.com/watch?v=${id}`, '_blank', 'noopener');
+      return;
+    }
+    lastCard = card;
     const src = card.dataset.provider === 'youtube'
-      ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`
+      ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(location.origin)}`
       : `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&dnt=1&color=e00000`;
     playerFrame.classList.toggle('vplayer__frame--tall', card.hasAttribute('data-tall'));
-    playerFrame.innerHTML = `<iframe src="${src}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen title="Video"></iframe>`;
+    playerFrame.innerHTML = `<iframe src="${src}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="Video"></iframe>`;
     player.classList.add('is-open');
     player.querySelector('.vplayer__close').focus();
   }

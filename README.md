@@ -10,4 +10,4 @@ Single-page portfolio site. Everything lives in `index.html` (styles, scripts an
 
 ## Editing projects
 
-Projects are defined in the `PROJECTS` list in the works-carousel script near the bottom of `index.html` (title, client, year, images). The images are currently Lorem Picsum placeholders.
+Projects are defined in the `PROJECTS` list in the works-carousel script near the bottom of `index.html` (title, client, year, images). Project images live in `images/<slug>-<n>.jpg` and are also embedded into `index.html` so the page works as a single file. After adding or changing images, run `python3 tools/embed_images.py` (needs Pillow) to refresh the embedded copies.

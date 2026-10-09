@@ -256,6 +256,17 @@
   .project__grid {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px 2.4vw; padding: 0 2.4vw; align-items: start;
   }
+  .project__facts { display: flex; flex-wrap: wrap; gap: 14px 48px; margin: 36px 0 0; }
+  .project__facts dt { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .45; }
+  .project__facts dd { margin: 4px 0 0; font-size: 15px; font-weight: 600; }
+  .project__text {
+    grid-column: 1 / -1; display: grid; grid-template-columns: minmax(160px, 1fr) 2fr; gap: 12px 2.4vw;
+    padding: 28px 0 8px; border-top: 1px solid rgba(255,255,255,.14);
+  }
+  .project__text h3 { grid-row: 1 / span 9; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #ff3b2f; }
+  .project__text p, .project__text ul { grid-column: 2; margin: 0; max-width: 68ch; font-size: clamp(15px, 1.1vw, 18px); line-height: 1.6; opacity: .82; }
+  .project__text ul { padding-left: 1.1em; }
+  .project__text li + li { margin-top: 6px; }
   .project__fig { margin: 0; }
   .project__frame { background: #111; overflow: hidden; display: grid; place-items: center; }
   .project__frame img {
@@ -376,6 +387,9 @@
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
     .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
     .project__grid { grid-template-columns: 1fr; gap: 36px; padding: 0 var(--gutter); }
+    .project__text { grid-template-columns: 1fr; }
+    .project__text h3 { grid-row: auto; }
+    .project__text p, .project__text ul { grid-column: 1; }
     .project__head { padding: 96px var(--gutter) 40px; }
     .project__nav { margin: 64px var(--gutter) 0; }
     .works__head { top: 8svh; grid-template-columns: 1fr; }
@@ -447,6 +461,7 @@
     <p class="project__kicker"><span class="m-client"></span><span class="m-year"></span><span class="m-count"></span></p>
     <h2 class="project__title m-title"></h2>
     <p class="project__about m-about"></p>
+    <dl class="project__facts m-facts"></dl>
   </header>
   <div class="project__grid"></div>
   <nav class="project__nav" aria-label="More projects">
@@ -1391,125 +1406,8 @@ window.EMBEDDED_IMAGES = {
 (() => {
   // Images are embedded by tools/embed_images.py; fall back to the images/ folder
   const img = name => window.EMBEDDED_IMAGES?.[name] || `images/${name}.jpg`;
-  const PROJECT_TEXT = {
-    "office-building": {
-    "about": "A personal project to learn Revit on a real-world brief: a modern office building that works as efficiently as it looks. Inspired by offices in downtown Toronto, the lobby is modern in its presentation yet traditional in its layout — professional, but cozy when you walk through the doors.",
-    "captions": [
-    "Exterior render",
-    "Arched entrance and façade",
-    "Perspective walkthrough — the lobby",
-    "Interior perspective",
-    "Floor plan with room legend",
-    "Elevation"
-    ]
-    },
-    "library": {
-    "about": "A five-storey, steel-framed study commons set in an imagined landscape: 2,000 m² of study spaces, hang-out areas, food and beverage stations, and shelves for over 5,000 books, wrapped in a glass form. My second project in Revit, learned without guidance from online resources.",
-    "captions": [
-    "Front perspective render",
-    "Angled perspective render",
-    "Side perspective",
-    "Landscape render — terrain, road and water feature",
-    "West elevation",
-    "East elevation"
-    ]
-    },
-    "twisted-tower": {
-    "about": "A 40-storey tower whose floor plates rotate and change size as it rises. Designed in Rhino and Grasshopper with structural columns and a Voronoi-inspired façade, then laser-cut at 1:200 and assembled plate by plate, with two 3D-printed façades tested on the model.",
-    "captions": [
-    "Floor-plate study",
-    "Floor plates stacking up the tower",
-    "Voronoi-inspired façade, 3D printed",
-    "Physical model — laser-cut floor plates",
-    "Full-height elevation of the twist"
-    ]
-    },
-    "light-sculpture": {
-    "about": "Exploring light as a method of composition. Using long-exposure photography, I drew spinning shapes in the air with a flashlight, then reinterpreted them as a hand-made model of jagged triangles rounded out by a curve.",
-    "captions": [
-    "Long-exposure light drawing",
-    "Long-exposure light drawing",
-    "Hand-made model interpreting the light drawings"
-    ]
-    },
-    "computation-and-design": {
-    "about": "Forms generated almost entirely through code in ARC465 — Lazy Computing, with Andrew Bako. The theme was recycled materials: repurposing earlier work, and using everyday objects as architecture in ‘Pile of Trash’.",
-    "captions": [
-    "Code-generated form, rendered",
-    "Generated form in context",
-    "Generated landscape form",
-    "Physical model",
-    "3D model",
-    "Code-generated surface"
-    ]
-    },
-    "experimenting-with-curves": {
-    "about": "A snake-like, tubular structure that wraps around the column grid: curved steel beams for reinforcement, a walkway inside, and a wooden exterior. Modelling one repeating segment let me think the idea through fully.",
-    "captions": [
-    "Curved segment model",
-    "Segment from above",
-    "Ribbed curve study",
-    "Wooden exterior shell",
-    "Conceptual sketch — plan",
-    "Conceptual sketch — axonometric"
-    ]
-    },
-    "mapping-air-pollution": {
-    "about": "A 60 × 60 km section of the GTA in Etobicoke, mapping how road systems and traffic relate to air pollution, using Canadian climate data alongside hand drawings of traffic density.",
-    "captions": [
-    "Traffic flows across the site",
-    "Building heights and green space",
-    "Air-pollution concentration — highest near the highway",
-    "Greenery across the site",
-    "Hand-drawn road systems",
-    "Buildings on the site"
-    ]
-    },
-    "model-making-in-context": {
-    "about": "Two exercises in form and context. The white models place a series of prechosen buildings on a Toronto site to create the easiest walking path without blocking views; the black models take a monument by Giuseppe Terragni and recontextualize it.",
-    "captions": [
-    "Site massing model",
-    "Massing model — walking path",
-    "Massing model — aerial view",
-    "Terragni monument, recontextualized",
-    "Terragni monument — alternate view",
-    "Terragni monument — side view"
-    ]
-    },
-    "horizontal-vs-vertical": {
-    "about": "Working only with floor plates and a 3 × 3 column grid, a series of designs focused on circulation between horizontal planes of different sizes — pushing my drafting to stay accurate and precise.",
-    "captions": [
-    "Horizontal planes on the 3 × 3 grid",
-    "Circulation between planes",
-    "Vertical study",
-    "Model from above",
-    "Vertical columns study",
-    "Vertical columns — alternate view"
-    ]
-    },
-    "pavilion": {
-    "about": "A competition brief for a school in Muskoka, Ontario: a pavilion combining a reading room, a resting room and a fire room, with an outdoor campfire space attached.",
-    "captions": [
-    "Elevation",
-    "Site plan"
-    ]
-    },
-    "puzzle": {
-    "about": "ARC200: drawing and interpreting a six-piece star puzzle designed by Frank Lloyd Wright, modelling each piece in Rhino, and designing an instruction booklet for solving it.",
-    "captions": [
-    "The six puzzle pieces",
-    "Assembly instructions"
-    ]
-    },
-    "studio-sketching": {
-    "about": "Drawing a space that’s meaningful to me: the studio where I worked on music every day through university. The point was to be messy — architecture is about experimentation, and experimentation is never perfect.",
-    "captions": [
-    "Inside view",
-    "Perspective",
-    "Rough plan view"
-    ]
-    }
-    };
+  // Write-ups from the architecture portfolio PDF. In `flow`, numbers are images, objects are text blocks.
+  const PROJECT_TEXT = {"office-building": {"about": "A personal project to learn Revit on a real-world brief: a modern office building that works as efficiently as it looks.", "facts": [["Type", "Urban design"], ["Year", "2021"], ["Rooms", "10"], ["Size", "110 m²"]], "captions": ["Exterior render", "Arched entrance and façade", "Perspective walkthrough — the lobby", "Interior perspective", "Floor plan with room legend", "Elevation"], "flow": [{"h": "Information", "p": ["While I enjoyed studying at UofT, I felt my design degree didn’t give me many ‘real life’ architectural projects — our work was mainly conceptual design exercises. Although those projects helped me explore my creative interests, I took this one on myself to understand Revit better and use it in a real-world scenario.", "Using online tutorials, I got acquainted with Revit, the industry-standard software, and learned how to use it to design a real building."]}, 1, 2, {"h": "Practical design", "p": ["A modern office building should look beautiful as well as function as an efficient space for professionals. If it lacks beauty, its inhabitants will lack inspiration for the work they do.", "Inspired by office buildings I visit in downtown Toronto, the lobby of this imagined building is modern in its presentation yet traditional in its layout. I aimed to create a professional yet cozy feeling when you walk through the doors."]}, 3, 4, {"h": "Perspective walkthrough", "p": ["A walkthrough of this building in Revit makes it evident right away that everything has been strategically placed to maximize efficiency. It is designed with detail end to end, including ceiling details for each floor and a room legend."]}, 5, {"h": "Sustainable development: two schools of thought", "p": ["One school of thought is to develop urban areas in harmony with natural systems. Suburban developments remain largely low-density and car-focused, but giving special care to preserving water and green space creates a more lasting influence. In this project I took special care to bring in green space.", "Another is to increase density to reduce reliance on cars — making streets as pedestrian-friendly as possible and creating multifunctional centres that integrate with public transit. In a perfect world, this office would sit right next to a subway station so employees are encouraged to take transit."]}, 6, {"h": "Behind the wall", "p": ["In architecture school I learned a lot about how walls are designed. In this wall, I left a 50 mm cavity between the outer brick and the insulation to allow for the natural expansion bricks go through with the weather. I considered adding a rain screen and a wind screen, but decided against it given the building’s compact size."]}, {"h": "Façade, doors and windows", "p": ["The windows are triple-pane. While it’s expensive to design a building that will last 100 years, the goal was to get as close as possible. Every detail is thought through at the highest level, with oak as the material of choice for doors and windows."]}, {"h": "Resources and costs", "p": ["Hidden costs and unexpected issues will always arise, and planning for them early makes construction much smoother. Based on online research, I estimate this project would cost about $196 per square foot."]}]}, "library": {"about": "‘Library’ is a mixed-use study commons placed in a picturesque imagined landscape — simple yet beautiful, sleek yet traditional.", "facts": [["Type", "Building design"], ["Year", "2021"], ["Location", "Imagined"], ["Size", "1,118 m²"]], "captions": ["Front perspective render", "Angled perspective render", "Side perspective", "Landscape render — terrain, road and water feature", "West elevation", "East elevation"], "flow": [{"h": "Overview", "p": ["This ‘green’ project includes 2,000 m² of new construction and creates an inviting library experience with a mix of study spaces, hang-out areas, food and beverage stations, and shelves for over 5,000 books.", "I took it on because I’d spent so much time studying in libraries over the past four years that I started asking myself, “how could I design the perfect library?”"]}, 1, 2, {"h": "General information", "p": ["The goal is a vibrant, walkable and sustainable library for students, the university community and neighbours from the surrounding region — a form that looks beautiful but could also exist in the real world. Glass has always fascinated me, and I enjoyed playing with forms in pursuit of one that wraps around the building and adds depth to its original shape.", "‘Library’ is a five-storey steel-framed structure with masonry and curtain-wall windows. A significant challenge was doing this without guidance: it was my second time using Revit, so I learned the basics from Google and YouTube."]}, {"h": "Details", "list": ["3 IT rooms · 3 conference rooms · 5 washrooms · 3 kitchens", "54 study tables · 6 conference tables · 288 chairs", "Per floor: building 43 × 26 m · kitchen 37 m² · conference room 82 m² · work area 878 m²", "Each floor has a study commons, a kitchen and hang-out areas"]}, 3, 4, {"h": "Phases of design", "p": ["Rough sketch, form shaping, floor plans, landscape design (detailed terrain, road and water feature), detailing, and finally views, rendering and sheet creation."]}, {"h": "Elevations 1:100", "p": ["Elevations from either side highlight the glass form that wraps around the building, without obstructing the view for people inside."]}, 5, 6]}, "twisted-tower": {"about": "A design exercise focused on repetition and automation — I wanted to see how ‘evil’ I could make my architecture look.", "facts": [["Type", "Repetition & automation"], ["Height", "40 storeys"], ["Scale", "1:200"], ["Tools", "Rhino, Grasshopper"]], "captions": ["Floor-plate study", "Floor plates stacking up the tower", "Voronoi-inspired façade, 3D printed", "Physical model — laser-cut floor plates", "Full-height elevation of the twist"], "flow": [1, 2, {"h": "Information", "p": ["Over four months, using 3D printing, laser cutting and hand model-making, I developed a concept for a twisting tower. The brief was a 40-storey tower that used a shape for its floor plates, twisting them and changing their size as the tower grew. To manage all the repetitive elements, most of the design was done in Grasshopper.", "I started by designing the tower, then added structural columns, and finished with a Voronoi-inspired façade. The challenge wasn’t so much designing the model as turning it into a physical version."]}, 3, 4, {"h": "Model making", "p": ["I laser-cut each floor plate at 1:200 and assembled the tower plate by plate. I tried two different façades to see which I preferred; both were 3D printed and placed on the model. The project gave me experience in model making, 3D design in Rhino, and programming in Grasshopper."]}, 5]}, "light-sculpture": {"about": "Exploring light as a method of composition.", "facts": [["Type", "Form making"], ["Medium", "Long-exposure photography, hand-made model"]], "captions": ["Long-exposure light drawing", "Long-exposure light drawing", "Hand-made model interpreting the light drawings"], "flow": [{"h": "About the design", "p": ["Using long-exposure photography, I captured myself making light drawings in the air with a flashlight. My aim was to create a spinning motion I could recreate in an architectural model."]}, 1, 2, {"h": "Inspiration: jagged design", "p": ["I’ve always been inspired by triangular design. Triangles are incredibly strong, and placed together like this they create a jagged, sharp form. Some would say it looks ‘evil’ or ‘dark’ — which is why a curve was placed around it to round out the design. The model is my interpretation of the light drawings."]}, 3]}, "computation-and-design": {"about": "Minus a few physical models, these forms were created entirely through code — exercises that helped me understand how programming can generate new ideas.", "facts": [["Class", "ARC465 — Lazy Computing"], ["Year", "2019"], ["Team", "Wilson & me"], ["Instructor", "Andrew Bako"]], "captions": ["Code-generated form, rendered", "Generated form in context", "Generated landscape form", "Physical model", "3D model", "Code-generated surface"], "flow": [{"h": "Information", "p": ["A two-part assignment series; the second phase builds on the first to create one larger project. The theme was ‘recycled materials’, and the objective was to repurpose unused material from a previous design exercise."]}, 1, 2, 3, {"h": "‘Inanimate objects’", "p": ["Building on the recycled-materials theme, the goal was to use inanimate objects in a creative way that still reads as architecture: a side table as the enclosure, screws as seats, an iPad as a table, a book as a couch, a phone as a TV, and a lamp as a shower."]}, {"h": "‘Pile of trash’", "p": ["Developing the forms began by trying to piece together different parts of an original ‘pile of trash’ in an attempt to salvage something — explored through physical models, final renders, top views, section drawings and an animation published to Instagram."]}, 4, 5, 6]}, "experimenting-with-curves": {"about": "Building on the 3 × 3 column grid, this project explores how curved architecture might wrap around the columns.", "facts": [["Type", "Form making"], ["Year", "2018"]], "captions": ["Curved segment model", "Segment from above", "Ribbed curve study", "Wooden exterior shell", "Conceptual sketch — plan", "Conceptual sketch — axonometric"], "flow": [{"h": "Overview", "p": ["The idea: curved steel beams as reinforcement, a walkway within the structure, and a completely wooden exterior."]}, 1, 2, {"h": "Information", "p": ["I had a weird and wonky idea I needed to get out of my system: how practical could a snake-like, curvy piece of architecture be? My design was a long, tubular form wrapping around the column grid. Because it was so repetitive, it made more sense to model one part of it than the whole thing.", "I’ll admit the design wasn’t practical, but I count it a success because I fully thought through and modelled an idea I’d never seen before. I know such a structure would never be built — this is more a design exercise than an architectural proposal."]}, 3, 4, {"h": "Sketches", "p": ["A series of conceptual sketches for the idea."]}, 5, 6]}, "mapping-air-pollution": {"about": "How much air pollution do automobiles really produce in suburban areas?", "facts": [["Type", "Site analysis"], ["Site", "Etobicoke, GTA"], ["Area", "60 × 60 km"]], "captions": ["Traffic flows across the site", "Building heights and green space", "Air-pollution concentration — highest near the highway", "Greenery across the site", "Hand-drawn road systems", "Buildings on the site"], "flow": [{"h": "Mapping air pollution", "p": ["As climate change becomes increasingly obvious in our weather, we wanted to look at the relationship between air pollution and roads. We were given a 60 × 60 km section of the Greater Toronto Area and asked to focus on what makes our site unique. I started by analysing the road systems to see how traffic moves across it."]}, 1, 2, {"h": "About the project", "p": ["I took panoramic photos of traffic as reference for hand drawings of traffic density. Using Canadian climate data and maps of air pollution, I related the road circuits and the traffic to create a visual understanding of how our cars are affecting climate change."]}, {"h": "Final result", "list": ["As you can see, the most traffic pollution is near the highway — which, given the traffic density, makes perfect sense.", "I also measured how building height relates to air pollution. My hypothesis was that bigger buildings need more energy and therefore create more pollution; no significant conclusion was found."]}, 3, {"h": "Getting to know the site", "p": ["The greenery found across the site, a hand-drawn sketch of the road systems made while getting acquainted with it, and a map highlighting the site’s buildings."]}, 4, 5, 6]}, "model-making-in-context": {"about": "Two exercises in form making and context.", "facts": [["Type", "Model making"], ["Year", "2017"]], "captions": ["Site massing model", "Massing model — walking path", "Massing model — aerial view", "Terragni monument, recontextualized", "Terragni monument — alternate view", "Terragni monument — side view"], "flow": [{"h": "In context", "p": ["The white models were an exercise in form making: we were asked to place a series of prechosen buildings on a site in Toronto. I placed them to allow the easiest walking path, while making sure no views were obstructed."]}, 1, 2, 3, {"h": "Monument", "p": ["For the black models, the brief was to take a monument, recreate it, and recontextualize it. I chose a monument by Giuseppe Terragni — from rough design in January to the final model in March."]}, 4, 5, 6]}, "horizontal-vs-vertical": {"about": "Only allowed to use vertical and horizontal floor plates, I drew a series of designs that worked around a 3 × 3 column grid.", "facts": [["Type", "Drafting & drawing"]], "captions": ["Horizontal planes on the 3 × 3 grid", "Circulation between planes", "Vertical study", "Model from above", "Vertical columns study", "Vertical columns — alternate view"], "flow": [1, 2, {"h": "Circulation", "p": ["These designs focused on circulation, to manage the different-sized horizontal planes."]}, 3, 4, {"h": "Drafting and drawing", "p": ["This course pushed my drafting and drawing skills — staying accurate and precise with every drawing."]}, 5, 6]}, "pavilion": {"about": "A private school in Muskoka, Ontario challenged our class to design a pavilion with three elements: a reading room, a resting room and a fire room.", "facts": [["Type", "Design competition"], ["Location", "Muskoka, Ontario"]], "captions": ["Elevation", "Site plan"], "flow": [{"h": "The brief", "p": ["I designed a pavilion with a space for desks and chairs for studying, and a space with bean-bag chairs and carpeted floors for resting. The challenge was interpreting what the school wanted for the fire room: I settled on an outdoor campfire space attached to the pavilion, where students could regularly hang out and take part in social activities."]}, 1, 2]}, "puzzle": {"about": "Architecture isn’t just buildings.", "facts": [["Class", "ARC200"], ["Year", "2019"], ["Mock-ups", "6"]], "captions": ["The six puzzle pieces", "Assembly instructions"], "flow": [{"h": "Design", "p": ["Given a complex puzzle designed by Frank Lloyd Wright, my task was to draw and interpret it in various forms and create an instruction booklet for solving it. The toy had six identical parts that came together in a star shape. Each student was given a piece and asked to produce a series of drawings for it, assembly instructions, and a final drawing set."]}, 1, {"h": "Process", "p": ["It was tough to visualise in axonometric and oblique views, so I modelled all six pieces in Rhino to help with the drafting. Through the course we drew elevations, sections, 2D views and isometric views from every side; the hand drawings were then recreated digitally and put together into the booklet — from rough sketching and planning to colouring, line weights and final design in Illustrator."]}, 2]}, "studio-sketching": {"about": "I enrolled in architecture school without being able to draw.", "facts": [["Type", "Rough sketching"]], "captions": ["Inside view", "Perspective", "Rough plan view"], "flow": [{"h": "Learning to draw", "p": ["I joined architecture school because I loved designing things — a sneaker concept, a car concept, an interior. But I never designed with paper and pencil; I preferred Photoshop and Microsoft Paint. Architecture school taught me to draw. A lot of people think you need to draw well to be an architect, but one of the most interesting things I learned is that the best architects often aren’t great at drawing — Frank Gehry is known for his ‘scribble’ sketches."]}, 1, 2, {"h": "Studio sketching", "p": ["The exercise was to draw a space that’s meaningful to us. I chose the studio I worked in day in, day out for my whole university career — every day I’d go there to work on music. I lived in the curved building opposite it in my first year. It’s the place where I became a master of my craft.", "The purpose of the sketch was to be messy. My instructor wanted me to understand that architecture isn’t about being perfect — it’s about experimentation, and experimentation is never perfect."]}, 3]}};
   const IMAGE_COUNTS = {
     'computation-and-design': 6,
     'experimenting-with-curves': 6,
@@ -1544,6 +1442,8 @@ window.EMBEDDED_IMAGES = {
       ...p,
       cover: img(`${p.slug}-1`),
       about: PROJECT_TEXT[p.slug]?.about || '',
+      facts: PROJECT_TEXT[p.slug]?.facts || [],
+      flow: PROJECT_TEXT[p.slug]?.flow || Array.from({ length: count }, (_, k) => k + 1),
       gallery: Array.from({ length: count }, (_, k) => ({
         src: img(`${p.slug}-${k + 1}`),
         caption: PROJECT_TEXT[p.slug]?.captions[k] || '',
@@ -1707,6 +1607,7 @@ window.EMBEDDED_IMAGES = {
     year: view.querySelector('.m-year'),
     count: view.querySelector('.m-count'),
     about: view.querySelector('.m-about'),
+    facts: view.querySelector('.m-facts'),
     prev: view.querySelector('.m-prev-title'),
     next: view.querySelector('.m-next-title'),
   };
@@ -1719,12 +1620,27 @@ window.EMBEDDED_IMAGES = {
     meta.client.textContent = p.client; meta.title.textContent = p.title; meta.year.textContent = p.year || '';
     meta.count.textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
     meta.about.textContent = p.about;
+    meta.facts.innerHTML = p.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     meta.prev.textContent = PROJECTS[(i - 1 + n) % n].title;
     meta.next.textContent = PROJECTS[(i + 1) % n].title;
     view.setAttribute('aria-label', `${p.title} — ${p.client}`);
     grid.textContent = '';
-    // Each image and its caption live in one <figure>, so they always scroll together
-    p.gallery.forEach(({ src, caption }, k) => {
+    // Text blocks and images follow the order of the PDF pages. Each image and its
+    // caption live in one <figure>, so they always scroll together.
+    const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+    p.flow.forEach(item => {
+      if (typeof item !== 'number') {
+        const block = document.createElement('section');
+        block.className = 'project__text';
+        block.innerHTML = `<h3>${esc(item.h)}</h3>` +
+          (item.p || []).map(t => `<p>${esc(t)}</p>`).join('') +
+          (item.list ? `<ul>${item.list.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '');
+        grid.appendChild(block);
+        return;
+      }
+      const k = item - 1, g = p.gallery[k];
+      if (!g) return;
+      const { src, caption } = g;
       const fig = document.createElement('figure');
       fig.className = 'project__fig';
       const frame = document.createElement('div');

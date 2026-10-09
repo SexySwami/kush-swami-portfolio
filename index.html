@@ -236,7 +236,8 @@
   .project__bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 3;
     display: flex; justify-content: space-between; align-items: flex-start;
-    padding: 18px 2.4vw; font-size: 14px; pointer-events: none;
+    padding: 18px 2.4vw 22px; font-size: 14px; pointer-events: none;
+    background: linear-gradient(180deg, #000 55%, rgba(0,0,0,0));
   }
   .project__bar > * { pointer-events: auto; }
   .project__brand { font-weight: 700; font-size: 18px; line-height: 1; letter-spacing: -.02em; }
@@ -245,33 +246,38 @@
     padding: 4px 0; text-shadow: 0 1px 8px rgba(0,0,0,.35);
   }
   .project__btn:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .project__meta {
-    position: fixed; left: 0; right: 0; top: 50%; z-index: 3;
-    transform: translateY(-50%);
-    display: grid; grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
-    padding: 0 28px 0 12px; align-items: center; font-size: 13px; font-weight: 500; pointer-events: none;
-    mix-blend-mode: difference; /* stays legible over light and dark images */
-    opacity: 0; transition: opacity .4s ease;
-  }
-  .project__meta > * { pointer-events: auto; }
-  .project.is-ready .project__meta { opacity: 1; }
-  .project__meta .m-client { text-align: right; padding-right: 4vw; }
-  .project__meta .m-title { text-align: center; }
-  .project__meta .m-year { padding-left: 4vw; }
-  .project__meta .m-next { text-align: right; }
-  .project__meta .m-prev { text-align: left; }
-  .project__meta .project__btn { padding: 0; justify-self: stretch; }
+  .project__head { padding: 120px 2.4vw 56px; max-width: 1100px; opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .project.is-ready .project__head { opacity: 1; transform: none; }
+  .project__kicker { margin: 0 0 18px; display: flex; gap: 1.4em; font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+  .project__kicker span:empty { display: none; }
+  .project__kicker span:not(:first-child) { opacity: .5; }
+  .project__title { margin: 0 0 22px; font-weight: 800; font-size: clamp(44px, 6.4vw, 120px); line-height: .9; letter-spacing: -.045em; }
+  .project__about { margin: 0; max-width: 62ch; font-size: clamp(16px, 1.2vw, 19px); line-height: 1.5; opacity: .78; }
   .project__grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px 2.4vw; padding: 0 2.4vw; align-items: start;
   }
-  .project__cell { aspect-ratio: 4 / 5; overflow: hidden; background: #0b0b0b; }
-  .project__cell { background: #1c1c1c; }
-  .project__cell img {
-    width: 100%; height: 100%; object-fit: contain; display: block;
-    clip-path: inset(100% 0 0 0); transform: scale(1.12);
+  .project__fig { margin: 0; }
+  .project__frame { background: #111; overflow: hidden; display: grid; place-items: center; }
+  .project__frame img {
+    width: 100%; height: auto; max-height: 78svh; object-fit: contain; display: block;
+    clip-path: inset(100% 0 0 0); transform: scale(1.08);
     transition: clip-path .9s cubic-bezier(.7,0,.2,1), transform 1.3s cubic-bezier(.2,.7,.2,1);
   }
-  .project.is-ready .project__cell img { clip-path: inset(0 0 0 0); transform: scale(1); }
+  .project.is-ready .project__frame img { clip-path: inset(0 0 0 0); transform: none; }
+  .project__fig figcaption {
+    display: flex; gap: 1em; align-items: baseline; padding-top: 12px;
+    font-size: 14px; line-height: 1.35; border-top: 1px solid rgba(255,255,255,.14); margin-top: 12px;
+  }
+  .project__fig figcaption span { font-size: 12px; font-weight: 600; opacity: .45; font-variant-numeric: tabular-nums; }
+  .project__nav { display: grid; grid-template-columns: 1fr 1fr; margin: 96px 2.4vw 0; border-top: 1px solid rgba(255,255,255,.14); }
+  .project__navbtn {
+    background: none; border: 0; color: inherit; font: inherit; cursor: pointer; text-align: left;
+    padding: 28px 0; display: grid; gap: 8px;
+  }
+  .project__navbtn--next { text-align: right; }
+  .project__navbtn span { font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; opacity: .55; }
+  .project__navbtn b { font-size: clamp(22px, 2.4vw, 40px); font-weight: 800; letter-spacing: -.03em; transition: color .25s ease; }
+  .project__navbtn:hover b, .project__navbtn:focus-visible b { color: #ff3b2f; }
   .project__foot { padding: 28px 0 40px; text-align: center; font-size: 13px; opacity: .7; }
 
   /* ---------- About strip ---------- */
@@ -369,9 +375,9 @@
     .scene-media--bento { position: absolute; left: var(--gutter); bottom: 7svh; margin: 0; --w: calc((100vw - 2 * var(--gutter) - 20px) / 2.63); --g: 8px; }
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
     .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
-    .project__grid { grid-template-columns: repeat(2, 1fr); }
-    .project__meta { grid-template-columns: 1fr 2fr 1fr; }
-    .project__meta .m-client, .project__meta .m-year { display: none; }
+    .project__grid { grid-template-columns: 1fr; gap: 36px; padding: 0 var(--gutter); }
+    .project__head { padding: 96px var(--gutter) 40px; }
+    .project__nav { margin: 64px var(--gutter) 0; }
     .works__head { top: 8svh; grid-template-columns: 1fr; }
     .works__hint { display: none; }
     :root { --gutter: 4vw; }
@@ -437,14 +443,16 @@
     <span class="project__brand">Kush Swami’s<br>Portfolio</span>
     <button class="project__btn" data-act="close">Close</button>
   </div>
-  <div class="project__meta">
-    <button class="project__btn m-prev" data-act="prev">Previous</button>
-    <span class="m-client"></span>
-    <span class="m-title"></span>
-    <span class="m-year"></span>
-    <button class="project__btn m-next" data-act="next">Next</button>
-  </div>
+  <header class="project__head">
+    <p class="project__kicker"><span class="m-client"></span><span class="m-year"></span><span class="m-count"></span></p>
+    <h2 class="project__title m-title"></h2>
+    <p class="project__about m-about"></p>
+  </header>
   <div class="project__grid"></div>
+  <nav class="project__nav" aria-label="More projects">
+    <button class="project__navbtn" data-act="prev"><span>← Previous project</span><b class="m-prev-title"></b></button>
+    <button class="project__navbtn project__navbtn--next" data-act="next"><span>Next project →</span><b class="m-next-title"></b></button>
+  </nav>
   <p class="project__foot">© 2026 Kush Swami</p>
 </div>
 
@@ -1383,6 +1391,125 @@ window.EMBEDDED_IMAGES = {
 (() => {
   // Images are embedded by tools/embed_images.py; fall back to the images/ folder
   const img = name => window.EMBEDDED_IMAGES?.[name] || `images/${name}.jpg`;
+  const PROJECT_TEXT = {
+    "office-building": {
+    "about": "A personal project to learn Revit on a real-world brief: a modern office building that works as efficiently as it looks. Inspired by offices in downtown Toronto, the lobby is modern in its presentation yet traditional in its layout — professional, but cozy when you walk through the doors.",
+    "captions": [
+    "Exterior render",
+    "Arched entrance and façade",
+    "Perspective walkthrough — the lobby",
+    "Interior perspective",
+    "Floor plan with room legend",
+    "Elevation"
+    ]
+    },
+    "library": {
+    "about": "A five-storey, steel-framed study commons set in an imagined landscape: 2,000 m² of study spaces, hang-out areas, food and beverage stations, and shelves for over 5,000 books, wrapped in a glass form. My second project in Revit, learned without guidance from online resources.",
+    "captions": [
+    "Front perspective render",
+    "Angled perspective render",
+    "Side perspective",
+    "Landscape render — terrain, road and water feature",
+    "West elevation",
+    "East elevation"
+    ]
+    },
+    "twisted-tower": {
+    "about": "A 40-storey tower whose floor plates rotate and change size as it rises. Designed in Rhino and Grasshopper with structural columns and a Voronoi-inspired façade, then laser-cut at 1:200 and assembled plate by plate, with two 3D-printed façades tested on the model.",
+    "captions": [
+    "Floor-plate study",
+    "Floor plates stacking up the tower",
+    "Voronoi-inspired façade, 3D printed",
+    "Physical model — laser-cut floor plates",
+    "Full-height elevation of the twist"
+    ]
+    },
+    "light-sculpture": {
+    "about": "Exploring light as a method of composition. Using long-exposure photography, I drew spinning shapes in the air with a flashlight, then reinterpreted them as a hand-made model of jagged triangles rounded out by a curve.",
+    "captions": [
+    "Long-exposure light drawing",
+    "Long-exposure light drawing",
+    "Hand-made model interpreting the light drawings"
+    ]
+    },
+    "computation-and-design": {
+    "about": "Forms generated almost entirely through code in ARC465 — Lazy Computing, with Andrew Bako. The theme was recycled materials: repurposing earlier work, and using everyday objects as architecture in ‘Pile of Trash’.",
+    "captions": [
+    "Code-generated form, rendered",
+    "Generated form in context",
+    "Generated landscape form",
+    "Physical model",
+    "3D model",
+    "Code-generated surface"
+    ]
+    },
+    "experimenting-with-curves": {
+    "about": "A snake-like, tubular structure that wraps around the column grid: curved steel beams for reinforcement, a walkway inside, and a wooden exterior. Modelling one repeating segment let me think the idea through fully.",
+    "captions": [
+    "Curved segment model",
+    "Segment from above",
+    "Ribbed curve study",
+    "Wooden exterior shell",
+    "Conceptual sketch — plan",
+    "Conceptual sketch — axonometric"
+    ]
+    },
+    "mapping-air-pollution": {
+    "about": "A 60 × 60 km section of the GTA in Etobicoke, mapping how road systems and traffic relate to air pollution, using Canadian climate data alongside hand drawings of traffic density.",
+    "captions": [
+    "Traffic flows across the site",
+    "Building heights and green space",
+    "Air-pollution concentration — highest near the highway",
+    "Greenery across the site",
+    "Hand-drawn road systems",
+    "Buildings on the site"
+    ]
+    },
+    "model-making-in-context": {
+    "about": "Two exercises in form and context. The white models place a series of prechosen buildings on a Toronto site to create the easiest walking path without blocking views; the black models take a monument by Giuseppe Terragni and recontextualize it.",
+    "captions": [
+    "Site massing model",
+    "Massing model — walking path",
+    "Massing model — aerial view",
+    "Terragni monument, recontextualized",
+    "Terragni monument — alternate view",
+    "Terragni monument — side view"
+    ]
+    },
+    "horizontal-vs-vertical": {
+    "about": "Working only with floor plates and a 3 × 3 column grid, a series of designs focused on circulation between horizontal planes of different sizes — pushing my drafting to stay accurate and precise.",
+    "captions": [
+    "Horizontal planes on the 3 × 3 grid",
+    "Circulation between planes",
+    "Vertical study",
+    "Model from above",
+    "Vertical columns study",
+    "Vertical columns — alternate view"
+    ]
+    },
+    "pavilion": {
+    "about": "A competition brief for a school in Muskoka, Ontario: a pavilion combining a reading room, a resting room and a fire room, with an outdoor campfire space attached.",
+    "captions": [
+    "Elevation",
+    "Site plan"
+    ]
+    },
+    "puzzle": {
+    "about": "ARC200: drawing and interpreting a six-piece star puzzle designed by Frank Lloyd Wright, modelling each piece in Rhino, and designing an instruction booklet for solving it.",
+    "captions": [
+    "The six puzzle pieces",
+    "Assembly instructions"
+    ]
+    },
+    "studio-sketching": {
+    "about": "Drawing a space that’s meaningful to me: the studio where I worked on music every day through university. The point was to be messy — architecture is about experimentation, and experimentation is never perfect.",
+    "captions": [
+    "Inside view",
+    "Perspective",
+    "Rough plan view"
+    ]
+    }
+    };
   const IMAGE_COUNTS = {
     'computation-and-design': 6,
     'experimenting-with-curves': 6,
@@ -1416,7 +1543,11 @@ window.EMBEDDED_IMAGES = {
     return {
       ...p,
       cover: img(`${p.slug}-1`),
-      gallery: Array.from({ length: count }, (_, k) => img(`${p.slug}-${k + 1}`)),
+      about: PROJECT_TEXT[p.slug]?.about || '',
+      gallery: Array.from({ length: count }, (_, k) => ({
+        src: img(`${p.slug}-${k + 1}`),
+        caption: PROJECT_TEXT[p.slug]?.captions[k] || '',
+      })),
     };
   });
 
@@ -1574,23 +1705,39 @@ window.EMBEDDED_IMAGES = {
     client: view.querySelector('.m-client'),
     title: view.querySelector('.m-title'),
     year: view.querySelector('.m-year'),
+    count: view.querySelector('.m-count'),
+    about: view.querySelector('.m-about'),
+    prev: view.querySelector('.m-prev-title'),
+    next: view.querySelector('.m-next-title'),
   };
   let projectOpen = false, openIndex = 0, lastFocus = null;
 
   function fill(i) {
     const p = PROJECTS[i];
     openIndex = i;
+    const n = PROJECTS.length;
     meta.client.textContent = p.client; meta.title.textContent = p.title; meta.year.textContent = p.year || '';
+    meta.count.textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
+    meta.about.textContent = p.about;
+    meta.prev.textContent = PROJECTS[(i - 1 + n) % n].title;
+    meta.next.textContent = PROJECTS[(i + 1) % n].title;
     view.setAttribute('aria-label', `${p.title} — ${p.client}`);
     grid.textContent = '';
-    p.gallery.forEach((src, k) => {
-      const cell = document.createElement('div');
-      cell.className = 'project__cell';
+    // Each image and its caption live in one <figure>, so they always scroll together
+    p.gallery.forEach(({ src, caption }, k) => {
+      const fig = document.createElement('figure');
+      fig.className = 'project__fig';
+      const frame = document.createElement('div');
+      frame.className = 'project__frame';
       const img = new Image();
-      img.src = src; img.alt = `${p.title} image ${k + 1}`;
+      img.src = src; img.alt = caption ? `${p.title} — ${caption}` : `${p.title} image ${k + 1}`;
       img.style.transitionDelay = `${k * 70}ms, ${k * 70}ms`;
-      cell.appendChild(img);
-      grid.appendChild(cell);
+      frame.appendChild(img);
+      const cap = document.createElement('figcaption');
+      cap.innerHTML = `<span>${String(k + 1).padStart(2, '0')}</span>`;
+      cap.append(caption || p.title);
+      fig.append(frame, cap);
+      grid.appendChild(fig);
     });
     view.scrollTop = 0;
     requestAnimationFrame(() => requestAnimationFrame(() => view.classList.add('is-ready')));

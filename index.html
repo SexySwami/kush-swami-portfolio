@@ -266,6 +266,9 @@
   .project__text h3 { grid-row: 1 / span 9; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #ff3b2f; }
   .project__text p, .project__text ul { grid-column: 2; margin: 0; max-width: 68ch; font-size: clamp(15px, 1.1vw, 18px); line-height: 1.6; opacity: .82; }
   .project__text ul { padding-left: 1.1em; }
+  .project__text--lead { grid-template-columns: 1fr; padding-bottom: 24px; }
+  .project__text--lead h3 { grid-row: auto; margin-bottom: 6px; }
+  .project__text--lead p, .project__text--lead ul { grid-column: 1; max-width: 62ch; }
   .project__text li + li { margin-top: 6px; }
   .project__fig { margin: 0; }
   .project__fig--wide { grid-column: 1 / -1; }
@@ -1630,12 +1633,14 @@ window.EMBEDDED_IMAGES = {
     // Text blocks and images follow the order of the PDF pages. Each image and its
     // caption live in one <figure>, so they always scroll together.
     const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-    p.flow.forEach(item => {
+    p.flow.forEach((item, idx) => {
       const wide = typeof item === 'object' && item.img;
       if (wide) item = item.img;
       if (typeof item !== 'number') {
         const block = document.createElement('section');
-        block.className = 'project__text';
+        // A block that opens the page continues the header copy, so it shares the
+        // header's left edge; blocks between images use the label + column layout.
+        block.className = 'project__text' + (idx === 0 ? ' project__text--lead' : '');
         block.innerHTML = `<h3>${esc(item.h)}</h3>` +
           (item.p || []).map(t => `<p>${esc(t)}</p>`).join('') +
           (item.list ? `<ul>${item.list.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '');

@@ -966,7 +966,10 @@ window.EMBEDDED_IMAGES = {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const src = (name, ext) => window.EMBEDDED_IMAGES?.[name] || `images/${name}.${ext}`;
 
-  section.style.height = `${N * 100}svh`;
+  // One screen of scroll per scene, plus a hold at the end so the last scene
+  // pauses before the page moves on (the others pause inside their own screen).
+  const END_HOLD = .6;
+  section.style.height = `${(N + END_HOLD) * 100}svh`;
   section.querySelector('.i-tot').textContent = String(N).padStart(2, '0');
 
   // ---- Text layers ----
@@ -1061,8 +1064,7 @@ window.EMBEDDED_IMAGES = {
   let target = 0, p = 0;
   function readScroll() {
     const r = section.getBoundingClientRect();
-    const span = section.offsetHeight - stage.offsetHeight;
-    target = Math.min(N - 1, Math.max(-1, -r.top / span * (N - 1)));
+    target = Math.min(N - 1, Math.max(-1, -r.top / stage.offsetHeight));
   }
   addEventListener('scroll', readScroll, { passive: true });
   addEventListener('resize', readScroll);

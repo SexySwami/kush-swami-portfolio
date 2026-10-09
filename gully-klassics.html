@@ -389,12 +389,10 @@
   }
 
   /* Draft fixes */
-  .hero { padding-top: clamp(300px, 34vh, 360px); }
   .stats--2 { grid-template-columns: repeat(2, 1fr); }
   .timeline--4 { grid-template-columns: repeat(4, 1fr); margin-top: 24px; }
   @media (max-width: 960px) { .timeline--4 { grid-template-columns: 1fr 1fr; } .timeline--4 li::after { display: none; } }
   @media (max-width: 620px) {
-    .hero { padding-top: 400px; }
     .stats--2 { grid-template-columns: 1fr; }
     .spend tr.sub td, .spend tr.grand td { grid-column: auto; order: 0; color: inherit; }
     .spend tr.sub td { color: var(--red); }
@@ -402,6 +400,9 @@
   .shot { position: relative; margin: 0; border-radius: 6px; overflow: hidden; background: #151515; }
   .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .post .shot { border-radius: 0; }
+  .r-3x4 { aspect-ratio: 3 / 4; min-height: 0; }
+  .hero__bg.shot { position: absolute; border-radius: 0; background: var(--bg); }
+  .hero__bg.shot img { height: 136%; object-position: 55% 0; }
 </style>
 </head>
 <body>
@@ -431,9 +432,7 @@
 
   <!-- ===== Hero ===== -->
   <section class="hero" id="top">
-    <figure class="ph hero__bg" data-ratio="Full-bleed · 16:9">
-      <figcaption><b>Hero — Toronto after dark.</b>A wide, cinematic night shot of a downtown Toronto street (Queen West or Ossington), wet asphalt reflecting red and orange neon. A young man in an oversized black outerwear jacket and a fitted cap walks toward camera with a group of friends a few steps behind. Grainy, high-contrast black-and-white grade with only the neon left in red-orange. Keep the bottom third dark so the type reads on top.</figcaption>
-    </figure>
+    <figure class="shot hero__bg"><img src="images/gk/hero.jpg" alt="A group of friends walking down Queen West at Ossington on a wet night, the CN Tower and The Drake Hotel neon behind them"></figure>
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap">
       <p class="kicker">Case study · Creative brand strategy</p>
@@ -497,9 +496,7 @@
       <h2 class="h2 reveal">Clothes that<br><span class="outline">tell a story.</span></h2>
       <blockquote class="quote reveal"><small>Consumer insight</small>“It’s not just the clothes I wear; it tells my story.”</blockquote>
       <div class="persona">
-        <figure class="ph r-4x5 reveal" data-ratio="4:5">
-          <figcaption><b>Persona portrait — Kyle.</b>A confident Black man in his late twenties on a Toronto rooftop at dusk, CN Tower soft in the background. He wears a clean cream hoodie under a black bomber and a fitted cap. Relaxed half-smile, editorial street-style framing, warm city lights behind him.</figcaption>
-        </figure>
+        <figure class="shot r-3x4 reveal"><img src="images/gk/kyle.jpg" alt="Kyle, in a black cap, cream hoodie and black bomber, on a rooftop at dusk with the CN Tower behind him" loading="lazy"></figure>
         <div class="persona__card reveal">
           <h3 class="persona__name">Kyle</h3>
           <p class="persona__role">Marketing manager · proud Torontonian · pays more for quality</p>
@@ -557,7 +554,7 @@
           <p class="lead reveal">The work week is done, but real life is just starting. <strong>That’s the Toronto lifestyle. And what’s more Toronto than Gully Klassics?</strong></p>
           <p class="body reveal" style="margin-top:20px">We position Gully Klassics as part of Toronto’s nightlife and music scene. No studio shoots or hard sell. <strong style="color:var(--red)">Just the city, our friends, the lights, good music and Gully Klassics.</strong></p>
         </div>
-        <figure class="shot r-4x5 reveal"><img src="images/gk/key-visual.jpg" alt="A man in a black shell jacket and cap outside a Toronto bar at night, under red neon signs" loading="lazy"></figure>
+        <figure class="shot r-3x4 reveal"><img src="images/gk/key-visual.jpg" alt="A man in a black shell jacket and cap outside a Toronto bar at night, under red neon signs" loading="lazy"></figure>
       </div>
       <div class="pillars">
         <div class="pillar reveal"><b>Streetwear <span>=</span> Digital</b><p><strong>Social media is the #1 influence</strong> for streetwear fans. The campaign lives on the feeds where they already find new drops.</p></div>
@@ -578,9 +575,7 @@
       </div>
 
       <div class="exec">
-        <figure class="ph r-9x16 reveal" data-ratio="9:16 · 10 sec">
-          <figcaption><b>Instagram Story ad.</b>Vertical frame. Side profile of a Torontonian walking confidently down a downtown street at night with earbuds in, wearing Gully Klassics outerwear and a cap. The camera stays still while the walker changes every few steps: a new person and a new outfit. Blurred nightlife and neon behind, with a “Learn more” sticker at the bottom.</figcaption>
-        </figure>
+        <figure class="shot r-9x16 reveal"><img src="images/gk/ig-story.jpg" alt="Sponsored Instagram Story: a man in a Gully Klassics jacket and cap walking past a “This is Toronto” neon sign on Queen St. West, with a Learn more button" loading="lazy"></figure>
         <div>
           <ul class="specline reveal"><li>Instagram Story</li><li>Awareness</li><li>9:16</li><li>10 sec</li></ul>
           <h3 class="h3 reveal">The walk.</h3>
@@ -595,9 +590,7 @@
       </div>
 
       <div class="exec">
-        <figure class="ph r-9x16 reveal" data-ratio="9:16 · 6 sec loop">
-          <figcaption><b>TikTok bumper.</b>Vertical split screen. Four groups of friends outside Toronto bars and restaurants at night. On the left they pose for the camera in GK outerwear and caps; on the right the same group is laughing, shoving and messing around. Neon-lit, handheld, grainy. “See the collection” button at the bottom.</figcaption>
-        </figure>
+        <figure class="shot r-9x16 reveal"><img src="images/gk/tiktok.jpg" alt="TikTok split-screen: four groups of friends in GK jackets and caps outside Toronto bars, posing on the left and laughing on the right, with a See the collection button" loading="lazy"></figure>
         <div>
           <ul class="specline reveal"><li>TikTok</li><li>Awareness</li><li>9:16</li><li>6 sec, looped</li></ul>
           <h3 class="h3 reveal">Pose / play.</h3>
@@ -621,16 +614,14 @@
       <p class="lead reveal">Our audience follows and trusts <strong>local artists who share their values</strong>. So instead of renting celebrity reach, we put Gully Klassics on ten Toronto hip-hop musicians and creators and let them wear it their way.</p>
       <div class="posts">
         <article class="post reveal">
-          <figure class="ph r-4x5" data-ratio="4:5 · IG post">
-            <figcaption><b>Mock post 1 — on stage.</b>A young Toronto rapper on a small club stage, mid-verse, hand reaching to the crowd, wearing a Gully Klassics jacket and cap. Phones up in the foreground, red stage light, sweat and haze.</figcaption>
-          </figure>
+          <figure class="shot r-3x4"><img src="images/gk/on-stage.jpg" alt="Instagram post from gully.klassics: a rapper in a Gully Klassics cap and varsity jacket performing at The Drake Underground, phones up in the crowd" loading="lazy"></figure>
           <div class="post__body">
             <span class="post__handle">@local.artist · Instagram</span>
             <p class="post__cap">“Rocking my favourite gear from Gully Klassics at tonight’s show. Big ups for supporting independent artists! Cop yours now! <em>#hiphop #indieartist #fashion #toronto</em>”</p>
           </div>
         </article>
         <article class="post reveal">
-          <figure class="shot r-4x5"><img src="images/gk/unboxing.jpg" alt="A music creator on his bed opening a black Gully Klassics box, with GK pieces laid out around him" loading="lazy"></figure>
+          <figure class="shot r-3x4"><img src="images/gk/unboxing.jpg" alt="A music creator on his bed opening a black Gully Klassics box, with GK pieces laid out around him" loading="lazy"></figure>
           <div class="post__body">
             <span class="post__handle">@local.artist · TikTok</span>
             <p class="post__cap">“Just got my hands on these fresh threads from Gully Klassics! Love how they support local artists like me. Check out my new look and get yours at gullyclassics.com. <em>#supportlocal #hiphopfashion #ad</em>”</p>
@@ -662,7 +653,7 @@
             <li>From the Streets: The Evolution of Hip-Hop in Toronto</li>
           </ol>
         </div>
-        <figure class="shot r-4x5 reveal"><img src="images/gk/gazette.jpg" alt="A laptop on a dark desk showing the Gully Gazette blog, with the post “Hey, Gully fam!”" loading="lazy"></figure>
+        <figure class="shot r-3x4 reveal"><img src="images/gk/gazette.jpg" alt="A laptop on a dark desk showing the Gully Gazette blog, with the post “Hey, Gully fam!”" loading="lazy"></figure>
       </div>
       <div class="stats stats--2">
         <p class="reveal"><span class="stat__num">+25%</span><span class="stat__txt">organic traffic, year to date.</span></p>

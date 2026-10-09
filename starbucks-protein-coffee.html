@@ -88,7 +88,8 @@
   .ph figcaption b { display: block; margin-bottom: 4px; font-size: 15px; color: var(--ink); }
   .shot { margin: 0; }
   .shot img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
-  .shot.r-16x9, .shot.r-4x5, .shot.r-1x1 { aspect-ratio: auto; }
+  .shot.r-16x9, .shot.r-4x5, .shot.r-1x1, .shot.r-9x16 { aspect-ratio: auto; }
+  .shot.r-9x16 img { aspect-ratio: 9 / 16; }
   .shot.r-16x9 img { aspect-ratio: 16 / 9; } .shot.r-4x5 img { aspect-ratio: 4 / 5; } .shot.r-1x1 img { aspect-ratio: 1 / 1; }
   .shot figcaption { margin-top: 10px; font-size: 13px; line-height: 1.45; color: var(--mute); }
   .idea .shot figcaption { color: rgba(30,57,50,.7); }
@@ -102,6 +103,12 @@
   .hero__bg::before { top: 90px; left: var(--edge); }
   .hero__bg::after { top: 90px; right: var(--edge); }
   .hero__bg figcaption { position: absolute; top: 116px; left: var(--edge); max-width: min(560px, 80%); }
+  .hero__img { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+  /* Wide screens: the can sits on the right, clear of the headline */
+  @media (min-width: 961px) {
+    .hero__img { left: 34%; width: 66%; object-position: 42% 45%; }
+    .hero__shade { background: linear-gradient(90deg, var(--bg) 34%, rgba(30,57,50,.55) 46%, rgba(30,57,50,0) 70%), linear-gradient(0deg, var(--bg) 4%, rgba(30,57,50,0) 40%); }
+  }
   .hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, var(--bg) 8%, rgba(30,57,50,.45) 55%, rgba(30,57,50,.15)); }
   .hero .h1 em { font-style: normal; color: var(--red); }
   .hero__sub { margin: 28px 0 44px; }
@@ -306,9 +313,7 @@
 
   <!-- ===== Hero ===== -->
   <section class="hero" id="top">
-    <figure class="ph hero__bg" data-ratio="Full-bleed · 16:9">
-      <figcaption><b>Hero — the can in the wild.</b>A cinematic, low-angle shot of a plain matte-white aluminium coffee can (no logo, no text) beaded with condensation on a gym bench at golden hour, a towel and earbuds beside it, a wall of colourful sticky notes softly blurred behind. Dark green, moody grade so the white type reads on top.</figcaption>
-    </figure>
+    <img class="hero__img" src="images/sbux/hero-can.jpg" alt="A Protein Coffee can beaded with condensation on a gym bench at golden hour, a wall of sticky notes behind">
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap">
       <p class="kicker">Case study · Creative brand strategy</p>
@@ -358,7 +363,7 @@
   <section id="product">
     <div class="wrap split">
       <figure class="ph r-4x5 reveal" data-ratio="4:5">
-        <figcaption><b>Packaging hero.</b>Studio product shot of an unlabelled matte-white 355 ml can with a deep-green band and a small blank circular badge, on a seamless warm-cream background with a soft shadow. Leave it blank; the logo, “10 g protein” and a phrase like “you got this!” get added in design afterwards.</figcaption>
+        <figcaption><b>Packaging hero.</b>Studio product shot of a matte-white 355 ml can with dark-green lettering reading “PROTEIN COFFEE” and a “10g PROTEIN” badge, on a seamless warm-cream background with a soft shadow.</figcaption>
       </figure>
       <div>
         <span class="chapter-no">02 — The product</span>
@@ -498,13 +503,13 @@
         <li class="reveal"><b>The event</b><p>Wall of Motivation goes live at a downtown Toronto GoodLife Fitness.</p>
           <figure class="shot r-1x1"><img src="images/sbux/note-you-got-this.jpg" alt="A hand sticking a pink note reading “you got this!” onto a wall of sticky notes" loading="lazy"></figure></li>
         <li class="reveal"><b>60-second TV spot</b><p>A pan-Canadian commercial cut from the real event footage.</p>
-          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Film still: a woman in workout clothes hesitating outside a glass gym door at dusk, reading a sticky note on the window, a small nervous smile.</figcaption></figure></li>
+          <figure class="shot r-16x9"><img src="images/sbux/tv-still.jpg" alt="Film still: a woman outside a gym at dusk smiling at a sticky note on the door" loading="lazy"></figure></li>
         <li class="reveal"><b>30s &amp; 15s social</b><p>Cut-downs for social, ending on #ItsYourMove and a call to post your own message.</p>
-          <figure class="ph r-9x16" data-ratio="9:16"><figcaption>Vertical social frame: a hand holding a plain white can against a blurred gym, with a big handwritten sticky-note graphic and #ItsYourMove added on top.</figcaption></figure></li>
+          <figure class="shot r-9x16"><img src="images/sbux/social-hand.jpg" alt="Vertical social frame: a hand holding a Protein Coffee can in a gym" loading="lazy"></figure></li>
         <li class="reveal"><b>OOH &amp; display</b><p>Real messages from the wall become billboard and banner copy.</p>
-          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Transit-shelter ad mock-up on a city street at night: the ad panel shows a giant yellow sticky note reading “one day at a time!” next to a plain white can.</figcaption></figure></li>
+          <figure class="shot r-16x9"><img src="images/sbux/ooh-transit.jpg" alt="Bus-shelter ad at night: a yellow sticky note reading one day at a time next to a Protein Coffee can" loading="lazy"></figure></li>
         <li class="reveal"><b>On the can &amp; in gyms</b><p>Phrases printed on packaging and placed in GoodLife locations nationwide.</p>
-          <figure class="ph r-1x1" data-ratio="1:1"><figcaption>Row of plain white cans, each with a different handwritten-style phrase, lined up on a shelf in a glass-front drinks fridge.</figcaption></figure></li>
+          <figure class="shot r-1x1"><img src="images/sbux/fridge.jpg" alt="A fridge shelf of Protein Coffee cans, each with a different motivational phrase" loading="lazy"></figure></li>
       </ol>
       <div class="budget reveal">
         <div><b>$500K</b><span>total quarter budget — event, production and broadcast</span></div>

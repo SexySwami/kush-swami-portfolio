@@ -1,597 +1,505 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>It’s Your Move — Starbucks Protein Coffee · Kush Swami</title>
 <meta name="description" content="Case study: launch strategy and creative brief for Starbucks Protein Coffee, the ‘It’s Your Move’ campaign.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&family=Caveat:wght@500;700&display=swap">
 <style>
-  :root {
-    /* Starbucks brand palette: House Green, Starbucks Green, Accent Green, Light Green, Warm Neutral, Rewards Gold */
-    --house: #1e3932; --sbux: #00754a; --accent-green: #006241; --light-green: #d4e9e2; --warm: #f2f0eb; --gold: #cba258;
-    --bg: var(--house); --ink: var(--warm); --mute: rgba(242,240,235,.68); --line: rgba(242,240,235,.16);
-    --panel: #183029; --panel-2: #24453b;
-    --red: var(--gold); /* accent text on dark green */
-    --fill: var(--sbux); /* filled accents: bars, buttons, highlights */
-    --green: var(--sbux); --green-soft: var(--light-green);
-    --gutter: clamp(18px, 5vw, 80px); --max: 1240px;
-    --font: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
-  a { color: inherit; }
-  img { max-width: 100%; display: block; }
-  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+html,body{margin:0;overflow-x:clip;background:#1E3932;color:#1E3932;font-family:'Bricolage Grotesque',system-ui,sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:inherit}a:hover{color:#00754A}
+::selection{background:#FFE873;color:#1E3932}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -14px}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slap{0%{opacity:0;scale:1.6;filter:blur(6px)}60%{opacity:1;scale:.94;filter:blur(0)}100%{scale:1}}
+@keyframes blink{50%{opacity:.25}}
+@keyframes rise{from{opacity:0;transform:translateY(60px) rotate(4deg)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 
-  /* ---------- Top bar ---------- */
-  .bar {
-    position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: center;
-    padding: 16px var(--gutter); background: linear-gradient(180deg, rgba(30,57,50,.96), rgba(30,57,50,0));
-    font-size: 14px; font-weight: 500;
-  }
-  .bar a { text-decoration: none; }
-  .bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .bar__brand { font-weight: 700; letter-spacing: -.02em; line-height: 1; }
-  .progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: var(--light-green); z-index: 21; }
-
-  /* ---------- Chapter nav ---------- */
-  .chapters {
-    position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 15;
-    display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 0; padding: 0;
-    padding: 10px 8px; border-radius: 999px; background: rgba(30,57,50,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  }
-  .chapters a { display: flex; align-items: center; justify-content: flex-end; gap: 10px; text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
-  .chapters a span { padding: 4px 8px; border-radius: 4px; background: var(--house); opacity: 0; transform: translateX(6px); transition: opacity .25s, transform .25s; white-space: nowrap; }
-  .chapters a::after { content: ''; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; transition: background .25s, transform .25s; }
-  .chapters a:hover span, .chapters a:focus-visible span { opacity: 1; transform: none; }
-  .chapters a.is-on { color: #fff; }
-  .chapters a.is-on::after { background: var(--gold); border-color: var(--gold); transform: scale(1.2); }
-
-  /* ---------- Type ---------- */
-  .kicker { margin: 0 0 18px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
-  .h1 { margin: 0; font-weight: 800; font-size: clamp(56px, 11vw, 190px); line-height: .84; letter-spacing: -.055em; }
-  .h2 { margin: 0 0 28px; font-weight: 800; font-size: clamp(36px, 5.6vw, 92px); line-height: .9; letter-spacing: -.045em; }
-  .h3 { margin: 0 0 10px; font-weight: 700; font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -.02em; }
-  .lead { margin: 0; max-width: 58ch; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--mute); }
-  .lead strong { color: var(--ink); font-weight: 600; }
-  .body { margin: 0; max-width: 62ch; font-size: 16px; line-height: 1.6; color: var(--mute); }
-  .body + .body { margin-top: 12px; }
-  .outline { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
-
-  /* ---------- Sections ---------- */
-  section { padding: clamp(80px, 12vw, 160px) 0; border-top: 1px solid var(--line); scroll-margin-top: 40px; }
-  .chapter-no { display: block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--mute); font-variant-numeric: tabular-nums; }
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
-  .split--top { align-items: start; }
-  .split > *, .persona > * { min-width: 0; }
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
-  .reveal.is-in { opacity: 1; transform: none; }
-
-  /* ---------- Image placeholders ---------- */
-  .ph {
-    position: relative; margin: 0; border: 1.5px dashed rgba(244,241,236,.28); border-radius: 6px;
-    background:
-      repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 12px, transparent 12px 24px),
-      var(--panel);
-    display: grid; align-content: end; padding: 22px; min-height: 220px; overflow: hidden;
-  }
-  .ph::before {
-    content: 'Image placeholder'; position: absolute; top: 16px; left: 18px;
-    font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red);
-  }
-  .ph::after { content: attr(data-ratio); position: absolute; top: 16px; right: 18px; font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; }
-  .ph figcaption { font-size: 14px; line-height: 1.5; color: var(--mute); max-width: 60ch; }
-  .ph figcaption b { display: block; margin-bottom: 4px; font-size: 15px; color: var(--ink); }
-  .shot { margin: 0; }
-  .shot img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
-  .shot.r-16x9, .shot.r-4x5, .shot.r-1x1, .shot.r-9x16 { aspect-ratio: auto; }
-  .shot.r-9x16 img { aspect-ratio: 9 / 16; }
-  .shot.r-16x9 img { aspect-ratio: 16 / 9; } .shot.r-4x5 img { aspect-ratio: 4 / 5; } .shot.r-1x1 img { aspect-ratio: 1 / 1; }
-  .shot figcaption { margin-top: 10px; font-size: 13px; line-height: 1.45; color: var(--mute); }
-  .idea .shot figcaption { color: rgba(30,57,50,.7); }
-  .r-16x9, .r-4x5, .r-1x1, .r-21x9, .r-9x16 { min-height: 0; }
-  .r-16x9 { aspect-ratio: 16 / 9; } .r-4x5 { aspect-ratio: 4 / 5; } .r-1x1 { aspect-ratio: 1 / 1; } .r-21x9 { aspect-ratio: 21 / 9; } .r-9x16 { aspect-ratio: 9 / 16; }
-
-  /* ---------- Hero ---------- */
-  .hero { min-height: 100svh; display: grid; align-content: end; padding: 120px 0 56px; border-top: 0; position: relative; overflow: hidden; }
-  .hero__bg { position: absolute; inset: 0; z-index: -1; margin: 0; border-radius: 0; border: 0; min-height: 0; padding: 0; }
-  .hero { --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
-  .hero__bg::before { top: 90px; left: var(--edge); }
-  .hero__bg::after { top: 90px; right: var(--edge); }
-  .hero__bg figcaption { position: absolute; top: 116px; left: var(--edge); max-width: min(560px, 80%); }
-  .hero__img { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
-  /* Wide screens: the can sits on the right, clear of the headline */
-  @media (min-width: 961px) {
-    .hero__img { left: 34%; width: 66%; object-position: 42% 45%; }
-    .hero__shade { background: linear-gradient(90deg, var(--bg) 34%, rgba(30,57,50,.55) 46%, rgba(30,57,50,0) 70%), linear-gradient(0deg, var(--bg) 4%, rgba(30,57,50,0) 40%); }
-  }
-  .hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, var(--bg) 8%, rgba(30,57,50,.45) 55%, rgba(30,57,50,.15)); }
-  .hero .h1 em { font-style: normal; color: var(--red); }
-  .hero__sub { margin: 28px 0 44px; }
-  .meta { display: flex; flex-wrap: wrap; gap: 18px 44px; margin: 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
-  .meta dt { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
-  .meta dd { margin: 4px 0 0; font-size: 15px; font-weight: 600; }
-  .scroll-cue { margin-top: 36px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
-
-  /* ---------- TL;DR ---------- */
-  .tldr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 48px; }
-  .tldr div { background: var(--bg); padding: 26px 22px; }
-  .tldr b { display: block; margin-bottom: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
-  .tldr p { margin: 0; font-size: 15px; line-height: 1.45; }
-
-  /* ---------- Stats ---------- */
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 56px 0; }
-  .stat__num { display: block; font-weight: 800; font-size: clamp(64px, 9vw, 150px); line-height: .85; letter-spacing: -.05em; color: var(--red); font-variant-numeric: tabular-nums; }
-  .stat__txt { display: block; margin-top: 14px; max-width: 28ch; font-size: 15px; line-height: 1.45; color: var(--mute); }
-  .quote {
-    margin: 0; padding: clamp(28px, 4vw, 56px); border-radius: 6px; background: var(--light-green); color: var(--house);
-    font-weight: 700; font-size: clamp(24px, 3vw, 44px); line-height: 1.12; letter-spacing: -.03em;
-  }
-  .quote small { display: block; margin-bottom: 18px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--sbux); }
-
-  /* ---------- Product ---------- */
-  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; }
-  .spec { padding: 20px; border: 1px solid var(--line); border-radius: 6px; }
-  .spec b { display: block; font-size: clamp(30px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
-  .spec span { display: block; margin-top: 8px; font-size: 14px; color: var(--mute); }
-  .why { margin-top: 28px; }
-
-  /* ---------- Trends ---------- */
-  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 48px; }
-  .card { padding: 26px 22px 24px; border: 1px solid var(--line); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 250px; }
-  .card__big { font-weight: 800; font-size: clamp(36px, 3.6vw, 58px); letter-spacing: -.045em; line-height: .9; color: var(--ink); }
-  .card p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mute); }
-  .card h4 { margin: auto 0 0; font-size: 15px; font-weight: 700; }
-
-  /* ---------- Competition ---------- */
-  .compare { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 15px; }
-  .compare th, .compare td { text-align: left; padding: 18px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .compare th { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
-  .compare td:first-child { font-weight: 700; }
-  .compare td.price { font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .compare tr.us td { background: rgba(0,117,74,.35); }
-  .compare tr.us td:first-child { color: var(--light-green); }
-  .positioning { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
-  .pos { padding: 28px; border-radius: 6px; border: 1px solid var(--line); }
-  .pos--no { opacity: .7; }
-  .pos--no .h3::before { content: '✕  '; color: var(--mute); }
-  .pos--yes { border-color: var(--red); }
-  .pos--yes .h3::before { content: '✓  '; color: var(--red); }
-
-  /* ---------- Persona ---------- */
-  .persona { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; margin-top: 48px; }
-  .persona__card { border-radius: 6px; background: var(--panel); padding: clamp(24px, 3vw, 40px); }
-  .persona__name { margin: 0; font-size: clamp(30px, 3.4vw, 52px); font-weight: 800; letter-spacing: -.04em; }
-  .persona__role { margin: 6px 0 24px; color: var(--mute); }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
-  .chips li { font-size: 13px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; }
-  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-  .cols h4 { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
-  .cols ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.55; color: var(--mute); }
-  .cols li + li { margin-top: 6px; }
-
-  /* ---------- SWOT ---------- */
-  .swot { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 48px; }
-  .swot div { background: var(--bg); padding: clamp(22px, 3vw, 36px); }
-  .swot h4 { margin: 0 0 14px; display: flex; align-items: baseline; gap: 12px; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
-  .swot h4 span { font-size: 44px; color: var(--red); line-height: .8; }
-  .swot ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.6; color: var(--mute); }
-
-  /* ---------- Big idea ---------- */
-  .idea { background: var(--warm); color: var(--house); border-top: 0; }
-  .idea .lead, .idea .body { color: rgba(30,57,50,.7); }
-  .idea .kicker { color: var(--sbux); }
-  .wall {
-    position: relative; margin: 56px 0; padding: clamp(28px, 4vw, 56px); border-radius: 6px;
-    background: var(--light-green); display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; min-height: 360px; align-content: center;
-  }
-  .note {
-    width: clamp(120px, 14vw, 190px); aspect-ratio: 1; padding: 16px; display: grid; place-items: center; text-align: center;
-    font-weight: 800; font-size: clamp(15px, 1.4vw, 21px); line-height: 1.05; letter-spacing: -.02em; color: #1b1b1b;
-    box-shadow: 0 14px 22px -12px rgba(0,0,0,.35); transform: rotate(var(--r, 0deg)); transition: transform .35s cubic-bezier(.2,.7,.2,1);
-  }
-  .note:hover { transform: rotate(0deg) scale(1.06); }
-  .note:nth-child(6n+1) { background: #ffd84d; --r: -3deg; }
-  .note:nth-child(6n+2) { background: #ff8fb1; --r: 2deg; }
-  .note:nth-child(6n+3) { background: #7fd3ff; --r: -1.5deg; }
-  .note:nth-child(6n+4) { background: #9be58a; --r: 3deg; }
-  .note:nth-child(6n+5) { background: #ffa25c; --r: -2.5deg; }
-  .note:nth-child(6n+6) { background: #c6a8ff; --r: 1.5deg; }
-  .note--tag { background: var(--green) !important; color: #fff; }
-  .idea .ph { border-color: rgba(30,57,50,.3); background: repeating-linear-gradient(135deg, rgba(0,0,0,.035) 0 12px, transparent 12px 24px), #fff; }
-  .idea .ph figcaption { color: rgba(30,57,50,.7); }
-  .idea .ph figcaption b { color: #111; }
-  .idea .ph::after { color: rgba(30,57,50,.55); }
-  .appeals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
-  .appeal { padding: 24px; border-radius: 6px; border: 1px solid rgba(30,57,50,.15); }
-  .appeal p { margin: 0; font-size: 15px; line-height: 1.5; color: rgba(30,57,50,.72); }
-
-  /* ---------- Rollout ---------- */
-  .timeline { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
-  .timeline li { position: relative; padding-top: 34px; }
-  .timeline li::before {
-    counter-increment: step; content: counter(step, decimal-leading-zero);
-    position: absolute; top: 0; left: 0; font-size: 12px; font-weight: 700; color: var(--red);
-  }
-  .timeline li::after { content: ''; position: absolute; top: 20px; left: 0; right: -14px; height: 1px; background: var(--line); }
-  .timeline li:last-child::after { right: 0; }
-  .timeline b { display: block; margin-bottom: 8px; font-size: 17px; letter-spacing: -.01em; }
-  .timeline p { margin: 0 0 16px; font-size: 14px; line-height: 1.5; color: var(--mute); }
-  .timeline .ph { min-height: 0; padding: 30px 12px 12px; align-content: start; overflow: auto; }
-  .timeline .ph::before { top: 10px; left: 12px; font-size: 9px; }
-  .timeline .ph::after { top: 10px; right: 12px; font-size: 9px; }
-  .timeline .ph figcaption { font-size: 12px; }
-  .budget { display: grid; grid-template-columns: 2fr 3fr; gap: 0; margin-top: 56px; border-radius: 6px; overflow: hidden; }
-  .budget div { padding: 24px; }
-  .budget div:first-child { background: var(--fill); }
-  .budget div:last-child { background: var(--panel-2); }
-  .budget b { display: block; font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; }
-  .budget span { font-size: 14px; opacity: .85; }
-
-  /* ---------- Goals ---------- */
-  .goals { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
-  .goal { padding: clamp(24px, 3vw, 40px); border-radius: 6px; border: 1px solid var(--line); }
-  .goal__num { display: block; font-weight: 800; font-size: clamp(72px, 9vw, 150px); line-height: .82; letter-spacing: -.055em; }
-  .goal__num small { font-size: .4em; letter-spacing: -.02em; }
-  .goal h3 { margin: 18px 0 10px; font-size: 20px; letter-spacing: -.02em; }
-  .goal p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--mute); }
-  .smart { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; padding: 0; list-style: none; }
-  .smart li { font-size: 12px; padding: 5px 10px; border-radius: 999px; background: rgba(244,241,236,.07); }
-  .smart li b { color: var(--red); }
-
-  /* ---------- Guardrails ---------- */
-  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
-  .rule { padding: 24px; border-radius: 6px; background: var(--panel); }
-  .rule b { display: block; margin-bottom: 8px; font-size: 16px; }
-  .rule p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mute); }
-
-  /* ---------- End ---------- */
-  .end { text-align: center; }
-  .end .h2 { margin-bottom: 18px; }
-  .end .lead { margin: 0 auto 40px; }
-  .btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
-  .btn {
-    display: inline-flex; align-items: center; gap: .6em; padding: 16px 30px; border-radius: 999px; text-decoration: none;
-    font-size: 15px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; border: 1.5px solid var(--ink);
-    transition: background .25s ease, color .25s ease, border-color .25s ease;
-  }
-  .btn:hover, .btn:focus-visible { background: var(--ink); color: var(--bg); outline: none; }
-  .btn--red { background: var(--fill); border-color: var(--fill); }
-  .btn--red:hover, .btn--red:focus-visible { background: var(--accent-green); border-color: var(--light-green); color: #fff; }
-  .team { margin: 56px auto 0; max-width: 60ch; font-size: 14px; line-height: 1.6; color: var(--mute); }
-  footer { padding: 32px 0 48px; text-align: center; font-size: 13px; color: var(--mute); }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 960px) {
-    .chapters { display: none; }
-    .split, .persona, .positioning, .goals { grid-template-columns: 1fr; }
-    .cards, .tldr { grid-template-columns: 1fr 1fr; }
-    .timeline { grid-template-columns: 1fr; gap: 28px; }
-    .timeline li::after { display: none; }
-    .rules, .appeals { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 620px) {
-    .stats, .cards, .tldr, .swot, .cols, .specs, .budget { grid-template-columns: 1fr; }
-    .compare thead { display: none; }
-    .compare tr { display: grid; grid-template-columns: 1fr auto; padding: 14px 0; border-bottom: 1px solid var(--line); }
-    .compare td { border: 0; padding: 4px 0; }
-    .compare td:nth-child(2), .compare td:nth-child(4) { grid-column: 1 / -1; color: var(--mute); }
-    .compare tr.us { padding: 14px 12px; background: rgba(0,117,74,.35); }
-    .compare tr.us td { background: none; }
-  }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+<style>
+.h0:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h1:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h2:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h3:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h4:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h5:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h6:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h7:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h8:hover{opacity:1 !important;background:rgba(212,233,226,.12) !important}
+.h9:hover{transform:translateY(-6px) rotate(-1deg) !important}
+.h10:hover{transform:translateY(-6px) rotate(1deg) !important}
+.h11:hover{transform:translateY(-6px) rotate(-1deg) !important}
+.h12:hover{transform:translateY(-6px) rotate(1deg) !important}
+.h13:hover{transform:translateY(-10px) !important}
+.h14:hover{transform:translateY(-10px) !important}
+.h15:hover{transform:translateY(-10px) !important}
+.h16:hover{transform:translateY(-10px) !important}
+.h17:hover{transform:rotate(-1.5deg) scale(1.01) !important}
+.h18:hover{transform:scale(1.08) translateY(-6px) !important;z-index:2 !important}
+.h19:hover{background:#1E3932 !important}
+.h20:active{transform:scale(.96) !important}
+.h21:hover{background:#D4E9E2 !important}
+.h22:hover{background:#00754A !important}
+.h23:hover{transform:translateY(-3px) rotate(-2deg) !important;color:#1E3932 !important}
+.h24:hover{background:rgba(212,233,226,.1) !important;color:#F2F0EB !important}
 </style>
 </head>
 <body>
 
-<div class="progress" aria-hidden="true"></div>
-<header class="bar">
-  <a class="bar__brand" href="index.html">Kush Swami’s<br>Portfolio</a>
-  <a href="index.html#story">← Back to portfolio</a>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:50;pointer-events:none">
+  <div id="progress" style="height:3px;width:0;background:linear-gradient(90deg,#00754A,#CBA258,#FFE873)"></div>
+  <nav style="pointer-events:auto;margin:12px auto 0;max-width:1180px;width:calc(100% - 24px);box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:10px 12px 10px 20px;border-radius:99px;background:rgba(15,42,35,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(212,233,226,.14);color:#F2F0EB">
+    <a href="index.html" style="text-decoration:none;font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap">Kush Swami</a>
+    <div style="flex:1;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;font-size:13px">
+      <a class="h0" href="#problem" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Problem</a>
+      <a class="h1" href="#product" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Product</a>
+      <a class="h2" href="#market" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Why now</a>
+      <a class="h3" href="#competition" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Competition</a>
+      <a class="h4" href="#audience" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Audience</a>
+      <a class="h5" href="#swot" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">SWOT</a>
+      <a class="h6" href="#idea" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">The idea</a>
+      <a class="h7" href="#rollout" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Rollout</a>
+      <a class="h8" href="#goals" style="text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap;opacity:.8">Goals</a>
+    </div>
+    <a href="index.html#story" style="text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;background:#F2F0EB;color:#1E3932;white-space:nowrap">← Portfolio</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<header data-screen-label="Hero" id="hero" style="position:relative;overflow:hidden;min-height:100vh;background:radial-gradient(120% 80% at 80% 10%,#00754A 0%,#1E3932 45%,#0F2A23 100%);color:#F2F0EB;padding:140px 24px 0;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="position:relative;z-index:2;max-width:1180px;width:100%;margin:0 auto;flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:center">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#D4E9E2;margin-bottom:28px">
+        <span style="width:8px;height:8px;border-radius:99px;background:#FFE873;animation:blink 1.6s infinite"></span>Case study · Creative brand strategy
+      </div>
+      <h1 style="margin:0;font-weight:800;font-size:clamp(68px,11vw,168px);line-height:.86;letter-spacing:-.04em">
+        <span style="display:block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both">It's Your</span>
+        <span style="display:block;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.03em;color:#CBA258;font-size:1.18em;animation:rise 1s cubic-bezier(.2,.8,.2,1) .15s both">Move.</span>
+      </h1>
+      <p style="max-width:520px;font-size:clamp(17px,1.6vw,21px);line-height:1.5;color:#D4E9E2;margin:32px 0 0;text-wrap:pretty;animation:rise 1s cubic-bezier(.2,.8,.2,1) .3s both">Launching <strong style="color:#F2F0EB">Starbucks Protein Coffee</strong> in Canada with a campaign that doesn't shout at people to work out — it reminds them it's okay to lack motivation, and hands them a reason to move.</p>
+    </div>
+    <div style="position:relative;justify-self:center;width:min(100%,400px);aspect-ratio:4/5"><div style="position:absolute;top:10%;left:-56px;z-index:3;pointer-events:none" data-depth="22"><div style="background:#FFE873;color:#1E3932;font-family:Caveat,cursive;font-size:22px;font-weight:700;padding:14px 16px 20px;width:118px;line-height:1.05;rotate:-8deg;box-shadow:0 18px 30px rgba(0,0,0,.35);animation:floaty 6s ease-in-out 0s infinite">you got this!</div></div><div style="position:absolute;top:22%;right:-52px;z-index:3;pointer-events:none" data-depth="36"><div style="background:#9FE6C3;color:#1E3932;font-family:Caveat,cursive;font-size:22px;font-weight:700;padding:14px 16px 20px;width:118px;line-height:1.05;rotate:10deg;box-shadow:0 18px 30px rgba(0,0,0,.35);animation:floaty 6s ease-in-out -1s infinite">be unstoppable</div></div><div style="position:absolute;bottom:-30px;right:-24px;z-index:3;pointer-events:none" data-depth="-18"><div style="background:#FF9EC7;color:#1E3932;font-family:Caveat,cursive;font-size:22px;font-weight:700;padding:14px 16px 20px;width:118px;line-height:1.05;rotate:-5deg;box-shadow:0 18px 30px rgba(0,0,0,.35);animation:floaty 6s ease-in-out -3s infinite">one day at a time!</div></div>
+      <div style="position:absolute;inset:0;border-radius:200px 200px 32px 32px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.45);border:1px solid rgba(212,233,226,.2)">
+        <img src="images/sbux/hero-can.jpg" alt="A Protein Coffee can beaded with condensation on a gym bench at golden hour" style="width:100%;height:100%;object-fit:cover;object-position:42% 50%;display:block">
+      </div>
+      <div style="position:absolute;left:-44px;bottom:40px;width:132px;height:132px;border-radius:99px;background:#F2F0EB;color:#1E3932;display:grid;place-items:center;box-shadow:0 20px 40px rgba(0,0,0,.35)">
+        <svg viewBox="0 0 120 120" style="position:absolute;inset:0;width:100%;height:100%;animation:spin 14s linear infinite"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"></path></defs><text style="font-size:10.4px;font-weight:700;letter-spacing:2.6px;fill:#1E3932"><textPath href="#circ">10G PROTEIN · 150MG CAFFEINE · 3 ELECTROLYTES ·</textPath></text></svg>
+        <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:34px;color:#00754A">$4.99</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:2;max-width:1180px;width:100%;margin:48px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));border-top:1px solid rgba(212,233,226,.18)">
+    <div style="padding:20px 0"><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Brand</div><div style="margin-top:6px;font-weight:600">Starbucks (concept)</div></div>
+    <div style="padding:20px 0"><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Deliverable</div><div style="margin-top:6px;font-weight:600">Situation analysis + brief</div></div>
+    <div style="padding:20px 0"><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Market</div><div style="margin-top:6px;font-weight:600">Canada</div></div>
+    <div style="padding:20px 0"><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Year</div><div style="margin-top:6px;font-weight:600">2024</div></div>
+    <div style="padding:20px 0"><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Team</div><div style="margin-top:6px;font-weight:600">Group of six</div></div>
+  </div>
 </header>
 
-<nav aria-label="Chapters">
-  <ul class="chapters">
-    <li><a href="#overview"><span>Overview</span></a></li>
-    <li><a href="#problem"><span>The problem</span></a></li>
-    <li><a href="#product"><span>The product</span></a></li>
-    <li><a href="#market"><span>Why now</span></a></li>
-    <li><a href="#competition"><span>Competition</span></a></li>
-    <li><a href="#audience"><span>Audience</span></a></li>
-    <li><a href="#swot"><span>SWOT</span></a></li>
-    <li><a href="#idea"><span>The big idea</span></a></li>
-    <li><a href="#rollout"><span>Rollout</span></a></li>
-    <li><a href="#goals"><span>Goals</span></a></li>
-  </ul>
-</nav>
+<!-- MARQUEE -->
+<div style="background:#FFE873;color:#1E3932;overflow:hidden;padding:18px 0;border-block:2px solid #1E3932;rotate:-1.2deg;margin:-14px -20px 0;position:relative;z-index:4">
+  <div style="display:flex;width:max-content;animation:marquee 26s linear infinite;font-weight:800;font-size:clamp(22px,3vw,36px);letter-spacing:-.02em;white-space:nowrap">
+    <div style="display:flex;gap:40px;padding-right:40px;align-items:center"><span>10 g collagen protein</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>150 mg caffeine</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>3 electrolytes</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>#ItsYourMove</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>Q3 2024</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span></div>
+    <div style="display:flex;gap:40px;padding-right:40px;align-items:center"><span>10 g collagen protein</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>150 mg caffeine</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>3 electrolytes</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>#ItsYourMove</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span><span>Q3 2024</span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">✳</span></div>
+  </div>
+</div>
 
-<main>
-
-  <!-- ===== Hero ===== -->
-  <section class="hero" id="top">
-    <img class="hero__img" src="images/sbux/hero-can.jpg" alt="A Protein Coffee can beaded with condensation on a gym bench at golden hour, a wall of sticky notes behind">
-    <div class="hero__shade" aria-hidden="true"></div>
-    <div class="wrap">
-      <p class="kicker">Case study · Creative brand strategy</p>
-      <h1 class="h1">It’s Your <em>Move.</em></h1>
-      <p class="lead hero__sub">Launching <strong>Starbucks Protein Coffee</strong> in Canada with a campaign that doesn’t shout at people to work out — it reminds them it’s okay to lack motivation, and hands them a reason to move.</p>
-      <dl class="meta">
-        <div><dt>Brand</dt><dd>Starbucks (concept)</dd></div>
-        <div><dt>Deliverable</dt><dd>Situation analysis + creative brief</dd></div>
-        <div><dt>Market</dt><dd>Canada</dd></div>
-        <div><dt>Year</dt><dd>2024</dd></div>
-        <div><dt>Team</dt><dd>Group of six</dd></div>
-      </dl>
-      <p class="scroll-cue">Scroll to walk through the campaign ↓</p>
+<!-- OVERVIEW -->
+<section id="overview" data-screen-label="Overview" style="background:#F2F0EB;padding:clamp(80px,12vw,160px) 24px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div data-reveal="" style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:56px">
+      <h2 style="margin:0;font-size:clamp(44px,6.5vw,96px);line-height:.92;letter-spacing:-.045em;font-weight:800">The campaign <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">in 30 seconds.</span></h2>
+      <span style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;font-weight:600">00 — Overview</span>
     </div>
-  </section>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px">
+      <div class="h9" data-reveal="" data-delay="0" style="background:#fff;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:40px;transition:transform .4s"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;color:#00754A;line-height:1">01</span><div><div style="font-weight:700;font-size:20px;margin-bottom:10px">The product</div><p style="margin:0;line-height:1.55;color:#3d564f;text-wrap:pretty">A canned cold coffee with 10 g collagen protein, electrolytes and 150 mg caffeine — $4.99, in grocery stores Q3 2024.</p></div></div>
+      <div class="h10" data-reveal="" data-delay="100" style="background:#1E3932;color:#F2F0EB;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:40px;transition:transform .4s"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;color:#CBA258;line-height:1">02</span><div><div style="font-weight:700;font-size:20px;margin-bottom:10px">The problem</div><p style="margin:0;line-height:1.55;color:#D4E9E2;text-wrap:pretty">4 in 10 Canadians are intimidated by the gym. The barrier isn't energy — it's motivation and fear of judgment.</p></div></div>
+      <div class="h11" data-reveal="" data-delay="200" style="background:#FFE873;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:40px;transition:transform .4s"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1">03</span><div><div style="font-weight:700;font-size:20px;margin-bottom:10px">The idea</div><p style="margin:0;line-height:1.55;text-wrap:pretty">A 'Wall of Motivation' at a downtown Toronto GoodLife gym, where strangers leave sticky-note encouragement for each other.</p></div></div>
+      <div class="h12" data-reveal="" data-delay="300" style="background:#00754A;color:#fff;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:40px;transition:transform .4s"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;color:#D4E9E2;line-height:1">04</span><div><div style="font-weight:700;font-size:20px;margin-bottom:10px">The goal</div><p style="margin:0;line-height:1.55;color:#E9F4F0;text-wrap:pretty">30% awareness among Canadians aged 20–34 and +50% social mentions by the end of Q3 2024.</p></div></div>
+    </div>
+    <div data-reveal="" style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:24px;align-items:end;padding-top:32px;border-top:1.5px solid #1E3932">
+      <div><div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:56px;line-height:1;color:#00754A">1971</div><p style="margin:8px 0 0;line-height:1.5;color:#3d564f">One store in Seattle's Pike Place Market — named after the first mate in <em>Moby-Dick</em>.</p></div>
+      <div><div style="font-size:56px;font-weight:800;letter-spacing:-.05em;line-height:1" data-count="36000" data-suffix="+">36,000+</div><p style="margin:8px 0 0;line-height:1.5;color:#3d564f">stores across 84 countries, and a loyal regular who visits daily.</p></div>
+      <div style="grid-column:span 2;min-width:min(100%,320px)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:10px">The brand we were briefing</div><p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(24px,2.4vw,32px);line-height:1.2;text-wrap:pretty">"To inspire and nurture the human spirit — <span style="color:#00754A;font-style:italic">one person, one cup and one neighbourhood at a time.</span>"</p></div>
+    </div>
+  
+  </div>
+</section>
 
-  <!-- ===== Overview ===== -->
-  <section id="overview">
-    <div class="wrap">
-      <span class="chapter-no">00 — Overview</span>
-      <h2 class="h2 reveal">The campaign<br><span class="outline">in 30 seconds.</span></h2>
-      <div class="tldr reveal">
-        <div><b>The product</b><p>A canned cold coffee with 10 g of collagen protein, electrolytes and 150 mg of caffeine — $4.99, in grocery stores Q3 2024.</p></div>
-        <div><b>The problem</b><p>4 in 10 Canadians are intimidated by the gym. The barrier isn’t energy — it’s motivation and fear of judgment.</p></div>
-        <div><b>The idea</b><p>A ‘Wall of Motivation’ at a downtown Toronto GoodLife gym, where strangers leave sticky-note encouragement for each other.</p></div>
-        <div><b>The goal</b><p>30% awareness among Canadians aged 20–34 and +50% social mentions by the end of Q3 2024.</p></div>
+<!-- PROBLEM -->
+<section id="problem" data-screen-label="Problem" style="background:#0F2A23;color:#F2F0EB;padding:clamp(80px,12vw,160px) 24px;position:relative;overflow:hidden">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258;font-weight:600;margin-bottom:24px">01 — The problem</span>
+    <h2 data-reveal="" style="margin:0;font-size:clamp(52px,9vw,140px);line-height:.88;letter-spacing:-.05em;font-weight:800">Starting is<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#CBA258">the hardest rep.</span></h2>
+    <p data-reveal="" style="max-width:560px;font-size:20px;line-height:1.5;color:#D4E9E2;margin:32px 0 72px;text-wrap:pretty">Canadians want to be active — but walking into a gym can feel overwhelming. The research pointed to a motivation gap, not a fitness gap.</p>
+
+    <div style="display:flex;flex-direction:column">
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px;align-items:center;padding:32px 0;border-top:1px solid rgba(212,233,226,.16)">
+        <div style="font-size:clamp(80px,11vw,160px);font-weight:800;letter-spacing:-.06em;line-height:.8;color:#FFE873" data-count="40" data-suffix="%">40%</div>
+        <div style="display:flex;flex-direction:column;gap:16px"><div style="display:flex;gap:6px"><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FFE873"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FFE873"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FFE873"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FFE873"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span></div><p style="margin:0;font-size:19px;line-height:1.45;color:#D4E9E2">of Canadians are intimidated to work out in a gym.</p></div>
+      </div>
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px;align-items:center;padding:32px 0;border-top:1px solid rgba(212,233,226,.16)">
+        <div style="font-size:clamp(80px,11vw,160px);font-weight:800;letter-spacing:-.06em;line-height:.8;color:#FF9EC7" data-count="38" data-suffix="%">38%</div>
+        <div style="display:flex;flex-direction:column;gap:16px"><div style="display:flex;gap:6px"><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FF9EC7"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FF9EC7"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FF9EC7"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#FF9EC7"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span></div><p style="margin:0;font-size:19px;line-height:1.45;color:#D4E9E2">of them avoid exercising in public because they feel watched and judged.</p></div>
+      </div>
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px;align-items:center;padding:32px 0;border-block:1px solid rgba(212,233,226,.16)">
+        <div style="font-size:clamp(80px,11vw,160px);font-weight:800;letter-spacing:-.06em;line-height:.8;color:#9FE6C3" data-count="33" data-suffix="%">33%</div>
+        <div style="display:flex;flex-direction:column;gap:16px"><div style="display:flex;gap:6px"><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#9FE6C3"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#9FE6C3"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:#9FE6C3"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span><span style="flex:1;height:44px;border-radius:99px 99px 8px 8px;background:rgba(212,233,226,.14)"></span></div><p style="margin:0;font-size:19px;line-height:1.45;color:#D4E9E2">say they don't know what they're doing or where to start.</p><span style="font-size:12px;color:#8fb0a6">Source: Simpson, 2016</span></div>
       </div>
     </div>
-  </section>
 
-  <!-- ===== Problem ===== -->
-  <section id="problem">
-    <div class="wrap">
-      <span class="chapter-no">01 — The problem</span>
-      <h2 class="h2 reveal">Starting is<br><span class="outline">the hardest rep.</span></h2>
-      <p class="lead reveal">Canadians want to be active — but walking into a gym can feel overwhelming. The research pointed to a motivation gap, not a fitness gap.</p>
-      <div class="stats">
-        <p class="reveal"><span class="stat__num" data-count="40">40%</span><span class="stat__txt">of Canadians are intimidated to work out in a gym.</span></p>
-        <p class="reveal"><span class="stat__num" data-count="38">38%</span><span class="stat__txt">of them avoid exercising in public because they feel watched and judged.</span></p>
-        <p class="reveal"><span class="stat__num" data-count="33">33%</span><span class="stat__txt">say they don’t know what they’re doing or where to start.</span></p>
-      </div>
-      <blockquote class="quote reveal"><small>Consumer insight</small>“I’m too tired and don’t feel inspired to get active. If only there was a drink that could give me the motivation to go work out.”</blockquote>
+    <figure data-reveal="" style="margin:96px auto 0;max-width:900px;text-align:center">
+      <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#CBA258;margin-bottom:24px">Consumer insight</div>
+      <blockquote style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(30px,4.2vw,58px);line-height:1.12;letter-spacing:-.01em;text-wrap:balance">"I'm too tired and don't feel inspired to get active. <span style="color:#FFE873;font-style:italic">If only there was a drink that could give me the motivation to go work out.</span>"</blockquote>
+    </figure>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product" data-screen-label="Product" style="background:#D4E9E2;padding:clamp(80px,12vw,160px) 24px">
+  <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:56px;align-items:center">
+    <div data-reveal="" style="position:relative;aspect-ratio:1;border-radius:40px;overflow:hidden;background:#F2F0EB">
+      <div style="position:absolute;inset:0;display:grid;place-items:center;padding:40px;text-align:center;color:#3d564f;font-size:15px;line-height:1.5;border:2px dashed rgba(30,57,50,.25);border-radius:40px">Packaging shot — matte-white can, dark-green “PROTEIN COFFEE”, 10 g protein badge, warm-cream background</div>
+      <div style="position:absolute;top:20px;right:20px;background:#1E3932;color:#F2F0EB;border-radius:99px;padding:8px 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;pointer-events:none">355 ml · shelf-stable</div>
     </div>
-  </section>
+    <div>
+      <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;font-weight:600;margin-bottom:24px">02 — The product</span>
+      <h2 data-reveal="" style="margin:0;font-size:clamp(48px,6.5vw,96px);line-height:.9;letter-spacing:-.05em;font-weight:800">Coffee that <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">pulls its weight.</span></h2>
+      <p data-reveal="" style="font-size:19px;line-height:1.5;margin:24px 0 36px;color:#2d4a42;text-wrap:pretty">A lightly sweetened, shelf-stable canned cold coffee built for active days.</p>
+      <div data-reveal="" style="background:#fff;border:3px solid #1E3932;border-radius:8px;padding:16px 20px;box-shadow:10px 10px 0 #1E3932;max-width:460px">
+        <div style="font-weight:800;font-size:34px;letter-spacing:-.03em;border-bottom:10px solid #1E3932;padding-bottom:6px">Motivation Facts</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid #1E3932;padding:12px 0"><span><strong>Collagen protein</strong><br><span style="font-size:13px;color:#3d564f">fast-absorbing recovery, good for skin</span></span><strong style="font-size:30px;letter-spacing:-.03em" data-count="10" data-suffix=" g">10 g</strong></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid #1E3932;padding:12px 0"><span><strong>Caffeine</strong><br><span style="font-size:13px;color:#3d564f">under Health Canada's 180 mg cap</span></span><strong style="font-size:30px;letter-spacing:-.03em" data-count="150" data-suffix=" mg">150 mg</strong></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:6px solid #1E3932;padding:12px 0"><span><strong>Electrolytes</strong><br><span style="font-size:13px;color:#3d564f">sodium, magnesium, potassium</span></span><strong style="font-size:30px;letter-spacing:-.03em" data-count="3">3</strong></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0 4px"><span><strong>Price per can</strong><br><span style="font-size:13px;color:#3d564f">grocery stores nationwide, Q3 2024</span></span><strong style="font-size:30px;letter-spacing:-.03em;color:#00754A" data-count="4.99" data-prefix="$" data-decimals="2">$4.99</strong></div>
+      </div>
+      <p data-reveal="" style="margin:36px 0 0;font-size:16px;line-height:1.6;color:#2d4a42;max-width:480px;text-wrap:pretty"><strong style="color:#1E3932">Why collagen?</strong> It absorbs quickly to support muscle recovery and is known for skin benefits — two things whey and most other protein sources can't both claim — which broadens the drink beyond hardcore gym-goers.</p>
+      <div data-reveal="" style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:520px">
+        <div style="background:#F2F0EB;border-radius:20px;padding:18px"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:8px">Complete protein</div><p style="margin:0;font-size:15px;line-height:1.45">10 g collagen peptides + tryptophan</p></div>
+        <div style="background:#F2F0EB;border-radius:20px;padding:18px"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:8px">Electrolyte blend</div><p style="margin:0;font-size:15px;line-height:1.45">130 mg sodium · 2 mg magnesium citrate · 30 mg potassium</p></div>
+        <div style="background:#1E3932;color:#F2F0EB;border-radius:20px;padding:18px;grid-column:1/-1"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258;margin-bottom:8px">Launch plan</div><p style="margin:0;font-size:15px;line-height:1.45">Ready-to-drink protein, in a can. Nationwide in grocery stores in Q3 2024, alongside an awareness campaign with GoodLife Fitness.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- ===== Product ===== -->
-  <section id="product">
-    <div class="wrap split">
-      <figure class="ph r-4x5 reveal" data-ratio="4:5">
-        <figcaption><b>Packaging hero.</b>Studio product shot of a matte-white 355 ml can with dark-green lettering reading “PROTEIN COFFEE” and a “10g PROTEIN” badge, on a seamless warm-cream background with a soft shadow.</figcaption>
+<!-- WHY NOW -->
+<section id="market" data-screen-label="Why now" style="background:#F2F0EB;padding:clamp(80px,12vw,160px) 24px;overflow:hidden">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;font-weight:600;margin-bottom:24px">03 — Why now</span>
+    <h2 data-reveal="" style="margin:0;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em;font-weight:800">The culture was<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">already mixing it.</span></h2>
+    <p data-reveal="" style="max-width:560px;font-size:19px;line-height:1.5;margin:28px 0 56px;color:#2d4a42;text-wrap:pretty">Protein, caffeine and social media were converging. 'Proffee' was already a TikTok trend — Starbucks just had to bottle it.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px">
+      <div class="h13" data-reveal="" data-delay="0" style="position:relative;border-radius:28px;padding:28px;background:#1E3932;color:#F2F0EB;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Protein hype</div><div><div style="font-size:84px;font-weight:800;letter-spacing:-.06em;line-height:.9" data-count="46" data-suffix="%">46%</div><p style="margin:12px 0 0;line-height:1.5;color:#D4E9E2">of Americans regularly use protein supplements to support their fitness.</p></div></div>
+      <div class="h14" data-reveal="" data-delay="100" style="position:relative;border-radius:28px;padding:28px;background:#00754A;color:#fff;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#D4E9E2">Caffeine as a boost</div><div><div style="font-size:84px;font-weight:800;letter-spacing:-.06em;line-height:.9">#3</div><p style="margin:12px 0 0;line-height:1.5;color:#E9F4F0">Canada is the world's third-largest brewed-coffee consumer, at ~1.5 cups a day.</p></div></div>
+      <div class="h15" data-reveal="" data-delay="200" style="position:relative;border-radius:28px;padding:28px;background:#CBA258;color:#1E3932;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase">A younger drinker</div><div><div style="font-size:84px;font-weight:800;letter-spacing:-.06em;line-height:.9">18–24</div><p style="margin:12px 0 0;line-height:1.5">is the fastest-growing coffee-drinking age group — they buy out of home and prefer cold brew.</p></div></div>
+      <div class="h16" data-reveal="" data-delay="300" style="position:relative;border-radius:28px;padding:28px;background:#fff;color:#1E3932;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;border:1px solid rgba(30,57,50,.12);transition:transform .5s cubic-bezier(.2,.8,.2,1)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A">Social experimentation</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin:16px 0"><span style="padding:6px 12px;border-radius:99px;background:#FFE873;font-weight:600;font-size:14px;rotate:-3deg">#dalgona</span><span style="padding:6px 12px;border-radius:99px;background:#FF9EC7;font-weight:600;font-size:14px;rotate:2deg">#ketocoffee</span><span style="padding:6px 12px;border-radius:99px;background:#9FE6C3;font-weight:600;font-size:14px;rotate:-1deg">#proffee</span></div><div><div style="font-size:64px;font-weight:800;letter-spacing:-.05em;line-height:.9">TikTok</div><p style="margin:12px 0 0;line-height:1.5;color:#3d564f">had people ordering drinks because they saw them on social.</p></div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;margin-top:16px">
+      <div data-reveal="" style="border-radius:28px;padding:28px;background:#D4E9E2"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A">Big spenders</div><div style="font-size:56px;font-weight:800;letter-spacing:-.05em;line-height:1;margin:14px 0 8px" data-count="35.21" data-prefix="$" data-decimals="2">$35.21</div><p style="margin:0;line-height:1.5;color:#2d4a42">a month on coffee per Canadian drinker — highest in B.C., Ontario and Alberta.</p></div>
+      <div data-reveal="" data-delay="100" style="border-radius:28px;padding:28px;background:#D4E9E2"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A">Plant-based appetite</div><div style="font-size:56px;font-weight:800;letter-spacing:-.05em;line-height:1;margin:14px 0 8px">$42.55B</div><p style="margin:0;line-height:1.5;color:#2d4a42">forecast plant-based market by 2034, led by urban 18–29s chasing ethical choices.</p></div>
+      <div data-reveal="" data-delay="200" style="border-radius:28px;padding:28px;background:#D4E9E2"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A">Starts young</div><div style="font-size:56px;font-weight:800;letter-spacing:-.05em;line-height:1;margin:14px 0 8px" data-count="40" data-suffix="%">40%</div><p style="margin:0;line-height:1.5;color:#2d4a42">of high-school boys already use protein powders or shakes.</p></div>
+    </div>
+
+    <div data-reveal="" style="margin-top:72px;border-radius:36px;padding:clamp(24px,4vw,48px);background:#1E3932;color:#F2F0EB">
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:32px"><h3 style="margin:0;font-size:clamp(32px,4vw,56px);letter-spacing:-.04em;line-height:.95;font-weight:800">Headwinds <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#CBA258">we planned around.</span></h3><span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">External factors</span></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:28px">
+        <div><div style="font-weight:700;font-size:18px;margin-bottom:8px">Economic</div><p style="margin:0;line-height:1.55;color:#D4E9E2">With a recession looming, 62% of Canadians are eating out less and 46% are switching to cheaper brands. Droughts in Brazil and Colombia pushed coffee prices to multi-year highs.</p></div>
+        <div><div style="font-weight:700;font-size:18px;margin-bottom:8px">Political</div><p style="margin:0;line-height:1.55;color:#D4E9E2">Boycott calls had already slowed Starbucks' sales in early 2024 — and 71% of Canadians want to know where their food comes from, so ethical sourcing has to be airtight.</p></div>
+        <div><div style="font-weight:700;font-size:18px;margin-bottom:8px">Legal</div><p style="margin:0;line-height:1.55;color:#D4E9E2">Health Canada caps caffeine at 180 mg per serving, and caffeinated drinks can't be sold as sports electrolyte replacements — so the message stays on lifestyle, not performance claims.</p></div>
+      </div>
+    </div>
+  
+  </div>
+</section>
+
+<!-- COMPETITION -->
+<section id="competition" data-screen-label="Competition" style="background:#1E3932;color:#F2F0EB;padding:clamp(80px,12vw,160px) 24px">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258;font-weight:600;margin-bottom:24px">04 — The competition</span>
+    <h2 data-reveal="" style="margin:0;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em;font-weight:800">Win on lifestyle,<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#CBA258">not ingredients.</span></h2>
+    <p data-reveal="" style="max-width:600px;font-size:19px;line-height:1.5;margin:28px 0 64px;color:#D4E9E2;text-wrap:pretty">The shelf was crowded with sports-nutrition brands competing on formulas. Starbucks had something they didn't: brand love and a café on every corner.</p>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div data-reveal="" style="display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:20px;align-items:center"><div><div style="font-weight:700;font-size:18px">BioSteel</div><div style="font-size:13px;color:#a9c4bb">Science-backed performance</div></div><div style="height:56px;border-radius:14px;background:rgba(212,233,226,.08);overflow:hidden"><div data-bar="37%" style="height:100%;width:0;background:rgba(212,233,226,.28);border-radius:14px;display:flex;align-items:center;justify-content:flex-end;padding-right:16px;box-sizing:border-box;font-weight:700;transition:width 1.4s cubic-bezier(.2,.8,.2,1)">$2.99</div></div></div>
+      <div data-reveal="" style="display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:20px;align-items:center"><div><div style="font-weight:700;font-size:18px">Vega</div><div style="font-size:13px;color:#a9c4bb">Plant-based, clean-label</div></div><div style="height:56px;border-radius:14px;background:rgba(212,233,226,.08);overflow:hidden"><div data-bar="44%" style="height:100%;width:0;background:rgba(212,233,226,.28);border-radius:14px;display:flex;align-items:center;justify-content:flex-end;padding-right:16px;box-sizing:border-box;font-weight:700;transition:width 1.4s cubic-bezier(.2,.8,.2,1) .1s">$3.49</div></div></div>
+      <div data-reveal="" style="display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:20px;align-items:center"><div><div style="font-weight:700;font-size:18px">Celsius</div><div style="font-size:13px;color:#a9c4bb">Thermogenic workout energy</div></div><div style="height:56px;border-radius:14px;background:rgba(212,233,226,.08);overflow:hidden"><div data-bar="37%" style="height:100%;width:0;background:rgba(212,233,226,.28);border-radius:14px;display:flex;align-items:center;justify-content:flex-end;padding-right:16px;box-sizing:border-box;font-weight:700;transition:width 1.4s cubic-bezier(.2,.8,.2,1) .2s">$2.99</div></div></div>
+      <div data-reveal="" style="display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:20px;align-items:center"><div><div style="font-weight:800;font-size:18px;color:#FFE873">Starbucks Protein Coffee</div><div style="font-size:13px;color:#D4E9E2">Everyday coffee, more rewarding</div></div><div style="height:56px;border-radius:14px;background:rgba(212,233,226,.08);overflow:hidden;position:relative"><div data-bar="62%" style="height:100%;width:0;background:linear-gradient(90deg,#00754A,#2fae7c);border-radius:14px;display:flex;align-items:center;justify-content:flex-end;padding-right:16px;box-sizing:border-box;font-weight:800;box-shadow:0 0 40px rgba(0,117,74,.6);transition:width 1.6s cubic-bezier(.2,.8,.2,1) .35s">$4.99</div><div style="position:absolute;top:0;bottom:0;left:87%;width:2px;background:repeating-linear-gradient(#CBA258 0 4px,transparent 4px 8px)"></div></div></div>
+      <div style="display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:20px"><div></div><div style="position:relative;height:20px;font-size:12px;color:#CBA258;letter-spacing:.08em;text-transform:uppercase"><span style="position:absolute;left:87%;transform:translateX(-50%);white-space:nowrap">$7–8 ceiling</span></div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;margin-top:64px">
+      <div data-reveal="" style="border-radius:28px;padding:32px;border:1px dashed rgba(212,233,226,.3)"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="width:28px;height:28px;border-radius:99px;display:grid;place-items:center;background:rgba(255,158,199,.18);color:#FF9EC7;font-weight:800">✕</span><h3 style="margin:0;font-size:22px">Product differentiation</h3></div><p style="margin:0;line-height:1.6;color:#a9c4bb;text-wrap:pretty">Leading with protein, electrolytes and collagen turns the drink into a spec sheet — and "exercise performance coffee" doesn't give people a picture to hold onto.</p></div>
+      <div data-reveal="" data-delay="120" style="border-radius:28px;padding:32px;background:#F2F0EB;color:#1E3932"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="width:28px;height:28px;border-radius:99px;display:grid;place-items:center;background:#00754A;color:#fff;font-weight:800">✓</span><h3 style="margin:0;font-size:22px">Lifestyle positioning</h3></div><p style="margin:0;line-height:1.6;color:#2d4a42;text-wrap:pretty">Show the drink inside an active, everyday life. It lets Starbucks start associating its brand with healthy living — reaching people who don't yet see it as a healthy option.</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin-top:16px">
+      <div data-reveal="" style="border-radius:24px;padding:24px;background:rgba(212,233,226,.06)"><div style="font-weight:700;margin-bottom:8px">BioSteel</div><p style="margin:0;line-height:1.55;color:#a9c4bb;font-size:15px">Wins with pro-athlete endorsements and team sponsorships, sold everywhere from gyms to grocery.</p></div>
+      <div data-reveal="" data-delay="100" style="border-radius:24px;padding:24px;background:rgba(212,233,226,.06)"><div style="font-weight:700;margin-bottom:8px">Vega</div><p style="margin:0;line-height:1.55;color:#a9c4bb;font-size:15px">Wins on organic, non-GMO clean labels and content that teaches the benefits of plant-based nutrition.</p></div>
+      <div data-reveal="" data-delay="200" style="border-radius:24px;padding:24px;background:rgba(212,233,226,.06)"><div style="font-weight:700;margin-bottom:8px">Celsius</div><p style="margin:0;line-height:1.55;color:#a9c4bb;font-size:15px">Wins with "burn fat, boost metabolism" claims, gym partnerships and fitness influencers.</p></div>
+    </div>
+    <h3 data-reveal="" style="margin:72px 0 20px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258">Why $4.99</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px">
+      <p data-reveal="" style="margin:0;line-height:1.6;color:#D4E9E2"><strong style="color:#F2F0EB">Shelf logic.</strong> Starbucks prices its Doubleshot Energy and Frappuccino cans identically ($3.79–$4.49) to compete side by side — Protein Coffee follows the same playbook.</p>
+      <p data-reveal="" data-delay="100" style="margin:0;line-height:1.6;color:#D4E9E2"><strong style="color:#F2F0EB">Room at the top.</strong> Wellness buyers already pay premium — Athletic Greens sells for $100+ a bag — so under-pricing would undersell the brand.</p>
+      <p data-reveal="" data-delay="200" style="margin:0;line-height:1.6;color:#D4E9E2"><strong style="color:#F2F0EB">A new market.</strong> Health is new ground for Starbucks; anything over $7–8 a can would scare off first-time buyers.</p>
+    </div>
+    <p data-reveal="" style="margin:40px 0 0;max-width:760px;line-height:1.6;color:#D4E9E2;text-wrap:pretty">Pricing at <strong style="color:#FFE873">$4.99</strong> sits $1–2 above competitors — what customers will pay for the Starbucks name — while matching the brand's other canned drinks and staying well below the $7–8 ceiling for a single can.</p>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section id="audience" data-screen-label="Audience" style="background:#F2F0EB;padding:clamp(80px,12vw,160px) 24px">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;font-weight:600;margin-bottom:24px">05 — The audience</span>
+    <h2 data-reveal="" style="margin:0;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em;font-weight:800">Meet the person<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">we're talking to.</span></h2>
+    <p data-reveal="" style="max-width:600px;font-size:19px;line-height:1.5;margin:28px 0 64px;color:#2d4a42;text-wrap:pretty">Canadians aged 20–34 who want a more active life but feel unsure where to start — alongside Starbucks' existing loyal, health-conscious regulars.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px;align-items:start">
+      <figure data-reveal="" style="margin:0;position:relative">
+        <div class="h17" style="border-radius:32px;overflow:hidden;aspect-ratio:4/5;transition:transform .8s cubic-bezier(.2,.8,.2,1)"><img src="images/sbux/persona.jpg" alt="A young woman in a green jacket and tennis skirt leaves a downtown Toronto building with a can and her dog" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="position:absolute;right:-12px;bottom:56px;background:#FFE873;font-family:Caveat,cursive;font-size:24px;font-weight:700;padding:14px 18px 20px;rotate:6deg;box-shadow:0 14px 24px rgba(0,0,0,.18);max-width:170px;line-height:1.05">tennis bag, dog, protein coffee ✓</div>
+        <figcaption style="margin-top:14px;font-size:14px;color:#3d564f">Alissa on her way out — tennis bag, dog, a protein coffee in hand.</figcaption>
       </figure>
-      <div>
-        <span class="chapter-no">02 — The product</span>
-        <h2 class="h2 reveal">Coffee that<br><span class="outline">pulls its weight.</span></h2>
-        <p class="lead reveal">Starbucks Protein Coffee: a lightly sweetened, shelf-stable canned cold coffee built for active days.</p>
-        <div class="specs reveal">
-          <div class="spec"><b>10 g</b><span>collagen protein — fast-absorbing for recovery, and good for skin</span></div>
-          <div class="spec"><b>150 mg</b><span>caffeine from coffee, under Health Canada’s 180 mg cap</span></div>
-          <div class="spec"><b>3</b><span>electrolytes — sodium, magnesium and potassium for hydration</span></div>
-          <div class="spec"><b>$4.99</b><span>per can, launching in grocery stores nationwide in Q3 2024</span></div>
+      <div data-reveal="" data-delay="150">
+        <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:10px">Customer profile</div>
+        <h3 style="margin:0;font-size:clamp(40px,4.5vw,64px);letter-spacing:-.04em;line-height:1;font-weight:800">Alissa Rayner, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">25</span></h3>
+        <p style="margin:12px 0 24px;color:#3d564f;line-height:1.5">Social media manager at a Toronto athleisure brand · lives downtown</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px">
+          <span style="padding:8px 14px;border-radius:99px;background:#1E3932;color:#F2F0EB;font-size:14px;font-weight:600">Achiever</span>
+          <span style="padding:8px 14px;border-radius:99px;background:#1E3932;color:#F2F0EB;font-size:14px;font-weight:600">Experiencer</span>
+          <span style="padding:8px 14px;border-radius:99px;border:1.5px solid #1E3932;font-size:14px;font-weight:600">Urban</span>
+          <span style="padding:8px 14px;border-radius:99px;border:1.5px solid #1E3932;font-size:14px;font-weight:600">Health &amp; fitness-conscious</span>
+          <span style="padding:8px 14px;border-radius:99px;border:1.5px solid #1E3932;font-size:14px;font-weight:600">Values quality &amp; convenience</span>
         </div>
-        <p class="body why reveal"><strong style="color:var(--ink)">Why collagen?</strong> It absorbs quickly to support muscle recovery and is known for skin benefits — two things whey and most other protein sources can’t both claim — which broadens the drink beyond hardcore gym-goers.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Market ===== -->
-  <section id="market">
-    <div class="wrap">
-      <span class="chapter-no">03 — Why now</span>
-      <h2 class="h2 reveal">The culture was<br><span class="outline">already mixing it.</span></h2>
-      <p class="lead reveal">Protein, caffeine and social media were converging. ‘Proffee’ was already a TikTok trend — Starbucks just had to bottle it.</p>
-      <div class="cards">
-        <article class="card reveal"><span class="card__big">46%</span><p>of Americans regularly use protein supplements to support their fitness.</p><h4>Protein hype</h4></article>
-        <article class="card reveal"><span class="card__big">#3</span><p>Canada is the world’s third-largest brewed-coffee consumer, at ~1.5 cups a day — the perfect delivery system.</p><h4>Caffeine as a boost</h4></article>
-        <article class="card reveal"><span class="card__big">18–24</span><p>is the fastest-growing coffee-drinking age group — they buy out of home and prefer cold brew.</p><h4>A younger drinker</h4></article>
-        <article class="card reveal"><span class="card__big">TikTok</span><p>Dalgona, keto coffee and ‘proffee’ trends had people ordering drinks because they saw them on social.</p><h4>Social experimentation</h4></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Competition ===== -->
-  <section id="competition">
-    <div class="wrap">
-      <span class="chapter-no">04 — The competition</span>
-      <h2 class="h2 reveal">Win on lifestyle,<br><span class="outline">not ingredients.</span></h2>
-      <p class="lead reveal">The shelf was crowded with sports-nutrition brands competing on formulas. Starbucks had something they didn’t: brand love and a café on every corner.</p>
-      <table class="compare reveal">
-        <thead><tr><th>Brand</th><th>Product</th><th>Price (CAD)</th><th>Positioning</th></tr></thead>
-        <tbody>
-          <tr><td>BioSteel</td><td>Sports drink</td><td class="price">$2.99</td><td>Premium, science-backed performance for athletes</td></tr>
-          <tr><td>Vega</td><td>Protein shake</td><td class="price">$3.49</td><td>Plant-based, clean-label nutrition</td></tr>
-          <tr><td>Celsius</td><td>Fitness drink</td><td class="price">$2.99</td><td>Thermogenic energy for workouts</td></tr>
-          <tr class="us"><td>Starbucks Protein Coffee</td><td>Protein cold coffee</td><td class="price">$4.99</td><td>An everyday coffee that makes any active moment more rewarding</td></tr>
-        </tbody>
-      </table>
-      <div class="positioning">
-        <div class="pos pos--no reveal"><h3 class="h3">Product differentiation</h3><p class="body">Leading with protein, electrolytes and collagen turns the drink into a spec sheet — and “exercise performance coffee” doesn’t give people a picture to hold onto.</p></div>
-        <div class="pos pos--yes reveal"><h3 class="h3">Lifestyle positioning</h3><p class="body">Show the drink inside an active, everyday life. It lets Starbucks start associating its brand with healthy living — reaching people who don’t yet see it as a healthy option.</p></div>
-      </div>
-      <p class="body reveal" style="margin-top:28px">Pricing at <strong style="color:var(--ink)">$4.99</strong> sits $1–2 above competitors — what customers will pay for the Starbucks name — while matching the brand’s other canned drinks and staying well below the $7–8 ceiling for a single can.</p>
-    </div>
-  </section>
-
-  <!-- ===== Audience ===== -->
-  <section id="audience">
-    <div class="wrap">
-      <span class="chapter-no">05 — The audience</span>
-      <h2 class="h2 reveal">Meet the person<br><span class="outline">we’re talking to.</span></h2>
-      <p class="lead reveal">Canadians aged 20–34 who want a more active life but feel unsure where to start — alongside Starbucks’ existing loyal, health-conscious regulars.</p>
-      <div class="persona">
-        <figure class="shot r-4x5 reveal"><img src="images/sbux/persona.jpg" alt="A young woman in a green jacket and tennis skirt leaves a downtown Toronto building with a can and her dog" loading="lazy"><figcaption>Alissa on her way out — tennis bag, dog, a protein coffee in hand.</figcaption></figure>
-        <div class="persona__card reveal">
-          <p class="kicker" style="margin-bottom:10px">Customer profile</p>
-          <h3 class="persona__name">Alissa Rayner, 25</h3>
-          <p class="persona__role">Social media manager at a Toronto athleisure brand · lives downtown</p>
-          <ul class="chips"><li>Achiever</li><li>Experiencer</li><li>Urban</li><li>Health &amp; fitness-conscious</li><li>Values quality &amp; convenience</li></ul>
-          <div class="cols">
-            <div>
-              <h4>What she loves</h4>
-              <ul><li>Tennis, dog walks and trying new fitness classes</li><li>Coffee and smoothies before and after workouts</li><li>Clean ingredients — and pays more for quality</li><li>Aesthetic, clean packaging</li></ul>
-            </div>
-            <div>
-              <h4>What turns her off</h4>
-              <ul><li>Brands that feel disingenuous</li><li>Tackiness</li><li>Artificial ingredients</li><li>Products with bad buzz on TikTok or Instagram</li></ul>
-            </div>
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+          <div style="background:#D4E9E2;border-radius:24px;padding:24px"><h4 style="margin:0 0 14px;font-size:17px;display:flex;align-items:center;gap:8px"><span style="color:#00754A;font-size:22px">♥</span>What she loves</h4><div style="display:flex;flex-direction:column;gap:10px;line-height:1.45;font-size:15px"><span>Tennis, dog walks and trying new fitness classes</span><span>Coffee and smoothies before and after workouts</span><span>Clean ingredients — and pays more for quality</span><span>Aesthetic, clean packaging</span></div></div>
+          <div style="background:#fff;border-radius:24px;padding:24px;border:1px solid rgba(30,57,50,.12)"><h4 style="margin:0 0 14px;font-size:17px;display:flex;align-items:center;gap:8px"><span style="color:#d0477f;font-size:20px">✕</span>What turns her off</h4><div style="display:flex;flex-direction:column;gap:10px;line-height:1.45;font-size:15px;color:#3d564f"><span>Brands that feel disingenuous</span><span>Tackiness</span><span>Artificial ingredients</span><span>Products with bad buzz on TikTok or Instagram</span></div></div>
         </div>
       </div>
     </div>
-  </section>
+    <div data-reveal="" style="margin-top:72px">
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px"><h3 style="margin:0;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.03em;line-height:1;font-weight:800">Health-conscious <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">wellness enthusiasts.</span></h3><span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A">Segment chart</span></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px">
+        <div style="border-radius:24px;padding:22px;background:#fff;border:1px solid rgba(30,57,50,.12)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:10px">Geographic</div><p style="margin:0;line-height:1.5">North America · urban and suburban</p></div>
+        <div style="border-radius:24px;padding:22px;background:#fff;border:1px solid rgba(30,57,50,.12)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:10px">Demographic</div><p style="margin:0;line-height:1.5">Ages 20–34 · men and women</p></div>
+        <div style="border-radius:24px;padding:22px;background:#fff;border:1px solid rgba(30,57,50,.12)"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:10px">Psychographic</div><p style="margin:0;line-height:1.5">Achievers and experiencers · health- and fitness-conscious</p></div>
+        <div style="border-radius:24px;padding:22px;background:#1E3932;color:#F2F0EB"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258;margin-bottom:10px">Behavioural</div><p style="margin:0;line-height:1.5">Want quality and convenience · first-time users · strong loyalty · informed, interested and enthusiastic</p></div>
+      </div>
+      <p style="margin:20px 0 0;max-width:720px;line-height:1.6;color:#3d564f">Starbucks' current regulars — 22 to 60, urban and suburban, educated, socially aware and in the habit of a daily visit — are the second audience: loyal enough to try anything new the brand launches.</p>
+    </div>
+  
+  </div>
+</section>
 
-  <!-- ===== SWOT ===== -->
-  <section id="swot">
-    <div class="wrap">
-      <span class="chapter-no">06 — SWOT</span>
-      <h2 class="h2 reveal">Where Starbucks<br><span class="outline">stands.</span></h2>
-      <div class="swot reveal">
-        <div><h4><span>S</span>Strengths</h4><ul><li>High brand recognition and loyal customers</li><li>Known for innovation and quality coffee</li><li>Existing café and grocery distribution</li><li>Recyclable aluminium cans</li></ul></div>
-        <div><h4><span>W</span>Weaknesses</h4><ul><li>Coffee lovers and fitness fans are sceptical audiences</li><li>Risk of confusion about ingredients and benefits</li><li>Brand dilution if seen as low quality</li><li>Premium price point</li></ul></div>
-        <div><h4><span>O</span>Opportunities</h4><ul><li>New occasions: breakfast, pre/post-workout</li><li>Seasonal flavours that mirror the café menu</li><li>Competitors are often very high in sugar</li><li>Partnerships with gyms, brands and creators</li><li>‘Proffee’ already familiar from social media</li></ul></div>
-        <div><h4><span>T</span>Threats</h4><ul><li>Big energy-drink brands on the same shelf</li><li>Many substitutes — needs strong differentiation</li><li>Coffee supply-chain costs</li><li>Recession squeezing RTD spending</li><li>Changing caffeine regulation</li></ul></div>
+<!-- SWOT -->
+<section id="swot" data-screen-label="SWOT" style="background:#D4E9E2;padding:clamp(80px,12vw,160px) 24px">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;font-weight:600;margin-bottom:24px">06 — SWOT</span>
+    <h2 data-reveal="" style="margin:0 0 56px;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em;font-weight:800">Where Starbucks <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">stands.</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+      <div data-reveal="" style="position:relative;overflow:hidden;border-radius:32px;padding:32px;background:#1E3932;color:#F2F0EB;min-height:300px"><div style="position:absolute;right:-10px;top:-50px;font-size:280px;font-weight:800;line-height:1;color:rgba(212,233,226,.07);letter-spacing:-.06em;pointer-events:none">S</div><h3 style="margin:0 0 20px;font-size:28px;letter-spacing:-.02em;position:relative">Strengths</h3><div style="display:flex;flex-direction:column;gap:12px;position:relative;line-height:1.45;color:#D4E9E2"><span>▸ High brand recognition and loyal customers</span><span>▸ Known for innovation and quality coffee</span><span>▸ Existing café and grocery distribution</span><span>▸ Recyclable aluminium cans</span></div></div>
+      <div data-reveal="" data-delay="100" style="position:relative;overflow:hidden;border-radius:32px;padding:32px;background:#fff;min-height:300px"><div style="position:absolute;right:-10px;top:-50px;font-size:280px;font-weight:800;line-height:1;color:rgba(30,57,50,.06);letter-spacing:-.06em;pointer-events:none">W</div><h3 style="margin:0 0 20px;font-size:28px;letter-spacing:-.02em;position:relative">Weaknesses</h3><div style="display:flex;flex-direction:column;gap:12px;position:relative;line-height:1.45;color:#3d564f"><span>▸ Coffee lovers and fitness fans are sceptical audiences</span><span>▸ Risk of confusion about ingredients and benefits</span><span>▸ Brand dilution if seen as low quality</span><span>▸ Premium price point</span></div></div>
+      <div data-reveal="" style="position:relative;overflow:hidden;border-radius:32px;padding:32px;background:#00754A;color:#fff;min-height:300px"><div style="position:absolute;right:-10px;top:-50px;font-size:280px;font-weight:800;line-height:1;color:rgba(255,255,255,.09);letter-spacing:-.06em;pointer-events:none">O</div><h3 style="margin:0 0 20px;font-size:28px;letter-spacing:-.02em;position:relative">Opportunities</h3><div style="display:flex;flex-direction:column;gap:12px;position:relative;line-height:1.45;color:#E9F4F0"><span>▸ New occasions: breakfast, pre/post-workout</span><span>▸ Seasonal flavours that mirror the café menu</span><span>▸ Competitors are often very high in sugar</span><span>▸ Partnerships with gyms, brands and creators</span><span>▸ 'Proffee' already familiar from social media</span></div></div>
+      <div data-reveal="" data-delay="100" style="position:relative;overflow:hidden;border-radius:32px;padding:32px;background:#CBA258;min-height:300px"><div style="position:absolute;right:-10px;top:-50px;font-size:280px;font-weight:800;line-height:1;color:rgba(30,57,50,.09);letter-spacing:-.06em;pointer-events:none">T</div><h3 style="margin:0 0 20px;font-size:28px;letter-spacing:-.02em;position:relative">Threats</h3><div style="display:flex;flex-direction:column;gap:12px;position:relative;line-height:1.45"><span>▸ Big energy-drink brands on the same shelf</span><span>▸ Many substitutes — needs strong differentiation</span><span>▸ Coffee supply-chain costs</span><span>▸ Recession squeezing RTD spending</span><span>▸ Changing caffeine regulation</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG IDEA / WALL -->
+<section id="idea" data-screen-label="Big idea" style="background:#0F2A23;color:#F2F0EB;padding:clamp(80px,12vw,160px) 24px;overflow:hidden">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#CBA258;font-weight:600;margin-bottom:24px">07 — The big idea</span>
+    <h2 data-reveal="" style="margin:0;font-size:clamp(52px,8.5vw,136px);line-height:.88;letter-spacing:-.05em;font-weight:800">A wall built<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#FFE873">from encouragement.</span></h2>
+    <p data-reveal="" style="max-width:640px;font-size:19px;line-height:1.55;margin:28px 0 48px;color:#D4E9E2;text-wrap:pretty">Outside a high-traffic GoodLife Fitness in downtown Toronto — with a Starbucks nearby — we put up a <strong style="color:#F2F0EB">Wall of Motivation</strong>. Passers-by, gym-goers and people deciding whether to go in leave sticky notes for each other. Together they make a rainbow of motivation.</p>
+
+    <div data-reveal="" style="position:relative;border-radius:36px;padding:clamp(20px,4vw,48px);background:#E9E4D8;background-image:radial-gradient(rgba(30,57,50,.09) 1px,transparent 1px);background-size:14px 14px;color:#1E3932;box-shadow:inset 0 2px 30px rgba(0,0,0,.12)">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px">
+        <div style="display:flex;align-items:center;gap:10px;font-weight:700"><span style="width:10px;height:10px;border-radius:99px;background:#d0477f;animation:blink 1.4s infinite"></span>Live wall · <span id="note-count">10</span> notes</div>
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;color:#00754A">#ItsYourMove</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:18px;justify-content:center;min-height:300px;align-content:flex-start">
+        <template id="note-tpl"><div class="h18" style="width:clamp(130px,16vw,170px);aspect-ratio:1;box-sizing:border-box;padding:18px 16px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Caveat,cursive;font-weight:700;font-size:clamp(22px,2.2vw,28px);line-height:1.05;overflow-wrap:anywhere;box-shadow:0 12px 20px rgba(30,57,50,.18);animation:slap .55s cubic-bezier(.2,.8,.2,1) both;transition:transform .3s cubic-bezier(.2,.8,.2,1);cursor:default;"></div></template><div id="notes" style="display:contents"></div>
+      </div>
+      <form id="note-form" style="margin:32px auto 0;max-width:560px;display:flex;gap:8px;background:#fff;border-radius:99px;padding:6px;box-shadow:0 10px 30px rgba(30,57,50,.14)">
+        <input id="note-input" aria-label="Your note" maxlength="40" placeholder="Leave a note for a stranger…" style="flex:1;min-width:0;border:0;outline:0;background:transparent;padding:0 18px;font:inherit;font-size:16px;color:#1E3932;height:48px">
+        <button class="h19 h20" type="submit" style="border:0;border-radius:99px;padding:0 22px;height:48px;background:#00754A;color:#fff;font:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:transform .2s,background .2s;white-space:nowrap">Stick it ↗</button>
+      </form>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:40px;align-items:center;margin-top:80px">
+      <figure data-reveal="" style="margin:0"><div style="border-radius:32px;overflow:hidden;aspect-ratio:4/3"><img src="images/sbux/wall-reading.jpg" alt="A young man smiling as he reads a street wall covered in colourful sticky notes" style="width:100%;height:100%;object-fit:cover;display:block"></div><figcaption style="margin-top:14px;font-size:14px;color:#a9c4bb">The Wall of Motivation — strangers stopping to read encouragement left by other people.</figcaption></figure>
+      <div data-reveal="" data-delay="150" style="display:flex;flex-direction:column;gap:20px">
+        <p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(26px,2.8vw,38px);line-height:1.2;text-wrap:pretty">The messages don't stay on the wall. They're printed on the cans and become the copy for every ad — <span style="color:#FFE873;font-style:italic">so the people who joined the campaign literally write it.</span></p>
+        <p style="margin:0;line-height:1.6;color:#a9c4bb">No product sampling at the event: the wall, notes and materials carry the Starbucks logo and hashtag, keeping it about encouragement, not a sales pitch.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ===== Big idea ===== -->
-  <section class="idea" id="idea">
-    <div class="wrap">
-      <span class="chapter-no" style="color:rgba(30,57,50,.6)">07 — The big idea</span>
-      <h2 class="h2 reveal">A wall built<br>from encouragement.</h2>
-      <p class="lead reveal">Outside a high-traffic GoodLife Fitness in downtown Toronto — with a Starbucks nearby — we put up a <strong style="color:#111">Wall of Motivation</strong>. Passers-by, gym-goers and people deciding whether to go in leave sticky notes for each other. Together they make a rainbow of motivation.</p>
-
-      <div class="wall reveal" aria-label="Examples of motivational notes from the Wall of Motivation">
-        <div class="note">you got this!</div>
-        <div class="note">you’re not alone!</div>
-        <div class="note">one day at a time!</div>
-        <div class="note">unleash your potential</div>
-        <div class="note">be unstoppable</div>
-        <div class="note">embrace the energy</div>
-        <div class="note note--tag">#ItsYourMove</div>
-      </div>
-
-      <div class="split split--top">
-        <figure class="shot r-16x9 reveal"><img src="images/sbux/wall-reading.jpg" alt="A young man smiling as he reads a street wall covered in colourful sticky notes" loading="lazy"><figcaption>The Wall of Motivation — strangers stopping to read encouragement left by other people.</figcaption></figure>
-        <div>
-          <p class="body reveal">The messages don’t stay on the wall. They’re printed on the cans, carried into GoodLife gyms across Canada, and become the copy for display and out-of-home ads — so the people who joined the campaign literally write it.</p>
-          <p class="body reveal">No product sampling at the event: the wall, notes and materials carry the Starbucks logo and hashtag, keeping it about encouragement, not a sales pitch.</p>
+    <div data-reveal="" style="margin-top:80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:16px">
+      <div style="border-radius:28px;padding:32px;background:#F2F0EB;color:#1E3932">
+        <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;margin-bottom:18px">The creative brief</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:10px 20px;font-size:15px;line-height:1.4">
+          <span style="color:#3d564f">Client</span><strong>Starbucks</strong>
+          <span style="color:#3d564f">Assignment</span><strong>"It's Your Move"</strong>
+          <span style="color:#3d564f">Briefed</span><strong>21 February 2024</strong>
+          <span style="color:#3d564f">Due</span><strong>21 April 2024</strong>
+          <span style="color:#3d564f">Venue</span><strong>High-footfall GoodLife Fitness, a Starbucks nearby</strong>
         </div>
+        <p style="margin:22px 0 0;line-height:1.6;color:#2d4a42">The benefit: position Protein Coffee as an accessible, motivating drink that slots into an active life — and use #ItsYourMove to build a community that lowers the barriers to getting started.</p>
       </div>
-
-      <div class="appeals">
-        <div class="appeal reveal"><h3 class="h3">Emotional</h3><p>Help people get past the barriers to exercise and feel empowered on their own terms.</p></div>
-        <div class="appeal reveal"><h3 class="h3">Social</h3><p>#ItsYourMove invites people to share the small ways they stay active — and lift others up.</p></div>
-        <div class="appeal reveal"><h3 class="h3">Inspirational</h3><p>Real people reaching their goals, with Starbucks Protein Coffee as a companion, not a coach.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Rollout ===== -->
-  <section id="rollout">
-    <div class="wrap">
-      <span class="chapter-no">08 — Rollout</span>
-      <h2 class="h2 reveal">From one wall<br><span class="outline">to the whole country.</span></h2>
-      <p class="lead reveal">The event is recorded and becomes the engine for every channel.</p>
-      <ol class="timeline">
-        <li class="reveal"><b>The event</b><p>Wall of Motivation goes live at a downtown Toronto GoodLife Fitness.</p>
-          <figure class="shot r-1x1"><img src="images/sbux/note-you-got-this.jpg" alt="A hand sticking a pink note reading “you got this!” onto a wall of sticky notes" loading="lazy"></figure></li>
-        <li class="reveal"><b>60-second TV spot</b><p>A pan-Canadian commercial cut from the real event footage.</p>
-          <figure class="shot r-16x9"><img src="images/sbux/tv-still.jpg" alt="Film still: a woman outside a gym at dusk smiling at a sticky note on the door" loading="lazy"></figure></li>
-        <li class="reveal"><b>30s &amp; 15s social</b><p>Cut-downs for social, ending on #ItsYourMove and a call to post your own message.</p>
-          <figure class="shot r-9x16"><img src="images/sbux/social-hand.jpg" alt="Vertical social frame: a hand holding a Protein Coffee can in a gym" loading="lazy"></figure></li>
-        <li class="reveal"><b>OOH &amp; display</b><p>Real messages from the wall become billboard and banner copy.</p>
-          <figure class="shot r-16x9"><img src="images/sbux/ooh-transit.jpg" alt="Bus-shelter ad at night: a yellow sticky note reading one day at a time next to a Protein Coffee can" loading="lazy"></figure></li>
-        <li class="reveal"><b>On the can &amp; in gyms</b><p>Phrases printed on packaging and placed in GoodLife locations nationwide.</p>
-          <figure class="shot r-1x1"><img src="images/sbux/fridge.jpg" alt="A fridge shelf of Protein Coffee cans, each with a different motivational phrase" loading="lazy"></figure></li>
-      </ol>
-      <div class="budget reveal">
-        <div><b>$500K</b><span>total quarter budget — event, production and broadcast</span></div>
-        <div><b>$200K</b><span>of it for the live event and video production</span></div>
+      <div style="border-radius:28px;padding:32px;background:#FFE873;color:#1E3932;display:flex;flex-direction:column;justify-content:space-between;gap:24px">
+        <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase">The support</div>
+        <p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(26px,2.6vw,36px);line-height:1.15;text-wrap:pretty">"A little bit of protein to give you the strength to perform better at the gym — <span style="font-style:italic">and a whole lot of energy from the coffee to get your butt in the gym.</span>"</p>
+        <p style="margin:0;line-height:1.55">Being tired is tied to lacking motivation. Coffee already solves tired — so it can sell motivation.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ===== Goals ===== -->
-  <section id="goals">
-    <div class="wrap">
-      <span class="chapter-no">09 — Goals</span>
-      <h2 class="h2 reveal">How we’d<br><span class="outline">measure it.</span></h2>
-      <div class="goals">
-        <div class="goal reveal">
-          <span class="goal__num">30<small>%</small></span>
-          <h3>Awareness</h3>
-          <p>Raise awareness of Starbucks Protein Coffee to 30% of Canadians aged 20–34 by the end of Q3 2024, measured with surveys before and after the campaign.</p>
-          <ul class="smart"><li><b>S</b> 20–34 Canadians</li><li><b>M</b> pre/post surveys</li><li><b>T</b> end of Q3 2024</li></ul>
-        </div>
-        <div class="goal reveal">
-          <span class="goal__num">+50<small>%</small></span>
-          <h3>Social mentions &amp; search</h3>
-          <p>Grow social mentions and search traffic by 50% by the end of Q3 2024, tracked with Google Trends and social listening around #ItsYourMove.</p>
-          <ul class="smart"><li><b>S</b> mentions + search</li><li><b>M</b> social listening</li><li><b>T</b> end of Q3 2024</li></ul>
-        </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin-top:64px">
+      <div data-reveal="" style="padding:28px;border-radius:28px;border:1px solid rgba(212,233,226,.16)"><div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;color:#FFE873;line-height:1;margin-bottom:16px">Emotional</div><p style="margin:0;line-height:1.55;color:#D4E9E2">Help people get past the barriers to exercise and feel empowered on their own terms.</p></div>
+      <div data-reveal="" data-delay="100" style="padding:28px;border-radius:28px;border:1px solid rgba(212,233,226,.16)"><div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;color:#FF9EC7;line-height:1;margin-bottom:16px">Social</div><p style="margin:0;line-height:1.55;color:#D4E9E2">#ItsYourMove invites people to share the small ways they stay active — and lift others up.</p></div>
+      <div data-reveal="" data-delay="200" style="padding:28px;border-radius:28px;border:1px solid rgba(212,233,226,.16)"><div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;color:#9FE6C3;line-height:1;margin-bottom:16px">Inspirational</div><p style="margin:0;line-height:1.55;color:#D4E9E2">Real people reaching their goals, with Starbucks Protein Coffee as a companion, not a coach.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLLOUT -->
+<section id="rollout" data-screen-label="Rollout" style="background:#F2F0EB;padding:clamp(80px,12vw,160px) 0">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#00754A;font-weight:600;margin-bottom:24px">08 — Rollout</span>
+    <div data-reveal="" style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 style="margin:0;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em;font-weight:800">From one wall<br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#00754A">to the whole country.</span></h2>
+      <div style="display:flex;gap:8px"><button class="h21" data-rail="-1" aria-label="Previous" style="width:52px;height:52px;border-radius:99px;border:1.5px solid #1E3932;background:transparent;font-size:20px;cursor:pointer;color:#1E3932;transition:background .2s">←</button><button class="h22" data-rail="1" aria-label="Next" style="width:52px;height:52px;border-radius:99px;border:0;background:#1E3932;color:#F2F0EB;font-size:20px;cursor:pointer;transition:background .2s">→</button></div>
+    </div>
+    <p data-reveal="" style="font-size:19px;line-height:1.5;margin:24px 0 48px;color:#2d4a42">The event is recorded and becomes the engine for every channel.</p>
+  </div>
+  <div id="rail" style="display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 max(24px,calc((100% - 1180px)/2 + 24px)) 24px;scrollbar-width:none">
+    <article style="flex:0 0 min(82%,380px);scroll-snap-align:start;display:flex;flex-direction:column;gap:18px"><div style="position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:#D4E9E2"><img src="images/sbux/note-you-got-this.jpg" alt="A hand sticking a pink note reading you got this onto a wall of sticky notes" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;top:16px;left:16px;width:48px;height:48px;border-radius:99px;background:#FFE873;display:grid;place-items:center;font-weight:800;font-size:18px">1</span></div><div><h3 style="margin:0 0 6px;font-size:24px;letter-spacing:-.02em">The event</h3><p style="margin:0;line-height:1.5;color:#3d564f">Wall of Motivation goes live at a downtown Toronto GoodLife Fitness.</p></div></article>
+    <article style="flex:0 0 min(82%,380px);scroll-snap-align:start;display:flex;flex-direction:column;gap:18px"><div style="position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:#D4E9E2"><img src="images/sbux/tv-still.jpg" alt="Film still: a woman outside a gym at dusk smiling at a sticky note on the door" style="width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block"><span style="position:absolute;top:16px;left:16px;width:48px;height:48px;border-radius:99px;background:#FF9EC7;display:grid;place-items:center;font-weight:800;font-size:18px;pointer-events:none">2</span></div><div><h3 style="margin:0 0 6px;font-size:24px;letter-spacing:-.02em">60-second TV spot</h3><p style="margin:0;line-height:1.5;color:#3d564f">A pan-Canadian 60-second commercial cut from the real event footage — ending on #ItsYourMove.</p></div></article>
+    <article style="flex:0 0 min(82%,380px);scroll-snap-align:start;display:flex;flex-direction:column;gap:18px"><div style="position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:#D4E9E2"><img src="images/sbux/social-hand.jpg" alt="A hand holding a Protein Coffee can in a gym" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block"><span style="position:absolute;top:16px;left:16px;width:48px;height:48px;border-radius:99px;background:#9FE6C3;display:grid;place-items:center;font-weight:800;font-size:18px;pointer-events:none">3</span></div><div><h3 style="margin:0 0 6px;font-size:24px;letter-spacing:-.02em">30s &amp; 15s social</h3><p style="margin:0;line-height:1.5;color:#3d564f">30- and 15-second cut-downs for social, with a call to post your own message on Starbucks' pages.</p></div></article>
+    <article style="flex:0 0 min(82%,380px);scroll-snap-align:start;display:flex;flex-direction:column;gap:18px"><div style="position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:#D4E9E2"><img src="images/sbux/ooh-transit.jpg" alt="Bus-shelter ad at night: a yellow sticky note reading one day at a time next to a Protein Coffee can" style="width:100%;height:100%;object-fit:cover;object-position:60% 50%;display:block"><span style="position:absolute;top:16px;left:16px;width:48px;height:48px;border-radius:99px;background:#FFB067;display:grid;place-items:center;font-weight:800;font-size:18px;pointer-events:none">4</span></div><div><h3 style="margin:0 0 6px;font-size:24px;letter-spacing:-.02em">OOH &amp; display</h3><p style="margin:0;line-height:1.5;color:#3d564f">Real messages from the wall become billboard and banner copy.</p></div></article>
+    <article style="flex:0 0 min(82%,380px);scroll-snap-align:start;display:flex;flex-direction:column;gap:18px"><div style="position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:#D4E9E2"><img src="images/sbux/fridge.jpg" alt="A fridge shelf of Protein Coffee cans, each with a different motivational phrase" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block"><span style="position:absolute;top:16px;left:16px;width:48px;height:48px;border-radius:99px;background:#9CCBFF;display:grid;place-items:center;font-weight:800;font-size:18px;pointer-events:none">5</span></div><div><h3 style="margin:0 0 6px;font-size:24px;letter-spacing:-.02em">On the can &amp; in gyms</h3><p style="margin:0;line-height:1.5;color:#3d564f">Phrases printed on packaging and placed in GoodLife locations nationwide.</p></div></article>
+  </div>
+  <div style="max-width:1180px;margin:56px auto 0;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+    <div data-reveal="" style="border-radius:28px;padding:32px;background:#1E3932;color:#F2F0EB;display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><span style="font-size:clamp(56px,6vw,84px);font-weight:800;letter-spacing:-.05em;line-height:.9;color:#FFE873" data-count="500" data-prefix="$" data-suffix="K">$500K</span><span style="color:#D4E9E2;line-height:1.4">total quarter budget — event, production and broadcast</span></div>
+    <div data-reveal="" data-delay="100" style="border-radius:28px;padding:32px;background:#D4E9E2;display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><span style="font-size:clamp(56px,6vw,84px);font-weight:800;letter-spacing:-.05em;line-height:.9;color:#00754A" data-count="200" data-prefix="$" data-suffix="K">$200K</span><span style="color:#2d4a42;line-height:1.4">of it for the live event and video production</span></div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section id="goals" data-screen-label="Goals" style="background:#00754A;color:#fff;padding:clamp(80px,12vw,160px) 24px">
+  <div style="max-width:1180px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#FFE873;font-weight:600;margin-bottom:24px">09 — Goals</span>
+    <h2 data-reveal="" style="margin:0 0 56px;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em;font-weight:800">How we'd <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#D4E9E2">measure it.</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+      <div data-reveal="" style="border-radius:32px;padding:36px;background:#1E3932;display:flex;flex-direction:column;gap:20px">
+        <div style="font-size:clamp(100px,13vw,180px);font-weight:800;letter-spacing:-.07em;line-height:.8;color:#FFE873" data-count="30" data-suffix="%">30%</div>
+        <h3 style="margin:8px 0 0;font-size:26px">Awareness</h3>
+        <p style="margin:0;line-height:1.55;color:#D4E9E2">Raise awareness of Starbucks Protein Coffee to 30% of Canadians aged 20–34 by the end of Q3 2024, measured with surveys before and after the campaign.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto"><span style="padding:8px 12px;border-radius:12px;background:rgba(212,233,226,.1);font-size:14px"><strong style="color:#FFE873">S</strong> 20–34 Canadians</span><span style="padding:8px 12px;border-radius:12px;background:rgba(212,233,226,.1);font-size:14px"><strong style="color:#FFE873">M</strong> pre/post surveys</span><span style="padding:8px 12px;border-radius:12px;background:rgba(212,233,226,.1);font-size:14px"><strong style="color:#FFE873">A</strong> show SPC in an active day</span><span style="padding:8px 12px;border-radius:12px;background:rgba(212,233,226,.1);font-size:14px"><strong style="color:#FFE873">R</strong> GoodLife reach at launch</span><span style="padding:8px 12px;border-radius:12px;background:rgba(212,233,226,.1);font-size:14px"><strong style="color:#FFE873">T</strong> end of Q3 2024</span></div>
       </div>
-
-      <h3 class="h3 reveal" style="margin-top:80px">Creative guardrails</h3>
-      <div class="rules">
-        <div class="rule reveal"><b>It’s okay to lack motivation.</b><p>No drill-sergeant energy — the spot is a refreshing reminder, not a lecture.</p></div>
-        <div class="rule reveal"><b>Positive affirmations only.</b><p>Stay well away from diet-centric messaging.</p></div>
-        <div class="rule reveal"><b>End on the hashtag.</b><p>Every piece closes on #ItsYourMove with a call to share your own message.</p></div>
+      <div data-reveal="" data-delay="120" style="border-radius:32px;padding:36px;background:#F2F0EB;color:#1E3932;display:flex;flex-direction:column;gap:20px">
+        <div style="font-size:clamp(100px,13vw,180px);font-weight:800;letter-spacing:-.07em;line-height:.8;color:#00754A" data-count="50" data-prefix="+" data-suffix="%">+50%</div>
+        <h3 style="margin:8px 0 0;font-size:26px">Social mentions &amp; search</h3>
+        <p style="margin:0;line-height:1.55;color:#2d4a42">Grow social mentions and search traffic by 50% by the end of Q3 2024, tracked with Google Trends and social listening around #ItsYourMove.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto"><span style="padding:8px 12px;border-radius:12px;background:#D4E9E2;font-size:14px"><strong style="color:#00754A">S</strong> mentions + search</span><span style="padding:8px 12px;border-radius:12px;background:#D4E9E2;font-size:14px"><strong style="color:#00754A">M</strong> social listening</span><span style="padding:8px 12px;border-radius:12px;background:#D4E9E2;font-size:14px"><strong style="color:#00754A">A</strong> fans share their moves</span><span style="padding:8px 12px;border-radius:12px;background:#D4E9E2;font-size:14px"><strong style="color:#00754A">R</strong> activates everyday people</span><span style="padding:8px 12px;border-radius:12px;background:#D4E9E2;font-size:14px"><strong style="color:#00754A">T</strong> end of Q3 2024</span></div>
       </div>
     </div>
-  </section>
 
-  <!-- ===== End ===== -->
-  <section class="end">
-    <div class="wrap">
-      <h2 class="h2 reveal">It’s your <span style="color:var(--red)">move.</span></h2>
-      <p class="lead reveal">Want the full picture? The complete situation analysis and creative brief is available as a PDF.</p>
-      <div class="btns reveal">
-        <a class="btn btn--red" href="Starbucks_Protein_Coffee_Creative_Brief.pdf" target="_blank" rel="noopener">Read the full brief (PDF) ↗</a>
-        <a class="btn" href="index.html#story">← Back to portfolio</a>
-      </div>
-      <p class="team reveal">A team project by Khushi Patel, Kush Yegnaswami, Jenna Rosati, Josh Parto, Swati Khanna and Vrinda Gupta. Starbucks Protein Coffee is a student concept and is not affiliated with Starbucks.</p>
+    <h3 data-reveal="" style="margin:80px 0 24px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#FFE873">Creative guardrails</h3>
+    <div style="display:flex;flex-direction:column">
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px 32px;padding:28px 0;border-top:1px solid rgba(255,255,255,.22)"><div style="font-family:'Instrument Serif',serif;font-size:clamp(30px,3.4vw,46px);line-height:1.05">It's okay to lack motivation.</div><p style="margin:0;line-height:1.55;color:#E9F4F0;align-self:center">No drill-sergeant energy — the spot is a refreshing reminder, not a lecture.</p></div>
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px 32px;padding:28px 0;border-top:1px solid rgba(255,255,255,.22)"><div style="font-family:'Instrument Serif',serif;font-size:clamp(30px,3.4vw,46px);line-height:1.05">Positive affirmations only.</div><p style="margin:0;line-height:1.55;color:#E9F4F0;align-self:center">Stay well away from diet-centric messaging.</p></div>
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px 32px;padding:28px 0;border-block:1px solid rgba(255,255,255,.22)"><div style="font-family:'Instrument Serif',serif;font-size:clamp(30px,3.4vw,46px);line-height:1.05">End on the hashtag.</div><p style="margin:0;line-height:1.55;color:#E9F4F0;align-self:center">Every piece closes on #ItsYourMove with a call to share your own message.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-</main>
-
-<footer>© 2026 Kush Swami</footer>
+<!-- CTA -->
+<footer data-screen-label="CTA" style="background:#1E3932;color:#F2F0EB;padding:clamp(100px,14vw,200px) 24px 40px;position:relative;overflow:hidden">
+  <div style="max-width:1180px;margin:0 auto;text-align:center">
+    <h2 data-reveal="" style="margin:0;font-size:clamp(72px,14vw,220px);line-height:.85;letter-spacing:-.06em;font-weight:800">It's your <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#CBA258">move.</span></h2>
+    <p data-reveal="" style="margin:32px auto 40px;max-width:520px;font-size:19px;line-height:1.5;color:#D4E9E2">Want the full picture? The complete situation analysis and creative brief is available as a PDF.</p>
+    <div data-reveal="" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="h23" href="Starbucks_Protein_Coffee_Creative_Brief.pdf" style="text-decoration:none;padding:18px 28px;border-radius:99px;background:#FFE873;color:#1E3932;font-weight:700;font-size:17px;transition:transform .3s cubic-bezier(.2,.8,.2,1)">Read the full brief (PDF) ↗</a>
+      <a class="h24" href="index.html#story" style="text-decoration:none;padding:18px 28px;border-radius:99px;border:1.5px solid rgba(212,233,226,.4);font-weight:600;font-size:17px;transition:background .2s">← Back to portfolio</a>
+    </div>
+    <p style="margin:120px auto 0;max-width:720px;font-size:13px;line-height:1.6;color:#8fb0a6">A team project by Khushi Patel, Kush Yegnaswami, Jenna Rosati, Josh Parto, Swati Khanna and Vrinda Gupta. Starbucks Protein Coffee is a student concept and is not affiliated with Starbucks.</p>
+    <p style="margin:12px 0 0;font-size:13px;color:#8fb0a6">© 2026 Kush Swami</p>
+  </div>
+</footer>
 
 <script>
-  // Fade sections in as they enter the screen
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal on scroll, count-ups and price bars
+  const els = [...document.querySelectorAll('[data-reveal]')];
+  if (!reduced) els.forEach(el => {
+    el.style.opacity = 0; el.style.transform = 'translateY(48px)';
+    el.style.transition = (el.style.transition ? el.style.transition + ',' : '') + 'opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)';
+    el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
+  });
+  const countUp = el => {
+    const target = parseFloat(el.dataset.count), dec = +(el.dataset.decimals || 0);
+    const pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    const fmt = v => pre + (target >= 1000 ? Math.round(v).toLocaleString('en-CA') : v.toFixed(dec)) + suf;
+    if (reduced) { el.textContent = fmt(target); return; }
+    const t0 = performance.now(), dur = 1600;
+    const tick = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = fmt(target * (1 - Math.pow(1 - p, 4))); if (p < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  };
   const io = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
-  }), { threshold: .15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // Count up the big stats
-  const counter = new IntersectionObserver(entries => entries.forEach(e => {
     if (!e.isIntersecting) return;
-    counter.unobserve(e.target);
-    const el = e.target, end = +el.dataset.count, t0 = performance.now();
-    const tick = t => { const k = Math.min(1, (t - t0) / 1100); el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))) + '%'; if (k < 1) requestAnimationFrame(tick); };
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) requestAnimationFrame(tick);
-  }), { threshold: .6 });
-  document.querySelectorAll('[data-count]').forEach(el => counter.observe(el));
+    const el = e.target;
+    if (el.hasAttribute('data-reveal')) { el.style.opacity = 1; el.style.transform = ''; setTimeout(() => { el.style.transitionDelay = '0ms'; }, 1200); }
+    if (el.dataset.count) countUp(el);
+    if (el.dataset.bar) el.style.width = el.dataset.bar;
+    io.unobserve(el);
+  }), { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-count],[data-bar]').forEach(el => io.observe(el));
 
-  // Reading progress bar + active chapter in the side nav
-  const bar = document.querySelector('.progress');
-  const links = [...document.querySelectorAll('.chapters a')];
-  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
-  addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-    let on = -1;
-    secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .45) on = i; });
-    links.forEach((a, i) => a.classList.toggle('is-on', i === on));
-  }, { passive: true });
+  // Reading progress
+  const bar = document.getElementById('progress');
+  const onScroll = () => { const h = document.documentElement.scrollHeight - innerHeight; bar.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%'; };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // Hero sticky notes drift with the cursor
+  const hero = document.getElementById('hero');
+  addEventListener('mousemove', ev => {
+    const x = ev.clientX / innerWidth - 0.5, y = ev.clientY / innerHeight - 0.5;
+    hero.querySelectorAll('[data-depth]').forEach(n => { const d = +n.dataset.depth; n.style.transform = 'translate(' + x * d + 'px,' + y * d + 'px)'; });
+  });
+
+  // Rollout rail arrows
+  const rail = document.getElementById('rail');
+  document.querySelectorAll('[data-rail]').forEach(b => b.addEventListener('click', () => rail.scrollBy({ left: +b.dataset.rail * 400, behavior: 'smooth' })));
+
+  // Wall of Motivation: visitors can stick their own note (kept for this visit only)
+  const colors = ['#FFE873', '#FF9EC7', '#9FE6C3', '#FFB067', '#9CCBFF', '#D4B8FF'];
+  const tpl = document.getElementById('note-tpl'), wall = document.getElementById('notes'), count = document.getElementById('note-count');
+  let n = 0;
+  const addNote = (text, bg, rot) => {
+    const el = tpl.content.firstElementChild.cloneNode(true);
+    el.textContent = text; el.style.background = bg; el.style.rotate = rot;
+    wall.appendChild(el); count.textContent = ++n;
+  };
+  ['you got this!', "you're not alone!", 'one day at a time!', 'unleash your potential', 'be unstoppable', 'embrace the energy', 'just show up', 'progress > perfect', 'proud of you', 'one more rep']
+    .forEach((t, i) => addNote(t, colors[i % 6], ((i * 37) % 13 - 6) + 'deg'));
+  const form = document.getElementById('note-form'), input = document.getElementById('note-input');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const text = input.value.trim(); if (!text) return;
+    addNote(text, colors[Math.floor(Math.random() * 6)], (Math.random() * 12 - 6).toFixed(1) + 'deg');
+    input.value = '';
+  });
+})();
 </script>
 </body>
 </html>

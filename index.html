@@ -100,6 +100,23 @@
     pointer-events: none;
   }
   .scene-text.is-active .scene-media { pointer-events: auto; }
+  /* Case-study link card inside a scene */
+  .scene-link {
+    display: inline-grid; grid-template-columns: 1fr auto; column-gap: 28px; align-items: center;
+    margin-top: 30px; padding: 18px 22px 18px 24px; border-radius: 10px; text-decoration: none; color: #fff;
+    background: rgba(10,4,4,.42); border: 1px solid rgba(255,255,255,.28);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    pointer-events: none; transition: background .3s ease, border-color .3s ease, transform .3s ease;
+  }
+  .scene-text.is-active .scene-link { pointer-events: auto; }
+  .scene-link__k { grid-column: 1; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .scene-link__t { grid-column: 1; margin-top: 4px; font-size: clamp(16px, 1.3vw, 20px); font-weight: 700; letter-spacing: -.01em; }
+  .scene-link__go {
+    grid-column: 2; grid-row: 1 / 3; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+    background: #fff; color: #111; font-size: 20px; transition: background .3s ease, color .3s ease, transform .3s ease;
+  }
+  .scene-link:hover, .scene-link:focus-visible { background: rgba(10,4,4,.6); border-color: #fff; transform: translateY(-2px); outline: none; }
+  .scene-link:hover .scene-link__go, .scene-link:focus-visible .scene-link__go { background: #e00000; color: #fff; transform: translateX(3px); }
   /* Bento: a large 16:9 lead video over a 2x2 of smaller ones, with two 9:16 Shorts beside.
      --w is one small card's width, sized so the whole block fits the screen height. */
   .scene-media--bento {
@@ -944,6 +961,7 @@ window.EMBEDDED_IMAGES = {
       body: 'I’m Kush — a creative strategist and video producer. Every brand has a story behind the door. I help you open it.' },
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Creative brand', 'strategy'],
+      link: { href: 'starbucks-protein-coffee.html', kicker: 'Case study', title: 'Starbucks Protein Coffee — “It’s Your Move”' },
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
     { bg: 'story-3', fg: { name: 'story-3-fg', cx: .6, cxPortrait: .66, scalePortrait: .5, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
@@ -980,6 +998,7 @@ window.EMBEDDED_IMAGES = {
     el.innerHTML = `<h2 class="scene-text__title"${s.titleSize ? ` style="font-size: calc(${s.titleSize} * clamp(44px, 6.4vw, 120px))"` : ''}>${lines}` +
       [1, 2, 3].map(k => `<span class="echo" aria-hidden="true" data-k="${k}">${lines}</span>`).join('') +
       `</h2><p class="scene-text__body">${s.body}</p>` +
+      (s.link ? `<a class="scene-link" href="${s.link.href}"><span class="scene-link__k">${s.link.kicker}</span><span class="scene-link__t">${s.link.title}</span><span class="scene-link__go" aria-hidden="true">→</span></a>` : '') +
       (s.videos ? `<div class="scene-media${s.layout ? ' scene-media--' + s.layout : ''}">${s.videos.map((v, k) => {
         const label = v.title || `${v.tall ? 'Short' : 'Video'} ${k + 1}`;
         return `<button class="vcard${v.tall ? ' vcard--tall' : ''}" type="button"

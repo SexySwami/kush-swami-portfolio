@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>It’s Your Move — Starbucks Protein Coffee · Kush Swami</title>
+<meta name="description" content="Case study: launch strategy and creative brief for Starbucks Protein Coffee, the ‘It’s Your Move’ campaign.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d; --ink: #f4f1ec; --mute: rgba(244,241,236,.62); --line: rgba(244,241,236,.14);
+    --red: #e3241b; --green: #0b7a52; --green-soft: #d9efe4;
+    --gutter: clamp(18px, 5vw, 80px); --max: 1240px;
+    --font: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ---------- Top bar ---------- */
+  .bar {
+    position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: center;
+    padding: 16px var(--gutter); background: linear-gradient(180deg, rgba(13,13,13,.95), rgba(13,13,13,0));
+    font-size: 14px; font-weight: 500;
+  }
+  .bar a { text-decoration: none; }
+  .bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .bar__brand { font-weight: 700; letter-spacing: -.02em; line-height: 1; }
+  .progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: var(--red); z-index: 21; }
+
+  /* ---------- Chapter nav ---------- */
+  .chapters {
+    position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 15;
+    display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 0; padding: 0;
+    mix-blend-mode: difference;
+  }
+  .chapters a { display: flex; align-items: center; justify-content: flex-end; gap: 10px; text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+  .chapters a span { opacity: 0; transform: translateX(6px); transition: opacity .25s, transform .25s; white-space: nowrap; }
+  .chapters a::after { content: ''; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; transition: background .25s, transform .25s; }
+  .chapters a:hover span, .chapters a:focus-visible span { opacity: 1; transform: none; }
+  .chapters a.is-on { color: #fff; }
+  .chapters a.is-on::after { background: var(--red); border-color: var(--red); transform: scale(1.2); }
+
+  /* ---------- Type ---------- */
+  .kicker { margin: 0 0 18px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+  .h1 { margin: 0; font-weight: 800; font-size: clamp(56px, 11vw, 190px); line-height: .84; letter-spacing: -.055em; }
+  .h2 { margin: 0 0 28px; font-weight: 800; font-size: clamp(36px, 5.6vw, 92px); line-height: .9; letter-spacing: -.045em; }
+  .h3 { margin: 0 0 10px; font-weight: 700; font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -.02em; }
+  .lead { margin: 0; max-width: 58ch; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--mute); }
+  .lead strong { color: var(--ink); font-weight: 600; }
+  .body { margin: 0; max-width: 62ch; font-size: 16px; line-height: 1.6; color: var(--mute); }
+  .body + .body { margin-top: 12px; }
+  .outline { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+
+  /* ---------- Sections ---------- */
+  section { padding: clamp(80px, 12vw, 160px) 0; border-top: 1px solid var(--line); scroll-margin-top: 40px; }
+  .chapter-no { display: block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--mute); font-variant-numeric: tabular-nums; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+  .split--top { align-items: start; }
+  .split > *, .persona > * { min-width: 0; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* ---------- Image placeholders ---------- */
+  .ph {
+    position: relative; margin: 0; border: 1.5px dashed rgba(244,241,236,.28); border-radius: 6px;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 12px, transparent 12px 24px),
+      #151515;
+    display: grid; align-content: end; padding: 22px; min-height: 220px; overflow: hidden;
+  }
+  .ph::before {
+    content: 'Image placeholder'; position: absolute; top: 16px; left: 18px;
+    font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red);
+  }
+  .ph::after { content: attr(data-ratio); position: absolute; top: 16px; right: 18px; font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; }
+  .ph figcaption { font-size: 14px; line-height: 1.5; color: var(--mute); max-width: 60ch; }
+  .ph figcaption b { display: block; margin-bottom: 4px; font-size: 15px; color: var(--ink); }
+  .r-16x9, .r-4x5, .r-1x1, .r-21x9, .r-9x16 { min-height: 0; }
+  .r-16x9 { aspect-ratio: 16 / 9; } .r-4x5 { aspect-ratio: 4 / 5; } .r-1x1 { aspect-ratio: 1 / 1; } .r-21x9 { aspect-ratio: 21 / 9; } .r-9x16 { aspect-ratio: 9 / 16; }
+
+  /* ---------- Hero ---------- */
+  .hero { min-height: 100svh; display: grid; align-content: end; padding: 120px 0 56px; border-top: 0; position: relative; overflow: hidden; }
+  .hero__bg { position: absolute; inset: 0; z-index: -1; margin: 0; border-radius: 0; border: 0; min-height: 0; padding: 0; }
+  .hero { --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
+  .hero__bg::before { top: 90px; left: var(--edge); }
+  .hero__bg::after { top: 90px; right: var(--edge); }
+  .hero__bg figcaption { position: absolute; top: 116px; left: var(--edge); max-width: min(560px, 80%); }
+  .hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, var(--bg) 8%, rgba(13,13,13,.4) 55%, rgba(13,13,13,.15)); }
+  .hero .h1 em { font-style: normal; color: var(--red); }
+  .hero__sub { margin: 28px 0 44px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 18px 44px; margin: 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
+  .meta dt { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .meta dd { margin: 4px 0 0; font-size: 15px; font-weight: 600; }
+  .scroll-cue { margin-top: 36px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+
+  /* ---------- TL;DR ---------- */
+  .tldr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 48px; }
+  .tldr div { background: var(--bg); padding: 26px 22px; }
+  .tldr b { display: block; margin-bottom: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .tldr p { margin: 0; font-size: 15px; line-height: 1.45; }
+
+  /* ---------- Stats ---------- */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 56px 0; }
+  .stat__num { display: block; font-weight: 800; font-size: clamp(64px, 9vw, 150px); line-height: .85; letter-spacing: -.05em; color: var(--red); font-variant-numeric: tabular-nums; }
+  .stat__txt { display: block; margin-top: 14px; max-width: 28ch; font-size: 15px; line-height: 1.45; color: var(--mute); }
+  .quote {
+    margin: 0; padding: clamp(28px, 4vw, 56px); border-radius: 6px; background: var(--ink); color: var(--bg);
+    font-weight: 700; font-size: clamp(24px, 3vw, 44px); line-height: 1.12; letter-spacing: -.03em;
+  }
+  .quote small { display: block; margin-bottom: 18px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+
+  /* ---------- Product ---------- */
+  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; }
+  .spec { padding: 20px; border: 1px solid var(--line); border-radius: 6px; }
+  .spec b { display: block; font-size: clamp(30px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+  .spec span { display: block; margin-top: 8px; font-size: 14px; color: var(--mute); }
+  .why { margin-top: 28px; }
+
+  /* ---------- Trends ---------- */
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 48px; }
+  .card { padding: 26px 22px 24px; border: 1px solid var(--line); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 250px; }
+  .card__big { font-weight: 800; font-size: clamp(36px, 3.6vw, 58px); letter-spacing: -.045em; line-height: .9; color: var(--ink); }
+  .card p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mute); }
+  .card h4 { margin: auto 0 0; font-size: 15px; font-weight: 700; }
+
+  /* ---------- Competition ---------- */
+  .compare { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 15px; }
+  .compare th, .compare td { text-align: left; padding: 18px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .compare th { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .compare td:first-child { font-weight: 700; }
+  .compare td.price { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .compare tr.us td { background: rgba(227,36,27,.1); }
+  .compare tr.us td:first-child { color: var(--red); }
+  .positioning { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+  .pos { padding: 28px; border-radius: 6px; border: 1px solid var(--line); }
+  .pos--no { opacity: .7; }
+  .pos--no .h3::before { content: '✕  '; color: var(--mute); }
+  .pos--yes { border-color: var(--red); }
+  .pos--yes .h3::before { content: '✓  '; color: var(--red); }
+
+  /* ---------- Persona ---------- */
+  .persona { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; margin-top: 48px; }
+  .persona__card { border-radius: 6px; background: #171717; padding: clamp(24px, 3vw, 40px); }
+  .persona__name { margin: 0; font-size: clamp(30px, 3.4vw, 52px); font-weight: 800; letter-spacing: -.04em; }
+  .persona__role { margin: 6px 0 24px; color: var(--mute); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
+  .chips li { font-size: 13px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .cols h4 { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .cols ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.55; color: var(--mute); }
+  .cols li + li { margin-top: 6px; }
+
+  /* ---------- SWOT ---------- */
+  .swot { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 48px; }
+  .swot div { background: var(--bg); padding: clamp(22px, 3vw, 36px); }
+  .swot h4 { margin: 0 0 14px; display: flex; align-items: baseline; gap: 12px; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+  .swot h4 span { font-size: 44px; color: var(--red); line-height: .8; }
+  .swot ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.6; color: var(--mute); }
+
+  /* ---------- Big idea ---------- */
+  .idea { background: var(--ink); color: var(--bg); border-top: 0; }
+  .idea .lead, .idea .body { color: rgba(13,13,13,.7); }
+  .idea .kicker { color: var(--red); }
+  .wall {
+    position: relative; margin: 56px 0; padding: clamp(28px, 4vw, 56px); border-radius: 6px;
+    background: #e6e1d8; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; min-height: 360px; align-content: center;
+  }
+  .note {
+    width: clamp(120px, 14vw, 190px); aspect-ratio: 1; padding: 16px; display: grid; place-items: center; text-align: center;
+    font-weight: 800; font-size: clamp(15px, 1.4vw, 21px); line-height: 1.05; letter-spacing: -.02em; color: #1b1b1b;
+    box-shadow: 0 14px 22px -12px rgba(0,0,0,.35); transform: rotate(var(--r, 0deg)); transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .note:hover { transform: rotate(0deg) scale(1.06); }
+  .note:nth-child(6n+1) { background: #ffd84d; --r: -3deg; }
+  .note:nth-child(6n+2) { background: #ff8fb1; --r: 2deg; }
+  .note:nth-child(6n+3) { background: #7fd3ff; --r: -1.5deg; }
+  .note:nth-child(6n+4) { background: #9be58a; --r: 3deg; }
+  .note:nth-child(6n+5) { background: #ffa25c; --r: -2.5deg; }
+  .note:nth-child(6n+6) { background: #c6a8ff; --r: 1.5deg; }
+  .note--tag { background: var(--green) !important; color: #fff; }
+  .idea .ph { border-color: rgba(13,13,13,.3); background: repeating-linear-gradient(135deg, rgba(0,0,0,.035) 0 12px, transparent 12px 24px), #dcd6cb; }
+  .idea .ph figcaption { color: rgba(13,13,13,.7); }
+  .idea .ph figcaption b { color: #111; }
+  .idea .ph::after { color: rgba(13,13,13,.55); }
+  .appeals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+  .appeal { padding: 24px; border-radius: 6px; border: 1px solid rgba(13,13,13,.15); }
+  .appeal p { margin: 0; font-size: 15px; line-height: 1.5; color: rgba(13,13,13,.72); }
+
+  /* ---------- Rollout ---------- */
+  .timeline { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
+  .timeline li { position: relative; padding-top: 34px; }
+  .timeline li::before {
+    counter-increment: step; content: counter(step, decimal-leading-zero);
+    position: absolute; top: 0; left: 0; font-size: 12px; font-weight: 700; color: var(--red);
+  }
+  .timeline li::after { content: ''; position: absolute; top: 20px; left: 0; right: -14px; height: 1px; background: var(--line); }
+  .timeline li:last-child::after { right: 0; }
+  .timeline b { display: block; margin-bottom: 8px; font-size: 17px; letter-spacing: -.01em; }
+  .timeline p { margin: 0 0 16px; font-size: 14px; line-height: 1.5; color: var(--mute); }
+  .timeline .ph { min-height: 0; padding: 14px; }
+  .timeline .ph::before { top: 10px; left: 12px; font-size: 9px; }
+  .timeline .ph::after { top: 10px; right: 12px; font-size: 9px; }
+  .timeline .ph figcaption { font-size: 12px; }
+  .budget { display: grid; grid-template-columns: 2fr 3fr; gap: 0; margin-top: 56px; border-radius: 6px; overflow: hidden; }
+  .budget div { padding: 24px; }
+  .budget div:first-child { background: var(--red); }
+  .budget div:last-child { background: #1d1d1d; }
+  .budget b { display: block; font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; }
+  .budget span { font-size: 14px; opacity: .85; }
+
+  /* ---------- Goals ---------- */
+  .goals { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
+  .goal { padding: clamp(24px, 3vw, 40px); border-radius: 6px; border: 1px solid var(--line); }
+  .goal__num { display: block; font-weight: 800; font-size: clamp(72px, 9vw, 150px); line-height: .82; letter-spacing: -.055em; }
+  .goal__num small { font-size: .4em; letter-spacing: -.02em; }
+  .goal h3 { margin: 18px 0 10px; font-size: 20px; letter-spacing: -.02em; }
+  .goal p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--mute); }
+  .smart { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .smart li { font-size: 12px; padding: 5px 10px; border-radius: 999px; background: rgba(244,241,236,.07); }
+  .smart li b { color: var(--red); }
+
+  /* ---------- Guardrails ---------- */
+  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+  .rule { padding: 24px; border-radius: 6px; background: #171717; }
+  .rule b { display: block; margin-bottom: 8px; font-size: 16px; }
+  .rule p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mute); }
+
+  /* ---------- End ---------- */
+  .end { text-align: center; }
+  .end .h2 { margin-bottom: 18px; }
+  .end .lead { margin: 0 auto 40px; }
+  .btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .6em; padding: 16px 30px; border-radius: 999px; text-decoration: none;
+    font-size: 15px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; border: 1.5px solid var(--ink);
+    transition: background .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .btn:hover, .btn:focus-visible { background: var(--ink); color: var(--bg); outline: none; }
+  .btn--red { background: var(--red); border-color: var(--red); }
+  .btn--red:hover, .btn--red:focus-visible { background: #ff3b2f; border-color: #ff3b2f; color: #fff; }
+  .team { margin: 56px auto 0; max-width: 60ch; font-size: 14px; line-height: 1.6; color: var(--mute); }
+  footer { padding: 32px 0 48px; text-align: center; font-size: 13px; color: var(--mute); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .chapters { display: none; }
+    .split, .persona, .positioning, .goals { grid-template-columns: 1fr; }
+    .cards, .tldr { grid-template-columns: 1fr 1fr; }
+    .timeline { grid-template-columns: 1fr; gap: 28px; }
+    .timeline li::after { display: none; }
+    .rules, .appeals { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 620px) {
+    .stats, .cards, .tldr, .swot, .cols, .specs, .budget { grid-template-columns: 1fr; }
+    .compare thead { display: none; }
+    .compare tr { display: grid; grid-template-columns: 1fr auto; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .compare td { border: 0; padding: 4px 0; }
+    .compare td:nth-child(2), .compare td:nth-child(4) { grid-column: 1 / -1; color: var(--mute); }
+    .compare tr.us { padding: 14px 12px; background: rgba(227,36,27,.1); }
+    .compare tr.us td { background: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"></div>
+<header class="bar">
+  <a class="bar__brand" href="index.html">Kush Swami’s<br>Portfolio</a>
+  <a href="index.html#story">← Back to portfolio</a>
+</header>
+
+<nav aria-label="Chapters">
+  <ul class="chapters">
+    <li><a href="#overview"><span>Overview</span></a></li>
+    <li><a href="#problem"><span>The problem</span></a></li>
+    <li><a href="#product"><span>The product</span></a></li>
+    <li><a href="#market"><span>Why now</span></a></li>
+    <li><a href="#competition"><span>Competition</span></a></li>
+    <li><a href="#audience"><span>Audience</span></a></li>
+    <li><a href="#swot"><span>SWOT</span></a></li>
+    <li><a href="#idea"><span>The big idea</span></a></li>
+    <li><a href="#rollout"><span>Rollout</span></a></li>
+    <li><a href="#goals"><span>Goals</span></a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top">
+    <figure class="ph hero__bg" data-ratio="Full-bleed · 16:9">
+      <figcaption><b>Hero — the can in the wild.</b>A cinematic, low-angle shot of a Starbucks Protein Coffee can sweating on a gym bench at golden hour, a towel and earbuds beside it, colourful sticky notes blurred on the wall behind. Dark, moody grade so the white type reads on top.</figcaption>
+    </figure>
+    <div class="hero__shade" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="kicker">Case study · Creative brand strategy</p>
+      <h1 class="h1">It’s Your <em>Move.</em></h1>
+      <p class="lead hero__sub">Launching <strong>Starbucks Protein Coffee</strong> in Canada with a campaign that doesn’t shout at people to work out — it reminds them it’s okay to lack motivation, and hands them a reason to move.</p>
+      <dl class="meta">
+        <div><dt>Brand</dt><dd>Starbucks (concept)</dd></div>
+        <div><dt>Deliverable</dt><dd>Situation analysis + creative brief</dd></div>
+        <div><dt>Market</dt><dd>Canada</dd></div>
+        <div><dt>Year</dt><dd>2024</dd></div>
+        <div><dt>Team</dt><dd>Group of six</dd></div>
+      </dl>
+      <p class="scroll-cue">Scroll to walk through the campaign ↓</p>
+    </div>
+  </section>
+
+  <!-- ===== Overview ===== -->
+  <section id="overview">
+    <div class="wrap">
+      <span class="chapter-no">00 — Overview</span>
+      <h2 class="h2 reveal">The campaign<br><span class="outline">in 30 seconds.</span></h2>
+      <div class="tldr reveal">
+        <div><b>The product</b><p>A canned cold coffee with 10 g of collagen protein, electrolytes and 150 mg of caffeine — $4.99, in grocery stores Q3 2024.</p></div>
+        <div><b>The problem</b><p>4 in 10 Canadians are intimidated by the gym. The barrier isn’t energy — it’s motivation and fear of judgment.</p></div>
+        <div><b>The idea</b><p>A ‘Wall of Motivation’ at a downtown Toronto GoodLife gym, where strangers leave sticky-note encouragement for each other.</p></div>
+        <div><b>The goal</b><p>30% awareness among Canadians aged 20–34 and +50% social mentions by the end of Q3 2024.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Problem ===== -->
+  <section id="problem">
+    <div class="wrap">
+      <span class="chapter-no">01 — The problem</span>
+      <h2 class="h2 reveal">Starting is<br><span class="outline">the hardest rep.</span></h2>
+      <p class="lead reveal">Canadians want to be active — but walking into a gym can feel overwhelming. The research pointed to a motivation gap, not a fitness gap.</p>
+      <div class="stats">
+        <p class="reveal"><span class="stat__num" data-count="40">40%</span><span class="stat__txt">of Canadians are intimidated to work out in a gym.</span></p>
+        <p class="reveal"><span class="stat__num" data-count="38">38%</span><span class="stat__txt">of them avoid exercising in public because they feel watched and judged.</span></p>
+        <p class="reveal"><span class="stat__num" data-count="33">33%</span><span class="stat__txt">say they don’t know what they’re doing or where to start.</span></p>
+      </div>
+      <blockquote class="quote reveal"><small>Consumer insight</small>“I’m too tired and don’t feel inspired to get active. If only there was a drink that could give me the motivation to go work out.”</blockquote>
+    </div>
+  </section>
+
+  <!-- ===== Product ===== -->
+  <section id="product">
+    <div class="wrap split">
+      <figure class="ph r-4x5 reveal" data-ratio="4:5">
+        <figcaption><b>Packaging hero.</b>Studio product shot of the Starbucks Protein Coffee can — matte white with the green siren, “10 g PROTEIN” in bold, and one of the campaign’s motivational phrases (“you got this!”) printed on the can. Clean seamless background, soft shadow.</figcaption>
+      </figure>
+      <div>
+        <span class="chapter-no">02 — The product</span>
+        <h2 class="h2 reveal">Coffee that<br><span class="outline">pulls its weight.</span></h2>
+        <p class="lead reveal">Starbucks Protein Coffee: a lightly sweetened, shelf-stable canned cold coffee built for active days.</p>
+        <div class="specs reveal">
+          <div class="spec"><b>10 g</b><span>collagen protein — fast-absorbing for recovery, and good for skin</span></div>
+          <div class="spec"><b>150 mg</b><span>caffeine from coffee, under Health Canada’s 180 mg cap</span></div>
+          <div class="spec"><b>3</b><span>electrolytes — sodium, magnesium and potassium for hydration</span></div>
+          <div class="spec"><b>$4.99</b><span>per can, launching in grocery stores nationwide in Q3 2024</span></div>
+        </div>
+        <p class="body why reveal"><strong style="color:var(--ink)">Why collagen?</strong> It absorbs quickly to support muscle recovery and is known for skin benefits — two things whey and most other protein sources can’t both claim — which broadens the drink beyond hardcore gym-goers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Market ===== -->
+  <section id="market">
+    <div class="wrap">
+      <span class="chapter-no">03 — Why now</span>
+      <h2 class="h2 reveal">The culture was<br><span class="outline">already mixing it.</span></h2>
+      <p class="lead reveal">Protein, caffeine and social media were converging. ‘Proffee’ was already a TikTok trend — Starbucks just had to bottle it.</p>
+      <div class="cards">
+        <article class="card reveal"><span class="card__big">46%</span><p>of Americans regularly use protein supplements to support their fitness.</p><h4>Protein hype</h4></article>
+        <article class="card reveal"><span class="card__big">#3</span><p>Canada is the world’s third-largest brewed-coffee consumer, at ~1.5 cups a day — the perfect delivery system.</p><h4>Caffeine as a boost</h4></article>
+        <article class="card reveal"><span class="card__big">18–24</span><p>is the fastest-growing coffee-drinking age group — they buy out of home and prefer cold brew.</p><h4>A younger drinker</h4></article>
+        <article class="card reveal"><span class="card__big">TikTok</span><p>Dalgona, keto coffee and ‘proffee’ trends had people ordering drinks because they saw them on social.</p><h4>Social experimentation</h4></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Competition ===== -->
+  <section id="competition">
+    <div class="wrap">
+      <span class="chapter-no">04 — The competition</span>
+      <h2 class="h2 reveal">Win on lifestyle,<br><span class="outline">not ingredients.</span></h2>
+      <p class="lead reveal">The shelf was crowded with sports-nutrition brands competing on formulas. Starbucks had something they didn’t: brand love and a café on every corner.</p>
+      <table class="compare reveal">
+        <thead><tr><th>Brand</th><th>Product</th><th>Price (CAD)</th><th>Positioning</th></tr></thead>
+        <tbody>
+          <tr><td>BioSteel</td><td>Sports drink</td><td class="price">$2.99</td><td>Premium, science-backed performance for athletes</td></tr>
+          <tr><td>Vega</td><td>Protein shake</td><td class="price">$3.49</td><td>Plant-based, clean-label nutrition</td></tr>
+          <tr><td>Celsius</td><td>Fitness drink</td><td class="price">$2.99</td><td>Thermogenic energy for workouts</td></tr>
+          <tr class="us"><td>Starbucks Protein Coffee</td><td>Protein cold coffee</td><td class="price">$4.99</td><td>An everyday coffee that makes any active moment more rewarding</td></tr>
+        </tbody>
+      </table>
+      <div class="positioning">
+        <div class="pos pos--no reveal"><h3 class="h3">Product differentiation</h3><p class="body">Leading with protein, electrolytes and collagen turns the drink into a spec sheet — and “exercise performance coffee” doesn’t give people a picture to hold onto.</p></div>
+        <div class="pos pos--yes reveal"><h3 class="h3">Lifestyle positioning</h3><p class="body">Show the drink inside an active, everyday life. It lets Starbucks start associating its brand with healthy living — reaching people who don’t yet see it as a healthy option.</p></div>
+      </div>
+      <p class="body reveal" style="margin-top:28px">Pricing at <strong style="color:var(--ink)">$4.99</strong> sits $1–2 above competitors — what customers will pay for the Starbucks name — while matching the brand’s other canned drinks and staying well below the $7–8 ceiling for a single can.</p>
+    </div>
+  </section>
+
+  <!-- ===== Audience ===== -->
+  <section id="audience">
+    <div class="wrap">
+      <span class="chapter-no">05 — The audience</span>
+      <h2 class="h2 reveal">Meet the person<br><span class="outline">we’re talking to.</span></h2>
+      <p class="lead reveal">Canadians aged 20–34 who want a more active life but feel unsure where to start — alongside Starbucks’ existing loyal, health-conscious regulars.</p>
+      <div class="persona">
+        <figure class="ph r-4x5 reveal" data-ratio="4:5">
+          <figcaption><b>Persona portrait.</b>Candid lifestyle photo of a 25-year-old woman in athleisure leaving a downtown Toronto condo with her dog, coffee can in hand, morning light, tennis bag over her shoulder. Natural, editorial — not stock-photo posed.</figcaption>
+        </figure>
+        <div class="persona__card reveal">
+          <p class="kicker" style="margin-bottom:10px">Customer profile</p>
+          <h3 class="persona__name">Alissa Rayner, 25</h3>
+          <p class="persona__role">Social media manager at a Toronto athleisure brand · lives downtown</p>
+          <ul class="chips"><li>Achiever</li><li>Experiencer</li><li>Urban</li><li>Health &amp; fitness-conscious</li><li>Values quality &amp; convenience</li></ul>
+          <div class="cols">
+            <div>
+              <h4>What she loves</h4>
+              <ul><li>Tennis, dog walks and trying new fitness classes</li><li>Coffee and smoothies before and after workouts</li><li>Clean ingredients — and pays more for quality</li><li>Aesthetic, clean packaging</li></ul>
+            </div>
+            <div>
+              <h4>What turns her off</h4>
+              <ul><li>Brands that feel disingenuous</li><li>Tackiness</li><li>Artificial ingredients</li><li>Products with bad buzz on TikTok or Instagram</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SWOT ===== -->
+  <section id="swot">
+    <div class="wrap">
+      <span class="chapter-no">06 — SWOT</span>
+      <h2 class="h2 reveal">Where Starbucks<br><span class="outline">stands.</span></h2>
+      <div class="swot reveal">
+        <div><h4><span>S</span>Strengths</h4><ul><li>High brand recognition and loyal customers</li><li>Known for innovation and quality coffee</li><li>Existing café and grocery distribution</li><li>Recyclable aluminium cans</li></ul></div>
+        <div><h4><span>W</span>Weaknesses</h4><ul><li>Coffee lovers and fitness fans are sceptical audiences</li><li>Risk of confusion about ingredients and benefits</li><li>Brand dilution if seen as low quality</li><li>Premium price point</li></ul></div>
+        <div><h4><span>O</span>Opportunities</h4><ul><li>New occasions: breakfast, pre/post-workout</li><li>Seasonal flavours that mirror the café menu</li><li>Competitors are often very high in sugar</li><li>Partnerships with gyms, brands and creators</li><li>‘Proffee’ already familiar from social media</li></ul></div>
+        <div><h4><span>T</span>Threats</h4><ul><li>Big energy-drink brands on the same shelf</li><li>Many substitutes — needs strong differentiation</li><li>Coffee supply-chain costs</li><li>Recession squeezing RTD spending</li><li>Changing caffeine regulation</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Big idea ===== -->
+  <section class="idea" id="idea">
+    <div class="wrap">
+      <span class="chapter-no" style="color:rgba(13,13,13,.55)">07 — The big idea</span>
+      <h2 class="h2 reveal">A wall built<br>from encouragement.</h2>
+      <p class="lead reveal">Outside a high-traffic GoodLife Fitness in downtown Toronto — with a Starbucks nearby — we put up a <strong style="color:#111">Wall of Motivation</strong>. Passers-by, gym-goers and people deciding whether to go in leave sticky notes for each other. Together they make a rainbow of motivation.</p>
+
+      <div class="wall reveal" aria-label="Examples of motivational notes from the Wall of Motivation">
+        <div class="note">you got this!</div>
+        <div class="note">you’re not alone!</div>
+        <div class="note">one day at a time!</div>
+        <div class="note">unleash your potential</div>
+        <div class="note">be unstoppable</div>
+        <div class="note">embrace the energy</div>
+        <div class="note note--tag">#ItsYourMove</div>
+      </div>
+
+      <div class="split split--top">
+        <figure class="ph r-16x9 reveal" data-ratio="16:9">
+          <figcaption><b>The activation.</b>Wide shot of the Wall of Motivation on a downtown Toronto street outside a GoodLife Fitness: a huge white wall covered in hundreds of colourful branded sticky notes, people mid-write, Starbucks siren and #ItsYourMove on the wall header.</figcaption>
+        </figure>
+        <div>
+          <p class="body reveal">The messages don’t stay on the wall. They’re printed on the cans, carried into GoodLife gyms across Canada, and become the copy for display and out-of-home ads — so the people who joined the campaign literally write it.</p>
+          <p class="body reveal">No product sampling at the event: the wall, notes and materials carry the Starbucks logo and hashtag, keeping it about encouragement, not a sales pitch.</p>
+        </div>
+      </div>
+
+      <div class="appeals">
+        <div class="appeal reveal"><h3 class="h3">Emotional</h3><p>Help people get past the barriers to exercise and feel empowered on their own terms.</p></div>
+        <div class="appeal reveal"><h3 class="h3">Social</h3><p>#ItsYourMove invites people to share the small ways they stay active — and lift others up.</p></div>
+        <div class="appeal reveal"><h3 class="h3">Inspirational</h3><p>Real people reaching their goals, with Starbucks Protein Coffee as a companion, not a coach.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Rollout ===== -->
+  <section id="rollout">
+    <div class="wrap">
+      <span class="chapter-no">08 — Rollout</span>
+      <h2 class="h2 reveal">From one wall<br><span class="outline">to the whole country.</span></h2>
+      <p class="lead reveal">The event is recorded and becomes the engine for every channel.</p>
+      <ol class="timeline">
+        <li class="reveal"><b>The event</b><p>Wall of Motivation goes live at a downtown Toronto GoodLife Fitness.</p>
+          <figure class="ph r-1x1" data-ratio="1:1"><figcaption>Close-up of a hand sticking a pink “you got this!” note onto the wall.</figcaption></figure></li>
+        <li class="reveal"><b>60-second TV spot</b><p>A pan-Canadian commercial cut from the real event footage.</p>
+          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Film still: a nervous first-timer reading notes on the wall, smiling.</figcaption></figure></li>
+        <li class="reveal"><b>30s &amp; 15s social</b><p>Cut-downs for social, ending on #ItsYourMove and a call to post your own message.</p>
+          <figure class="ph r-9x16" data-ratio="9:16"><figcaption>Vertical social frame: can in hand, sticky-note text overlay, hashtag end card.</figcaption></figure></li>
+        <li class="reveal"><b>OOH &amp; display</b><p>Real messages from the wall become billboard and banner copy.</p>
+          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Transit-shelter mock-up: giant yellow sticky note reading “one day at a time!” beside the can.</figcaption></figure></li>
+        <li class="reveal"><b>On the can &amp; in gyms</b><p>Phrases printed on packaging and placed in GoodLife locations nationwide.</p>
+          <figure class="ph r-1x1" data-ratio="1:1"><figcaption>Row of cans, each with a different motivational phrase, on a gym-front fridge shelf.</figcaption></figure></li>
+      </ol>
+      <div class="budget reveal">
+        <div><b>$500K</b><span>total quarter budget — event, production and broadcast</span></div>
+        <div><b>$200K</b><span>of it for the live event and video production</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Goals ===== -->
+  <section id="goals">
+    <div class="wrap">
+      <span class="chapter-no">09 — Goals</span>
+      <h2 class="h2 reveal">How we’d<br><span class="outline">measure it.</span></h2>
+      <div class="goals">
+        <div class="goal reveal">
+          <span class="goal__num">30<small>%</small></span>
+          <h3>Awareness</h3>
+          <p>Raise awareness of Starbucks Protein Coffee to 30% of Canadians aged 20–34 by the end of Q3 2024, measured with surveys before and after the campaign.</p>
+          <ul class="smart"><li><b>S</b> 20–34 Canadians</li><li><b>M</b> pre/post surveys</li><li><b>T</b> end of Q3 2024</li></ul>
+        </div>
+        <div class="goal reveal">
+          <span class="goal__num">+50<small>%</small></span>
+          <h3>Social mentions &amp; search</h3>
+          <p>Grow social mentions and search traffic by 50% by the end of Q3 2024, tracked with Google Trends and social listening around #ItsYourMove.</p>
+          <ul class="smart"><li><b>S</b> mentions + search</li><li><b>M</b> social listening</li><li><b>T</b> end of Q3 2024</li></ul>
+        </div>
+      </div>
+
+      <h3 class="h3 reveal" style="margin-top:80px">Creative guardrails</h3>
+      <div class="rules">
+        <div class="rule reveal"><b>It’s okay to lack motivation.</b><p>No drill-sergeant energy — the spot is a refreshing reminder, not a lecture.</p></div>
+        <div class="rule reveal"><b>Positive affirmations only.</b><p>Stay well away from diet-centric messaging.</p></div>
+        <div class="rule reveal"><b>End on the hashtag.</b><p>Every piece closes on #ItsYourMove with a call to share your own message.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== End ===== -->
+  <section class="end">
+    <div class="wrap">
+      <h2 class="h2 reveal">It’s your <span style="color:var(--red)">move.</span></h2>
+      <p class="lead reveal">Want the full picture? The complete situation analysis and creative brief is available as a PDF.</p>
+      <div class="btns reveal">
+        <a class="btn btn--red" href="Starbucks_Protein_Coffee_Creative_Brief.pdf" target="_blank" rel="noopener">Read the full brief (PDF) ↗</a>
+        <a class="btn" href="index.html#story">← Back to portfolio</a>
+      </div>
+      <p class="team reveal">A team project by Khushi Patel, Kush Yegnaswami, Jenna Rosati, Josh Parto, Swati Khanna and Vrinda Gupta. Starbucks Protein Coffee is a student concept and is not affiliated with Starbucks.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>© 2026 Kush Swami</footer>
+
+<script>
+  // Fade sections in as they enter the screen
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+  }), { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Count up the big stats
+  const counter = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    counter.unobserve(e.target);
+    const el = e.target, end = +el.dataset.count, t0 = performance.now();
+    const tick = t => { const k = Math.min(1, (t - t0) / 1100); el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))) + '%'; if (k < 1) requestAnimationFrame(tick); };
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) requestAnimationFrame(tick);
+  }), { threshold: .6 });
+  document.querySelectorAll('[data-count]').forEach(el => counter.observe(el));
+
+  // Reading progress bar + active chapter in the side nav
+  const bar = document.querySelector('.progress');
+  const links = [...document.querySelectorAll('.chapters a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    let on = -1;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .45) on = i; });
+    links.forEach((a, i) => a.classList.toggle('is-on', i === on));
+  }, { passive: true });
+</script>
+</body>
+</html>

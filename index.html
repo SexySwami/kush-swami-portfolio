@@ -259,16 +259,14 @@
   .project__facts { display: flex; flex-wrap: wrap; gap: 14px 48px; margin: 36px 0 0; }
   .project__facts dt { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .45; }
   .project__facts dd { margin: 4px 0 0; font-size: 15px; font-weight: 600; }
+  /* Text blocks stack under their label on the left edge, in line with the header */
   .project__text {
-    grid-column: 1 / -1; display: grid; grid-template-columns: minmax(160px, 1fr) 2fr; gap: 12px 2.4vw;
-    padding: 28px 0 8px; border-top: 1px solid rgba(255,255,255,.14);
+    grid-column: 1 / -1; padding: 28px 0 8px; border-top: 1px solid rgba(255,255,255,.14);
   }
-  .project__text h3 { grid-row: 1 / span 9; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #ff3b2f; }
-  .project__text p, .project__text ul { grid-column: 2; margin: 0; max-width: 68ch; font-size: clamp(15px, 1.1vw, 18px); line-height: 1.6; opacity: .82; }
+  .project__text h3 { margin: 0 0 12px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #ff3b2f; }
+  .project__text p, .project__text ul { margin: 0; max-width: 62ch; font-size: clamp(15px, 1.1vw, 18px); line-height: 1.6; opacity: .82; }
+  .project__text p + p, .project__text p + ul { margin-top: 12px; }
   .project__text ul { padding-left: 1.1em; }
-  .project__text--lead { grid-template-columns: 1fr; padding-bottom: 24px; }
-  .project__text--lead h3 { grid-row: auto; margin-bottom: 6px; }
-  .project__text--lead p, .project__text--lead ul { grid-column: 1; max-width: 62ch; }
   .project__text li + li { margin-top: 6px; }
   .project__fig { margin: 0; }
   .project__fig--wide { grid-column: 1 / -1; }
@@ -391,9 +389,6 @@
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
     .vcard__play::before { left: 12px; top: 9px; border-width: 7px 0 7px 11px; }
     .project__grid { grid-template-columns: 1fr; gap: 36px; padding: 0 var(--gutter); }
-    .project__text { grid-template-columns: 1fr; }
-    .project__text h3 { grid-row: auto; }
-    .project__text p, .project__text ul { grid-column: 1; }
     .project__head { padding: 96px var(--gutter) 40px; }
     .project__nav { margin: 64px var(--gutter) 0; }
     .works__head { top: 8svh; grid-template-columns: 1fr; }
@@ -1633,14 +1628,12 @@ window.EMBEDDED_IMAGES = {
     // Text blocks and images follow the order of the PDF pages. Each image and its
     // caption live in one <figure>, so they always scroll together.
     const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-    p.flow.forEach((item, idx) => {
+    p.flow.forEach(item => {
       const wide = typeof item === 'object' && item.img;
       if (wide) item = item.img;
       if (typeof item !== 'number') {
         const block = document.createElement('section');
-        // A block that opens the page continues the header copy, so it shares the
-        // header's left edge; blocks between images use the label + column layout.
-        block.className = 'project__text' + (idx === 0 ? ' project__text--lead' : '');
+        block.className = 'project__text';
         block.innerHTML = `<h3>${esc(item.h)}</h3>` +
           (item.p || []).map(t => `<p>${esc(t)}</p>`).join('') +
           (item.list ? `<ul>${item.list.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '');

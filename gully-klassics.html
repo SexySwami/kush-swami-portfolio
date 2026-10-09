@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toronto By Night — Gully Klassics · Kush Swami</title>
+<meta name="description" content="Case study: Toronto By Night, a digital campaign pitch for Toronto streetwear brand Gully Klassics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@1,62..125,800..900&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --ink: #f4f1ec; --mute: rgba(244,241,236,.62); --line: rgba(244,241,236,.14);
+    --red: #ff4d2e; --glow: 0 0 18px rgba(255,77,46,.55);
+    --gutter: clamp(18px, 5vw, 80px); --max: 1240px;
+    --font: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ---------- Top bar ---------- */
+  .bar {
+    position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: center;
+    padding: 16px var(--gutter); background: linear-gradient(180deg, rgba(13,13,13,.95), rgba(13,13,13,0));
+    font-size: 14px; font-weight: 500;
+  }
+  .bar a { text-decoration: none; }
+  .bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .bar__brand { font-weight: 700; letter-spacing: -.02em; line-height: 1; }
+  .progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: var(--red); z-index: 21; }
+
+  /* ---------- Chapter nav ---------- */
+  .chapters {
+    position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 15;
+    display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 0; padding: 0;
+    mix-blend-mode: difference;
+  }
+  .chapters a { display: flex; align-items: center; justify-content: flex-end; gap: 10px; text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+  .chapters a span { opacity: 0; transform: translateX(6px); transition: opacity .25s, transform .25s; white-space: nowrap; }
+  .chapters a::after { content: ''; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; transition: background .25s, transform .25s; }
+  .chapters a:hover span, .chapters a:focus-visible span { opacity: 1; transform: none; }
+  .chapters a.is-on { color: #fff; }
+  .chapters a.is-on::after { background: var(--red); border-color: var(--red); transform: scale(1.2); }
+
+  /* ---------- Type ---------- */
+  .kicker { margin: 0 0 18px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+  .h1 { margin: 0; font-weight: 800; font-size: clamp(56px, 11vw, 190px); line-height: .84; letter-spacing: -.055em; }
+  .h2 { margin: 0 0 28px; font-weight: 800; font-size: clamp(36px, 5.6vw, 92px); line-height: .9; letter-spacing: -.045em; }
+  .h3 { margin: 0 0 10px; font-weight: 700; font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -.02em; }
+  .lead { margin: 0; max-width: 58ch; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--mute); }
+  .lead strong { color: var(--ink); font-weight: 600; }
+  .body { margin: 0; max-width: 62ch; font-size: 16px; line-height: 1.6; color: var(--mute); }
+  .body + .body { margin-top: 12px; }
+  .outline { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+
+  /* ---------- Sections ---------- */
+  section { padding: clamp(80px, 12vw, 160px) 0; border-top: 1px solid var(--line); scroll-margin-top: 40px; }
+  .chapter-no { display: block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--mute); font-variant-numeric: tabular-nums; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+  .split--top { align-items: start; }
+  .split > *, .persona > * { min-width: 0; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* ---------- Image placeholders ---------- */
+  .ph {
+    position: relative; margin: 0; border: 1.5px dashed rgba(244,241,236,.28); border-radius: 6px;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 12px, transparent 12px 24px),
+      #151515;
+    display: grid; align-content: end; padding: 22px; min-height: 220px; overflow: hidden;
+  }
+  .ph::before {
+    content: 'Image placeholder'; position: absolute; top: 16px; left: 18px;
+    font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red);
+  }
+  .ph::after { content: attr(data-ratio); position: absolute; top: 16px; right: 18px; font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; }
+  .ph figcaption { font-size: 14px; line-height: 1.5; color: var(--mute); max-width: 60ch; }
+  .ph figcaption b { display: block; margin-bottom: 4px; font-size: 15px; color: var(--ink); }
+  .r-16x9, .r-4x5, .r-1x1, .r-21x9, .r-9x16 { min-height: 0; }
+  .r-16x9 { aspect-ratio: 16 / 9; } .r-4x5 { aspect-ratio: 4 / 5; } .r-1x1 { aspect-ratio: 1 / 1; } .r-21x9 { aspect-ratio: 21 / 9; } .r-9x16 { aspect-ratio: 9 / 16; }
+
+  /* ---------- Hero ---------- */
+  .hero { min-height: 100svh; display: grid; align-content: end; padding: 120px 0 56px; border-top: 0; position: relative; overflow: hidden; }
+  .hero__bg { position: absolute; inset: 0; z-index: -1; margin: 0; border-radius: 0; border: 0; min-height: 0; padding: 0; }
+  .hero { --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
+  .hero__bg::before { top: 90px; left: var(--edge); }
+  .hero__bg::after { top: 90px; right: var(--edge); }
+  .hero__bg figcaption { position: absolute; top: 116px; left: var(--edge); max-width: min(560px, 80%); }
+  .hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, var(--bg) 8%, rgba(13,13,13,.4) 55%, rgba(13,13,13,.15)); }
+  .hero .h1 em { font-style: normal; color: var(--red); }
+  .hero__sub { margin: 28px 0 44px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 18px 44px; margin: 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
+  .meta dt { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .meta dd { margin: 4px 0 0; font-size: 15px; font-weight: 600; }
+  .scroll-cue { margin-top: 36px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+
+  /* ---------- TL;DR ---------- */
+  .tldr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 48px; }
+  .tldr div { background: var(--bg); padding: 26px 22px; }
+  .tldr b { display: block; margin-bottom: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .tldr p { margin: 0; font-size: 15px; line-height: 1.45; }
+
+  /* ---------- Stats ---------- */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 56px 0; }
+  .stat__num { display: block; font-weight: 800; font-size: clamp(64px, 9vw, 150px); line-height: .85; letter-spacing: -.05em; color: var(--red); font-variant-numeric: tabular-nums; }
+  .stat__txt { display: block; margin-top: 14px; max-width: 28ch; font-size: 15px; line-height: 1.45; color: var(--mute); }
+  .quote {
+    margin: 0; padding: clamp(28px, 4vw, 56px); border-radius: 6px; background: var(--ink); color: var(--bg);
+    font-weight: 700; font-size: clamp(24px, 3vw, 44px); line-height: 1.12; letter-spacing: -.03em;
+  }
+  .quote small { display: block; margin-bottom: 18px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+
+  /* ---------- Product ---------- */
+  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; }
+  .spec { padding: 20px; border: 1px solid var(--line); border-radius: 6px; }
+  .spec b { display: block; font-size: clamp(30px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+  .spec span { display: block; margin-top: 8px; font-size: 14px; color: var(--mute); }
+  .why { margin-top: 28px; }
+
+  /* ---------- Trends ---------- */
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 48px; }
+  .card { padding: 26px 22px 24px; border: 1px solid var(--line); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 250px; }
+  .card__big { font-weight: 800; font-size: clamp(36px, 3.6vw, 58px); letter-spacing: -.045em; line-height: .9; color: var(--ink); }
+  .card p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mute); }
+  .card h4 { margin: auto 0 0; font-size: 15px; font-weight: 700; }
+
+  /* ---------- Competition ---------- */
+  .compare { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 15px; }
+  .compare th, .compare td { text-align: left; padding: 18px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .compare th { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .compare td:first-child { font-weight: 700; }
+  .compare td.price { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .compare tr.us td { background: rgba(255,77,46,.1); }
+  .compare tr.us td:first-child { color: var(--red); }
+  .positioning { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+  .pos { padding: 28px; border-radius: 6px; border: 1px solid var(--line); }
+  .pos--no { opacity: .7; }
+  .pos--no .h3::before { content: '✕  '; color: var(--mute); }
+  .pos--yes { border-color: var(--red); }
+  .pos--yes .h3::before { content: '✓  '; color: var(--red); }
+
+  /* ---------- Persona ---------- */
+  .persona { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; margin-top: 48px; }
+  .persona__card { border-radius: 6px; background: #171717; padding: clamp(24px, 3vw, 40px); }
+  .persona__name { margin: 0; font-size: clamp(30px, 3.4vw, 52px); font-weight: 800; letter-spacing: -.04em; }
+  .persona__role { margin: 6px 0 24px; color: var(--mute); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
+  .chips li { font-size: 13px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .cols h4 { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .cols ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.55; color: var(--mute); }
+  .cols li + li { margin-top: 6px; }
+
+  /* ---------- SWOT ---------- */
+  .swot { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 48px; }
+  .swot div { background: var(--bg); padding: clamp(22px, 3vw, 36px); }
+  .swot h4 { margin: 0 0 14px; display: flex; align-items: baseline; gap: 12px; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+  .swot h4 span { font-size: 44px; color: var(--red); line-height: .8; }
+  .swot ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.6; color: var(--mute); }
+
+  /* ---------- Big idea ---------- */
+  .idea { background: var(--ink); color: var(--bg); border-top: 0; }
+  .idea .lead, .idea .body { color: rgba(13,13,13,.7); }
+  .idea .kicker { color: var(--red); }
+  .wall {
+    position: relative; margin: 56px 0; padding: clamp(28px, 4vw, 56px); border-radius: 6px;
+    background: #e6e1d8; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; min-height: 360px; align-content: center;
+  }
+  .note {
+    width: clamp(120px, 14vw, 190px); aspect-ratio: 1; padding: 16px; display: grid; place-items: center; text-align: center;
+    font-weight: 800; font-size: clamp(15px, 1.4vw, 21px); line-height: 1.05; letter-spacing: -.02em; color: #1b1b1b;
+    box-shadow: 0 14px 22px -12px rgba(0,0,0,.35); transform: rotate(var(--r, 0deg)); transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .note:hover { transform: rotate(0deg) scale(1.06); }
+  .note:nth-child(6n+1) { background: #ffd84d; --r: -3deg; }
+  .note:nth-child(6n+2) { background: #ff8fb1; --r: 2deg; }
+  .note:nth-child(6n+3) { background: #7fd3ff; --r: -1.5deg; }
+  .note:nth-child(6n+4) { background: #9be58a; --r: 3deg; }
+  .note:nth-child(6n+5) { background: #ffa25c; --r: -2.5deg; }
+  .note:nth-child(6n+6) { background: #c6a8ff; --r: 1.5deg; }
+  .note--tag { background: var(--green) !important; color: #fff; }
+  .idea .ph { border-color: rgba(13,13,13,.3); background: repeating-linear-gradient(135deg, rgba(0,0,0,.035) 0 12px, transparent 12px 24px), #dcd6cb; }
+  .idea .ph figcaption { color: rgba(13,13,13,.7); }
+  .idea .ph figcaption b { color: #111; }
+  .idea .ph::after { color: rgba(13,13,13,.55); }
+  .appeals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+  .appeal { padding: 24px; border-radius: 6px; border: 1px solid rgba(13,13,13,.15); }
+  .appeal p { margin: 0; font-size: 15px; line-height: 1.5; color: rgba(13,13,13,.72); }
+
+  /* ---------- Rollout ---------- */
+  .timeline { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
+  .timeline li { position: relative; padding-top: 34px; }
+  .timeline li::before {
+    counter-increment: step; content: counter(step, decimal-leading-zero);
+    position: absolute; top: 0; left: 0; font-size: 12px; font-weight: 700; color: var(--red);
+  }
+  .timeline li::after { content: ''; position: absolute; top: 20px; left: 0; right: -14px; height: 1px; background: var(--line); }
+  .timeline li:last-child::after { right: 0; }
+  .timeline b { display: block; margin-bottom: 8px; font-size: 17px; letter-spacing: -.01em; }
+  .timeline p { margin: 0 0 16px; font-size: 14px; line-height: 1.5; color: var(--mute); }
+  .timeline .ph { min-height: 0; padding: 14px; }
+  .timeline .ph::before { top: 10px; left: 12px; font-size: 9px; }
+  .timeline .ph::after { top: 10px; right: 12px; font-size: 9px; }
+  .timeline .ph figcaption { font-size: 12px; }
+  .budget { display: grid; grid-template-columns: 2fr 3fr; gap: 0; margin-top: 56px; border-radius: 6px; overflow: hidden; }
+  .budget div { padding: 24px; }
+  .budget div:first-child { background: var(--red); }
+  .budget div:last-child { background: #1d1d1d; }
+  .budget b { display: block; font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; }
+  .budget span { font-size: 14px; opacity: .85; }
+
+  /* ---------- Goals ---------- */
+  .goals { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
+  .goal { padding: clamp(24px, 3vw, 40px); border-radius: 6px; border: 1px solid var(--line); }
+  .goal__num { display: block; font-weight: 800; font-size: clamp(72px, 9vw, 150px); line-height: .82; letter-spacing: -.055em; }
+  .goal__num small { font-size: .4em; letter-spacing: -.02em; }
+  .goal h3 { margin: 18px 0 10px; font-size: 20px; letter-spacing: -.02em; }
+  .goal p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--mute); }
+  .smart { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .smart li { font-size: 12px; padding: 5px 10px; border-radius: 999px; background: rgba(244,241,236,.07); }
+  .smart li b { color: var(--red); }
+
+  /* ---------- Guardrails ---------- */
+  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+  .rule { padding: 24px; border-radius: 6px; background: #171717; }
+  .rule b { display: block; margin-bottom: 8px; font-size: 16px; }
+  .rule p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mute); }
+
+  /* ---------- End ---------- */
+  .end { text-align: left; }
+  .end .h2 { margin-bottom: 18px; }
+  .end .lead { margin: 0 0 40px; }
+  .btns { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .6em; padding: 16px 30px; border-radius: 999px; text-decoration: none;
+    font-size: 15px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; border: 1.5px solid var(--ink);
+    transition: background .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .btn:hover, .btn:focus-visible { background: var(--ink); color: var(--bg); outline: none; }
+  .btn--red { background: var(--red); border-color: var(--red); }
+  .btn--red:hover, .btn--red:focus-visible { background: #ff6a4f; border-color: #ff6a4f; color: #fff; }
+  .team { margin: 56px 0 0; max-width: 60ch; font-size: 14px; line-height: 1.6; color: var(--mute); }
+  footer { padding: 32px var(--gutter) 48px; text-align: left; font-size: 13px; color: var(--mute); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .chapters { display: none; }
+    .split, .persona, .positioning, .goals { grid-template-columns: 1fr; }
+    .cards, .tldr { grid-template-columns: 1fr 1fr; }
+    .timeline { grid-template-columns: 1fr; gap: 28px; }
+    .timeline li::after { display: none; }
+    .rules, .appeals { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 620px) {
+    .stats, .cards, .tldr, .swot, .cols, .specs, .budget { grid-template-columns: 1fr; }
+    .compare thead { display: none; }
+    .compare tr { display: grid; grid-template-columns: 1fr auto; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .compare td { border: 0; padding: 4px 0; }
+    .compare td:nth-child(2), .compare td:nth-child(4) { grid-column: 1 / -1; color: var(--mute); }
+    .compare tr.us { padding: 14px 12px; background: rgba(255,77,46,.1); }
+    .compare tr.us td { background: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+  /* ---------- Gully Klassics overrides ---------- */
+  :root { --display: "Archivo", "Inter Tight", Arial, sans-serif; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(255,77,46,.08), transparent 60%),
+      var(--bg);
+  }
+  .h1, .h2 { font-family: var(--display); font-style: italic; font-weight: 900; font-stretch: 78%; text-transform: uppercase; letter-spacing: -.02em; }
+  .h1 { line-height: .82; }
+  .h2 { line-height: .88; }
+  .hero .h1 em { color: #fff; text-shadow: 0 0 6px rgba(255,77,46,.9), 0 0 28px rgba(255,77,46,.65); }
+  .outline { -webkit-text-stroke: 1.5px var(--red); }
+  .scribble { position: relative; display: inline-block; }
+  .scribble::after {
+    content: ''; position: absolute; inset: -.18em -.3em; border: 3px solid var(--red); border-radius: 50%;
+    transform: rotate(-4deg); pointer-events: none;
+  }
+
+  /* Objectives */
+  .objectives { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+  .objective { padding: clamp(24px, 3vw, 36px); border: 1px solid var(--line); border-radius: 6px; }
+  .objective .goal__num { color: var(--red); }
+  .objective h3 { margin: 18px 0 8px; font-size: 18px; letter-spacing: -.01em; }
+  .objective p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--mute); }
+
+  /* Persona meters */
+  .meters { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .meters li { display: grid; grid-template-columns: 90px 1fr; align-items: center; gap: 12px; font-size: 13px; color: var(--mute); }
+  .meters i { display: block; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--red) var(--v), rgba(244,241,236,.1) var(--v)); }
+  .brands { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .brands li { font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 4px; background: var(--ink); color: var(--bg); }
+
+  /* Pillars */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+  .pillar { padding: 28px 24px; border-radius: 6px; border: 1px solid var(--line); background: #121212; }
+  .pillar b { display: block; margin-bottom: 14px; font-family: var(--display); font-style: italic; font-weight: 900; font-stretch: 78%; font-size: clamp(22px, 2.2vw, 30px); text-transform: uppercase; line-height: 1; }
+  .pillar b span { color: var(--red); }
+  .pillar p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--mute); }
+  .pillar strong { color: var(--red); font-weight: 600; }
+
+  /* Ad executions */
+  .exec { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 5vw, 72px); align-items: start; margin-top: 56px; }
+  .exec + .exec { margin-top: 96px; padding-top: 96px; border-top: 1px solid var(--line); }
+  .exec .ph { max-width: 360px; }
+  .specline { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; list-style: none; }
+  .specline li { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); }
+  .specline li:first-child { border-color: var(--red); color: var(--red); }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+  .fact { padding: 20px; border-radius: 6px; background: #151515; }
+  .fact b { display: block; font-size: clamp(30px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--red); }
+  .fact span { display: block; margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--mute); }
+
+  /* Influencer posts */
+  .posts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
+  .post { border-radius: 6px; border: 1px solid var(--line); overflow: hidden; background: #121212; }
+  .post .ph { border: 0; border-bottom: 1.5px dashed rgba(244,241,236,.2); border-radius: 0; }
+  .post__body { padding: 20px 22px 24px; }
+  .post__handle { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 700; }
+  .post__cap { margin: 0; font-size: 15px; line-height: 1.5; color: var(--mute); }
+  .post__cap em { font-style: normal; color: var(--red); }
+  .details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-top: 14px; }
+  .details div { background: var(--bg); padding: 22px; }
+  .details b { display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .details p { margin: 0; font-size: 15px; line-height: 1.45; }
+
+  /* Blog list */
+  .blog { list-style: none; margin: 0; padding: 0; counter-reset: post; }
+  .blog li { display: grid; grid-template-columns: 56px 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .blog li::before { counter-increment: post; content: 'Post ' counter(post); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--red); padding-top: 4px; }
+
+  /* Blocking chart */
+  .gantt { margin-top: 48px; overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .gantt table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 13px; }
+  .gantt th, .gantt td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  .gantt thead th { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+  .gantt thead th.mo { border-left: 1px solid var(--line); }
+  .gantt td.wk { padding: 0; width: 3.4%; border-left: 1px solid rgba(244,241,236,.05); }
+  .gantt td.wk.on::after { content: ''; display: block; height: 14px; margin: 0 1px; background: var(--red); }
+  .gantt tr.supp td.wk.on::after { background: rgba(244,241,236,.55); }
+  .gantt td:first-child { font-weight: 700; }
+  .gantt td.prop { color: var(--mute); }
+  .gantt tr.sep td { padding: 14px 8px 6px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .legend { display: flex; gap: 22px; margin-top: 14px; font-size: 13px; color: var(--mute); }
+  .legend span::before { content: ''; display: inline-block; width: 14px; height: 8px; margin-right: 8px; background: var(--red); }
+  .legend span + span::before { background: rgba(244,241,236,.55); }
+
+  /* Budget */
+  .spend { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 15px; }
+  .spend th, .spend td { text-align: left; padding: 16px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .spend th { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .spend td:first-child { font-weight: 700; }
+  .spend td:last-child, .spend th:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .spend tr.sub td { font-weight: 700; color: var(--red); border-bottom-color: rgba(255,77,46,.4); }
+  .spend tr.grand td { font-size: 20px; font-weight: 800; background: rgba(255,77,46,.1); }
+  .spend tr.mine td:first-child::after { content: 'Kush'; margin-left: 10px; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 7px; border-radius: 999px; background: var(--red); color: #fff; vertical-align: middle; }
+
+  /* Team */
+  .crew { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 48px; }
+  .crew div { padding: 20px; border-radius: 6px; border: 1px solid var(--line); }
+  .crew div.me { border-color: var(--red); background: rgba(255,77,46,.06); }
+  .crew b { display: block; margin-bottom: 6px; font-size: 16px; }
+  .crew span { font-size: 13px; line-height: 1.45; color: var(--red); }
+
+  @media (max-width: 960px) {
+    .objectives, .pillars, .exec, .posts { grid-template-columns: 1fr; }
+    .exec .ph { max-width: 300px; }
+    .details { grid-template-columns: 1fr 1fr; }
+    .crew { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .facts, .details, .crew { grid-template-columns: 1fr; }
+    .spend thead { display: none; }
+    .spend tr { display: grid; grid-template-columns: 1fr auto; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .spend td { border: 0; padding: 3px 0; }
+    .spend td:nth-child(2), .spend td:nth-child(3) { grid-column: 1 / -1; order: 2; color: var(--mute); }
+    .spend td:last-child { order: 1; }
+    .spend tr.sub, .spend tr.grand { padding: 12px; }
+    .spend tr.grand td { background: none; }
+    .spend tr.grand { background: rgba(255,77,46,.1); }
+  }
+
+  /* Draft fixes */
+  .hero { padding-top: clamp(300px, 34vh, 360px); }
+  .stats--2 { grid-template-columns: repeat(2, 1fr); }
+  .timeline--4 { grid-template-columns: repeat(4, 1fr); margin-top: 24px; }
+  @media (max-width: 960px) { .timeline--4 { grid-template-columns: 1fr 1fr; } .timeline--4 li::after { display: none; } }
+  @media (max-width: 620px) {
+    .hero { padding-top: 400px; }
+    .stats--2 { grid-template-columns: 1fr; }
+    .spend tr.sub td, .spend tr.grand td { grid-column: auto; order: 0; color: inherit; }
+    .spend tr.sub td { color: var(--red); }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"></div>
+<header class="bar">
+  <a class="bar__brand" href="index.html">Kush Swami’s<br>Portfolio</a>
+  <a href="index.html#story">← Back to portfolio</a>
+</header>
+
+<nav aria-label="Chapters">
+  <ul class="chapters">
+    <li><a href="#overview"><span>Overview</span></a></li>
+    <li><a href="#objectives"><span>Objectives</span></a></li>
+    <li><a href="#audience"><span>Audience</span></a></li>
+    <li><a href="#idea"><span>The big idea</span></a></li>
+    <li><a href="#paid-social"><span>Paid social</span></a></li>
+    <li><a href="#influencers"><span>Influencers</span></a></li>
+    <li><a href="#content"><span>Content</span></a></li>
+    <li><a href="#social"><span>Organic social</span></a></li>
+    <li><a href="#support"><span>Supporting tactics</span></a></li>
+    <li><a href="#plan"><span>Plan &amp; budget</span></a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top">
+    <figure class="ph hero__bg" data-ratio="Full-bleed · 16:9">
+      <figcaption><b>Hero — Toronto after dark.</b>A wide, cinematic night shot of a downtown Toronto street (Queen West or Ossington), wet asphalt reflecting red and orange neon. A young man in an oversized black outerwear jacket and a fitted cap walks toward camera with a group of friends a few steps behind. Grainy, high-contrast black-and-white grade with only the neon left in red-orange. Keep the bottom third dark so the type reads on top.</figcaption>
+    </figure>
+    <div class="hero__shade" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="kicker">Case study · Creative brand strategy</p>
+      <h1 class="h1">Toronto<br><em>by night.</em></h1>
+      <p class="lead hero__sub">A digital campaign pitch for <strong>Gully Klassics</strong>, a Toronto streetwear label, that puts the brand where the city actually comes alive: after the work week, in the bars, the clubs and the local hip-hop scene.</p>
+      <dl class="meta">
+        <div><dt>Brand</dt><dd>Gully Klassics</dd></div>
+        <div><dt>Deliverable</dt><dd>Digital campaign pitch</dd></div>
+        <div><dt>Market</dt><dd>Toronto, 24–35</dd></div>
+        <div><dt>Flight</dt><dd>Sept – Dec 2024</dd></div>
+        <div><dt>My role</dt><dd>Paid display, influencers, blocking, budget</dd></div>
+      </dl>
+      <p class="scroll-cue">Scroll to walk through the campaign ↓</p>
+    </div>
+  </section>
+
+  <!-- ===== Overview ===== -->
+  <section id="overview">
+    <div class="wrap">
+      <span class="chapter-no">00 — Overview</span>
+      <h2 class="h2 reveal">The campaign<br><span class="outline">in 30 seconds.</span></h2>
+      <div class="tldr reveal">
+        <div><b>The brand</b><p>Gully Klassics is an independent Toronto streetwear label: outerwear, headwear and fits rooted in hip-hop culture.</p></div>
+        <div><b>The insight</b><p>“It’s not just the clothes I wear; it tells my story.” Streetwear buyers dress to show who they are and where they’re from.</p></div>
+        <div><b>The idea</b><p><em>Toronto By Night</em>: the week is done, real life starts. Make Gully Klassics part of the city’s nightlife and music scene.</p></div>
+        <div><b>The plan</b><p>Paid social, local hip-hop influencers, a blog, organic social, SEO, display and email, over 16 weeks for $13.5K.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Objectives ===== -->
+  <section id="objectives">
+    <div class="wrap">
+      <span class="chapter-no">01 — Objectives</span>
+      <h2 class="h2 reveal">Get seen.<br><span class="outline">Get bought.</span></h2>
+      <p class="lead reveal">Two business goals: grow <strong>awareness among 24–35-year-olds in Toronto</strong>, and turn that attention into <strong>online sales of headwear</strong>, the category with the most room to grow.</p>
+      <div class="objectives">
+        <div class="objective reveal">
+          <span class="goal__num">+50<small>%</small></span>
+          <h3>Social media impressions</h3>
+          <p>Brand awareness with 24–35-year-olds in Toronto.</p>
+        </div>
+        <div class="objective reveal">
+          <span class="goal__num">+20<small>%</small></span>
+          <h3>Headwear product page views</h3>
+          <p>More people browsing the headwear category online.</p>
+        </div>
+        <div class="objective reveal">
+          <span class="goal__num">+15<small>%</small></span>
+          <h3>Completed transactions</h3>
+          <p>Turning those page views into headwear sales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Audience ===== -->
+  <section id="audience">
+    <div class="wrap">
+      <span class="chapter-no">02 — Audience &amp; insight</span>
+      <h2 class="h2 reveal">Clothes that<br><span class="outline">tell a story.</span></h2>
+      <blockquote class="quote reveal"><small>Consumer insight</small>“It’s not just the clothes I wear; it tells my story.”</blockquote>
+      <div class="persona">
+        <figure class="ph r-4x5 reveal" data-ratio="4:5">
+          <figcaption><b>Persona portrait — Kyle.</b>A confident Black man in his late twenties on a Toronto rooftop at dusk, CN Tower soft in the background. He wears a clean cream hoodie under a black bomber and a fitted cap. Relaxed half-smile, editorial street-style framing, warm city lights behind him.</figcaption>
+        </figure>
+        <div class="persona__card reveal">
+          <h3 class="persona__name">Kyle</h3>
+          <p class="persona__role">Marketing manager · proud Torontonian · pays more for quality</p>
+          <ul class="chips">
+            <li>Up at 5am</li><li>2 hrs at the gym</li><li>Drake fan</li><li>Raptors fan</li><li>Supports local artists</li><li>Weekends out</li>
+          </ul>
+          <div class="cols">
+            <div>
+              <h4>Goals</h4>
+              <ul>
+                <li>Become a successful marketing director</li>
+                <li>Be the best version of himself</li>
+                <li>Support local Toronto businesses</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Frustration</h4>
+              <ul>
+                <li>It’s hard to find local brands that match both his style and his values.</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Motivations</h4>
+              <ul class="meters">
+                <li>Incentive<i style="--v:85%"></i></li>
+                <li>Growth<i style="--v:90%"></i></li>
+                <li>Power<i style="--v:75%"></i></li>
+                <li>Social<i style="--v:85%"></i></li>
+                <li>Fear<i style="--v:15%"></i></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Brands he wears</h4>
+              <ul class="brands"><li>OVO</li><li>Supreme</li><li>Stüssy</li></ul>
+              <h4 style="margin-top:22px">Where to reach him</h4>
+              <ul>
+                <li>Online and social media first</li>
+                <li>Then referrals and guerrilla/PR</li>
+                <li>Barely reached by traditional ads</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Big idea ===== -->
+  <section id="idea">
+    <div class="wrap">
+      <span class="chapter-no">03 — The big idea</span>
+      <h2 class="h2 reveal">Toronto comes<br><span class="scribble">alive</span> at night.</h2>
+      <div class="split">
+        <div>
+          <p class="lead reveal">The work week is done, but real life is just starting. <strong>That’s the Toronto lifestyle. And what’s more Toronto than Gully Klassics?</strong></p>
+          <p class="body reveal" style="margin-top:20px">We position Gully Klassics as part of Toronto’s nightlife and music scene. No studio shoots or hard sell. <strong style="color:var(--red)">Just the city, our friends, the lights, good music and Gully Klassics.</strong></p>
+        </div>
+        <figure class="ph r-4x5 reveal" data-ratio="4:5">
+          <figcaption><b>Key visual — outside the venue.</b>A man in a dark technical jacket and cap stands outside a glowing Toronto bar at night, neon signage and string lights behind him, shot from a slight low angle. Desaturated grade with the neon kept warm red-orange.</figcaption>
+        </figure>
+      </div>
+      <div class="pillars">
+        <div class="pillar reveal"><b>Streetwear <span>=</span> Digital</b><p><strong>Social media is the #1 influence</strong> for streetwear fans. The campaign lives on the feeds where they already find new drops.</p></div>
+        <div class="pillar reveal"><b>Streetwear <span>=</span> Music</b><p><strong>80% of respondents say rap is a major influence</strong> on streetwear, so the city’s hip-hop artists are the brand’s natural voice.</p></div>
+        <div class="pillar reveal"><b>Streetwear <span>=</span> Identity</b><p>Its roots are in ’80s and ’90s rap icons, whose <strong>hustle and determination made them stars</strong>. Gully Klassics wears that story.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Paid social ===== -->
+  <section id="paid-social">
+    <div class="wrap">
+      <span class="chapter-no">04 — Paid social</span>
+      <h2 class="h2 reveal">Short, loud<br><span class="outline">&amp; after dark.</span></h2>
+      <div class="stats stats--2">
+        <p class="reveal"><span class="stat__num">+50%</span><span class="stat__txt">impressions year over year.</span></p>
+        <p class="reveal"><span class="stat__num">3x</span><span class="stat__txt">return on ad spend (ROAS).</span></p>
+      </div>
+
+      <div class="exec">
+        <figure class="ph r-9x16 reveal" data-ratio="9:16 · 10 sec">
+          <figcaption><b>Instagram Story ad.</b>Vertical frame. Side profile of a Torontonian walking confidently down a downtown street at night with earbuds in, wearing Gully Klassics outerwear and a cap. The camera stays still while the walker changes every few steps: a new person and a new outfit. Blurred nightlife and neon behind, with a “Learn more” sticker at the bottom.</figcaption>
+        </figure>
+        <div>
+          <ul class="specline reveal"><li>Instagram Story</li><li>Awareness</li><li>9:16</li><li>10 sec</li></ul>
+          <h3 class="h3 reveal">The walk.</h3>
+          <p class="body reveal">Torontonians walk through downtown at night, listening to music and wearing GK outerwear and headwear. The shot stays fixed but cuts to a new person and look every few steps, with the city’s nightlife behind them. The sound and look of the city at night are the ad. CTA: <strong>Learn more</strong>.</p>
+          <div class="facts">
+            <div class="fact reveal"><b>96%</b><span>of streetwear consumers use Instagram to discover trends.</span></div>
+            <div class="fact reveal"><b>84%</b><span>look to social for fashion inspiration, but only 31% value a brand’s own socials, so authenticity matters.</span></div>
+            <div class="fact reveal"><b>GRWM</b><span>“Get ready with me” and street-style formats are staples. People want clothing that doesn’t feel promotional.</span></div>
+            <div class="fact reveal"><b>26–75%</b><span>Half the industry puts this share of its marketing budget into influencers and everyday imagery.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exec">
+        <figure class="ph r-9x16 reveal" data-ratio="9:16 · 6 sec loop">
+          <figcaption><b>TikTok bumper.</b>Vertical split screen. Four groups of friends outside Toronto bars and restaurants at night. On the left they pose for the camera in GK outerwear and caps; on the right the same group is laughing, shoving and messing around. Neon-lit, handheld, grainy. “See the collection” button at the bottom.</figcaption>
+        </figure>
+        <div>
+          <ul class="specline reveal"><li>TikTok</li><li>Awareness</li><li>9:16</li><li>6 sec, looped</li></ul>
+          <h3 class="h3 reveal">Pose / play.</h3>
+          <p class="body reveal">Four groups of friends outside Toronto bars at night. On the left they pose; on the right the footage is looser: laughing and getting playful with each other. It ties GK to the streets of Toronto and the people on them. CTA: <strong>See the collection</strong>.</p>
+          <div class="facts">
+            <div class="fact reveal"><b>6 sec</b><span>Short-form gets higher engagement, better brand recall and view-through, and costs less to make.</span></div>
+            <div class="fact reveal"><b>75%</b><span>of TikTok users discover new artists on the platform. It’s built for music lovers, like GK.</span></div>
+            <div class="fact reveal"><b>68%</b><span>remember a brand better when it uses a song they like.</span></div>
+            <div class="fact reveal"><b>58%</b><span>feel a stronger connection to that brand.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Influencers ===== -->
+  <section id="influencers">
+    <div class="wrap">
+      <span class="chapter-no">05 — Influencer marketing</span>
+      <h2 class="h2 reveal">Worn by the<br><span class="outline">local scene.</span></h2>
+      <p class="lead reveal">Our audience follows and trusts <strong>local artists who share their values</strong>. So instead of renting celebrity reach, we put Gully Klassics on ten Toronto hip-hop musicians and creators and let them wear it their way.</p>
+      <div class="posts">
+        <article class="post reveal">
+          <figure class="ph r-4x5" data-ratio="4:5 · IG post">
+            <figcaption><b>Mock post 1 — on stage.</b>A young Toronto rapper on a small club stage, mid-verse, hand reaching to the crowd, wearing a Gully Klassics jacket and cap. Phones up in the foreground, red stage light, sweat and haze.</figcaption>
+          </figure>
+          <div class="post__body">
+            <span class="post__handle">@local.artist · Instagram</span>
+            <p class="post__cap">“Rocking my favourite gear from Gully Klassics at tonight’s show. Big ups for supporting independent artists! Cop yours now! <em>#hiphop #indieartist #fashion #toronto</em>”</p>
+          </div>
+        </article>
+        <article class="post reveal">
+          <figure class="ph r-4x5" data-ratio="4:5 · TikTok / Reel">
+            <figcaption><b>Mock post 2 — unboxing &amp; try-on.</b>A music creator in their apartment opening a black Gully Klassics box, outfits laid out on the bed and a mirror behind them. Phone-shot, warm lamp light, candid and a little messy.</figcaption>
+          </figure>
+          <div class="post__body">
+            <span class="post__handle">@local.artist · TikTok</span>
+            <p class="post__cap">“Just got my hands on these fresh threads from Gully Klassics! Love how they support local artists like me. Check out my new look and get yours at gullyclassics.com. <em>#supportlocal #hiphopfashion #ad</em>”</p>
+          </div>
+        </article>
+      </div>
+      <div class="details reveal">
+        <div><b>Who</b><p>10 local hip-hop musicians &amp; influencers, 10K–100K followers</p></div>
+        <div><b>Where</b><p>Instagram, TikTok, YouTube</p></div>
+        <div><b>When</b><p>Sept 1 – Nov 30, timed with the display campaign</p></div>
+        <div><b>Success</b><p>$2,000 in revenue through affiliate links</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Content ===== -->
+  <section id="content">
+    <div class="wrap">
+      <span class="chapter-no">06 — Content marketing</span>
+      <h2 class="h2 reveal">The Gully<br><span class="outline">Gazette.</span></h2>
+      <div class="split split--top">
+        <div>
+          <p class="lead reveal">A blog series on the Gully Klassics site about the brand, the collection and <strong>Toronto’s urban culture</strong>, promoted on social to drive traffic back to the store.</p>
+          <p class="body reveal" style="margin-top:20px">It shows GK knows fashion and the city, and the posts keep working for organic search long after they’re published.</p>
+          <ol class="blog reveal" style="margin-top:32px">
+            <li>Top 10 Must-Have Pieces from Gully Klassics’ New Collection</li>
+            <li>In the Studio with TyriqueOrDie: A Style and Music Journey with Gully Klassics</li>
+            <li>Top Trends for the Season: What’s Hot in Urban Fashion</li>
+            <li>From the Streets: The Evolution of Hip-Hop in Toronto</li>
+          </ol>
+        </div>
+        <figure class="ph r-4x5 reveal" data-ratio="4:5 · Blog mock-up">
+          <figcaption><b>Blog mock-up — The Gully Gazette.</b>A laptop on a dark desk showing a bold blog page: a “Gully Gazette” masthead in graffiti-style type over a magenta and red photo of a rapper in GK gear, with the article opening “Hey, Gully fam!” Moody desk lamp and a pair of sneakers at the edge of frame.</figcaption>
+        </figure>
+      </div>
+      <div class="stats stats--2">
+        <p class="reveal"><span class="stat__num">+25%</span><span class="stat__txt">organic traffic, year to date.</span></p>
+        <p class="reveal"><span class="stat__num">2.5x</span><span class="stat__txt">conversion rate from content, year over year.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Organic social ===== -->
+  <section id="social">
+    <div class="wrap">
+      <span class="chapter-no">07 — Organic social</span>
+      <h2 class="h2 reveal">Build the<br><span class="outline">community.</span></h2>
+      <div class="posts">
+        <article class="post reveal">
+          <figure class="ph r-1x1" data-ratio="1:1 · IG post">
+            <figcaption><b>Giveaway post.</b>A black leather Gully Klassics jacket on a model against a dark grunge wall, with “GIVEAWAY” in huge stacked white type behind. A checklist overlay: follow us, like this post, tag 3 friends, based in the GTA.</figcaption>
+          </figure>
+          <div class="post__body">
+            <span class="post__handle">Tactic 1 · Instagram giveaway</span>
+            <p class="post__cap">A low-effort, cost-effective way to build awareness and grow the audience. To enter: follow, like, tag three friends and be based in the GTA.<br><em>Success: +10% active followers (1,220).</em></p>
+          </div>
+        </article>
+        <article class="post reveal">
+          <figure class="ph r-1x1" data-ratio="1:1 · IG carousel">
+            <figcaption><b>“Behind Gully Klassics” post.</b>A gritty zine-style collage: two people in GK outerwear against a concrete wall, overlaid with a barcode sticker, torn paper and the words “Ambition. Hustle. Determination.” in orange block type.</figcaption>
+          </figure>
+          <div class="post__body">
+            <span class="post__handle">Tactic 2 · “Behind Gully Klassics”</span>
+            <p class="post__cap">A weekly series for a month that teaches followers who Gully Klassics is beyond the streetwear: the people, the process and the values.<br><em>Success: +5–10% sales.</em></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Supporting tactics ===== -->
+  <section id="support">
+    <div class="wrap">
+      <span class="chapter-no">08 — Supporting tactics</span>
+      <h2 class="h2 reveal">Catch them<br><span class="outline">when they search.</span></h2>
+      <div class="rules">
+        <div class="rule reveal"><b>Paid display</b><p>Google Display Network and YouTube to build awareness and drive traffic to the website.</p></div>
+        <div class="rule reveal"><b>Paid search</b><p>An awareness-driven Google search campaign aimed at high-intent audiences.</p></div>
+        <div class="rule reveal"><b>On-page SEO</b><p>Update the website with relevant brand information to improve organic search ranking.</p></div>
+      </div>
+      <h3 class="h3 reveal" style="margin-top:64px">Email welcome series</h3>
+      <ol class="timeline timeline--4">
+        <li class="reveal"><b>Welcome</b><p>Welcome to Gully Klassics.</p></li>
+        <li class="reveal"><b>Brand story</b><p>Who we are and where we’re from.</p></li>
+        <li class="reveal"><b>Best sellers</b><p>The pieces everyone’s wearing.</p></li>
+        <li class="reveal"><b>Discount reminder</b><p>A nudge to make the first purchase.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== Plan & budget ===== -->
+  <section id="plan">
+    <div class="wrap">
+      <span class="chapter-no">09 — Blocking chart &amp; budget</span>
+      <h2 class="h2 reveal">Sixteen weeks,<br><span class="outline">$13.5K.</span></h2>
+      <p class="lead reveal">I built the blocking chart and budget. The campaign starts in September with paid social and email, adds the influencer and display push in October, and keeps content, organic social and SEO running through December.</p>
+
+      <div class="gantt reveal">
+        <table>
+          <thead>
+            <tr><th>Channel</th><th>Property</th><th class="mo" colspan="4">September</th><th class="mo" colspan="4">October</th><th class="mo" colspan="4">November</th><th class="mo" colspan="4">December</th></tr>
+          </thead>
+          <tbody>
+            <tr class="sep"><td colspan="18">Recommended tactics</td></tr>
+            <tr data-on="1-8"><td>Paid social</td><td class="prop">Instagram, Facebook · video ads</td></tr>
+            <tr data-on="5-12"><td>Influencer marketing</td><td class="prop">Instagram, TikTok · 10 creators</td></tr>
+            <tr data-on="1-16"><td>Content marketing</td><td class="prop">Owned website · blog</td></tr>
+            <tr data-on="1-16"><td>Organic social</td><td class="prop">Instagram, Facebook, TikTok</td></tr>
+            <tr class="sep"><td colspan="18">Supplementary tactics</td></tr>
+            <tr class="supp" data-on="1-12"><td>SEO / SEM</td><td class="prop">Google Ads · keyword planning</td></tr>
+            <tr class="supp" data-on="5-12"><td>Paid display</td><td class="prop">Google Ads · programmatic</td></tr>
+            <tr class="supp" data-on="1-8"><td>Email marketing</td><td class="prop">CRM · 4-step sequence</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend"><span>Recommended</span><span>Supplementary</span></div>
+
+      <table class="spend reveal">
+        <thead><tr><th>Channel</th><th>Tactic</th><th>Description</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Paid social</td><td>Video display ads</td><td>6-sec bumper ad, looped</td><td>$5,000</td></tr>
+          <tr class="mine"><td>Influencer marketing</td><td>Pictures &amp; videos</td><td>10 influencers, $200 each</td><td>$2,000</td></tr>
+          <tr><td>Content marketing</td><td>Blog</td><td>Consistent blog posts</td><td>$1,000</td></tr>
+          <tr><td>Organic social</td><td>Pictures &amp; videos</td><td>Posts built on the content pillars</td><td>$2,000</td></tr>
+          <tr class="sub"><td colspan="3">Recommended tactics</td><td>$10,000</td></tr>
+          <tr><td>SEO / SEM</td><td>Keyword planning</td><td>SEO keywords and SEM ads</td><td>$1,000</td></tr>
+          <tr class="mine"><td>Paid display</td><td>Programmatic ads</td><td>Two 10 × 10 square ads</td><td>$2,000</td></tr>
+          <tr><td>Email marketing</td><td>Email sequences</td><td>4-step welcome sequence</td><td>$500</td></tr>
+          <tr class="sub"><td colspan="3">Supplementary tactics</td><td>$3,500</td></tr>
+          <tr class="grand"><td colspan="3">Total</td><td>$13,500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== End ===== -->
+  <section class="end">
+    <div class="wrap">
+      <h2 class="h2 reveal">An ode to<br><span style="color:var(--red)">Toronto’s nightlife.</span></h2>
+      <p class="lead reveal">The strategy represents everything you think of when you imagine an upscale night out in this city: <strong>a vibrant music scene, a little luxury, and a strong sense of pride in Canada’s largest city.</strong></p>
+      <div class="btns reveal">
+        <a class="btn btn--red" href="Gully_Klassics_Pitch.pdf" target="_blank" rel="noopener">View the full pitch deck (PDF) ↗</a>
+        <a class="btn" href="index.html#story">← Back to portfolio</a>
+      </div>
+      <div class="crew">
+        <div class="me reveal"><b>Kush Yegnaswami</b><span>Paid display, influencer marketing, blocking chart, budget</span></div>
+        <div class="reveal"><b>Joshua Parto</b><span>Paid social &amp; big idea</span></div>
+        <div class="reveal"><b>Mike Maddigan</b><span>SEO, SEM &amp; executive summary</span></div>
+        <div class="reveal"><b>Sophika Dmytryshyn</b><span>Social media &amp; conclusion</span></div>
+        <div class="reveal"><b>Papada Bootsri</b><span>Content marketing</span></div>
+      </div>
+      <p class="team reveal">Group 2 pitch, 2024. A student campaign proposal for Gully Klassics.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>© 2026 Kush Swami</footer>
+
+<script>
+  // Fill the blocking-chart week cells from each row's data-on="start-end"
+  document.querySelectorAll('.gantt tr[data-on]').forEach(tr => {
+    const [a, b] = tr.dataset.on.split('-').map(Number);
+    for (let w = 1; w <= 16; w++) {
+      const td = document.createElement('td');
+      td.className = 'wk' + (w >= a && w <= b ? ' on' : '');
+      td.title = 'Week ' + w;
+      tr.appendChild(td);
+    }
+  });
+
+  // Fade sections in as they enter the screen
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+  }), { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Reading progress bar + active chapter in the side nav
+  const bar = document.querySelector('.progress');
+  const links = [...document.querySelectorAll('.chapters a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    let on = -1;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .45) on = i; });
+    links.forEach((a, i) => a.classList.toggle('is-on', i === on));
+  }, { passive: true });
+</script>
+</body>
+</html>

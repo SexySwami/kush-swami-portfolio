@@ -296,6 +296,50 @@
     line-height: 1.2; letter-spacing: -.02em;
   }
 
+  /* ---------- Résumé ---------- */
+  .resume { padding: 20px var(--gutter) 120px; }
+  .resume__block { padding: 56px 0; border-top: 1px solid #ececec; }
+  .resume__label {
+    margin: 0 0 32px; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: -.01em;
+    display: flex; justify-content: space-between; gap: 1em;
+  }
+  .resume__label span { opacity: .45; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .stat__num { display: block; font-weight: 800; font-size: clamp(40px, 4.6vw, 84px); line-height: .9; letter-spacing: -.045em; color: #e00000; }
+  .stat__num--sm { font-size: clamp(30px, 2.9vw, 54px); white-space: nowrap; line-height: 1.12; }
+  .stat__txt { display: block; margin-top: 12px; font-size: 14px; line-height: 1.35; opacity: .7; max-width: 22ch; }
+  .services { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 4vw; counter-reset: s; }
+  .services li { display: grid; grid-template-columns: 40px 1fr; font-size: 15px; line-height: 1.45; }
+  .services li::before { counter-increment: s; content: counter(s, decimal-leading-zero); font-size: 13px; font-weight: 600; opacity: .4; padding-top: 3px; }
+  .services b { display: block; font-size: clamp(18px, 1.4vw, 24px); font-weight: 700; letter-spacing: -.02em; margin-bottom: 4px; }
+  .services p { margin: 0; opacity: .72; }
+  .jobs { list-style: none; margin: 0; padding: 0; }
+  .job { display: grid; grid-template-columns: 180px 1fr; gap: 4vw; padding: 28px 0; border-top: 1px solid #f2f2f2; }
+  .job:first-child { border-top: 0; padding-top: 0; }
+  .job__date { font-size: 13px; font-weight: 500; text-transform: uppercase; opacity: .55; padding-top: 4px; }
+  .job__role { margin: 0; font-size: clamp(18px, 1.4vw, 24px); font-weight: 700; letter-spacing: -.02em; }
+  .job__org { margin: 4px 0 12px; font-size: 13px; font-weight: 500; text-transform: uppercase; color: #e00000; }
+  .job ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.5; opacity: .78; }
+  .job li + li { margin-top: 6px; }
+  .resume__two { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; }
+  .entries { list-style: none; margin: 0; padding: 0; }
+  .entries li { padding: 16px 0; border-top: 1px solid #f2f2f2; }
+  .entries li:first-child { border-top: 0; padding-top: 0; }
+  .entries b { display: flex; justify-content: space-between; gap: 1em; font-size: 15px; font-weight: 700; }
+  .entries b span { font-weight: 500; opacity: .5; }
+  .entries p { margin: 4px 0 0; font-size: 14px; line-height: 1.45; opacity: .68; }
+  .toolkit { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .toolkit h4 { margin: 0 0 12px; font-size: 13px; font-weight: 600; text-transform: uppercase; opacity: .55; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .tags li { font-size: 13px; padding: 6px 11px; border: 1px solid #e4e4e4; border-radius: 999px; }
+  .resume__dl { display: flex; justify-content: center; padding-top: 24px; }
+  .resume__btn {
+    display: inline-flex; align-items: center; gap: .6em; padding: 16px 32px; border-radius: 999px;
+    border: 1.5px solid #111; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: .02em;
+    transition: background .25s ease, color .25s ease;
+  }
+  .resume__btn:hover, .resume__btn:focus-visible { background: #111; color: #fff; outline: none; }
+
   /* ---------- Contact ---------- */
   .contact { padding: 120px var(--gutter) 90px; background: #120404; color: #fff; text-align: center; }
   .contact__kicker { margin: 0 0 18px; font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
@@ -341,6 +385,9 @@
     .about__row { grid-template-columns: 1fr 1fr; gap: 20px; }
     .about__body { grid-template-columns: 1fr; gap: 32px; }
     .about__photo { width: min(62vw, 280px); }
+    .stats, .toolkit { grid-template-columns: 1fr 1fr; }
+    .services, .resume__two { grid-template-columns: 1fr; gap: 28px; }
+    .job { grid-template-columns: 1fr; gap: 8px; }
   }
 </style>
 </head>
@@ -411,6 +458,107 @@
   <div class="about__body">
     <img class="about__photo" data-embed="about-portrait" alt="Portrait of Kush Swami">
     <p class="about__lead">I’m Kush Swami, a creative strategist and video producer with a passion for turning ambitious ideas into clear, expressive, and culturally relevant creative work. I work across brand identity, campaigns, editorial, and digital, building visual systems that feel as bold as the ideas behind them — and work just as hard.</p>
+  </div>
+</section>
+
+<section class="resume" id="resume" aria-label="Résumé">
+  <div class="resume__block">
+    <p class="resume__label">By the numbers</p>
+    <div class="stats">
+      <p><span class="stat__num">40+</span><span class="stat__txt">videos created, written, shot, and edited end to end</span></p>
+      <p><span class="stat__num">50+</span><span class="stat__txt">weekly client calls explaining a software platform</span></p>
+      <p><span class="stat__num">50+</span><span class="stat__txt">original songs across 12+ years of music production</span></p>
+      <p><span class="stat__num stat__num--sm">UofT + GBC</span><span class="stat__txt">design undergrad from UofT and marketing management (digital media) grad from George Brown</span></p>
+    </div>
+  </div>
+
+  <div class="resume__block">
+    <p class="resume__label">What I do</p>
+    <ol class="services">
+      <li><div><b>Brand identity &amp; strategy</b><p>Positioning, voice, and visual direction that give a brand something distinct to say and a system to say it with.</p></div></li>
+      <li><div><b>Campaigns</b><p>Campaignable concepts that travel across video, social, digital, and print, backed by the channel and performance know-how of a working marketer.</p></div></li>
+      <li><div><b>Video production</b><p>Scripting, storyboarding, filming, directing talent, editing, and sound, from a full home studio with the lighting and equipment to turn lessons and ads around fast.</p></div></li>
+      <li><div><b>Editorial &amp; education</b><p>Training videos, tutorials, and short-form content that explain complicated things in plain language.</p></div></li>
+      <li><div><b>Sound</b><p>Music producer, audio engineer, and multi-instrumentalist, so tone of voice and brand sound are part of the idea from the start.</p></div></li>
+    </ol>
+  </div>
+
+  <div class="resume__block">
+    <p class="resume__label">Work experience <span>2018 — Present</span></p>
+    <ol class="jobs">
+      <li class="job">
+        <span class="job__date">Jan 2026 — Present</span>
+        <div>
+          <h3 class="job__role">Digital Marketing Consultant</h3>
+          <p class="job__org">WSI World · Toronto, ON</p>
+          <ul><li>Build integrated strategies across SEO, paid media, social, email, and content, turning brand goals into measurable campaign outcomes.</li><li>Create and oversee ad assets, including copy, creative briefs, and video concepts tailored to each client’s voice and audience.</li><li>Present strategy and results to multiple clients at once, with a clear creative rationale behind the numbers.</li></ul>
+        </div>
+      </li>
+      <li class="job">
+        <span class="job__date">Apr 2024 — Sep 2024</span>
+        <div>
+          <h3 class="job__role">Marketing Co-op — Social &amp; Video</h3>
+          <p class="job__org">George Brown College · Toronto</p>
+          <ul><li>Produced video content featuring students and ambassadors that grew visibility across LinkedIn and TikTok.</li><li>Wrote short-form content strategies to brand guidelines, wrote copy, and directed on-camera talent for multi-platform distribution.</li></ul>
+        </div>
+      </li>
+      <li class="job">
+        <span class="job__date">Feb 2023 — Present</span>
+        <div>
+          <h3 class="job__role">Corporate &amp; Personal Content Creator</h3>
+          <p class="job__org">Self-employed · Freelance · Toronto</p>
+          <ul><li>Script, shoot, and edit video ads, tutorials, voiceovers, and violin soundtracks for brands and independent artists, from storyboard to final delivery.</li><li>Corporate clients include Sid Lee, Circle.so, and Decoherence; created example ad campaigns for Maple Leaf Foods and VinFast.</li><li>Music production, songwriting, and mixing and mastering for 30+ independent Toronto artists.</li></ul>
+        </div>
+      </li>
+      <li class="job">
+        <span class="job__date">Jan 2022 — Feb 2023</span>
+        <div>
+          <h3 class="job__role">Sales Development Representative</h3>
+          <p class="job__org">Circle · New York, NY (Remote)</p>
+          <ul><li>Explained and sold Circle’s community platform to creators, brands, and companies on 50+ weekly Zoom calls, partnering with AEs on high-value accounts.</li><li>Helped build a lead-scoring matrix in HubSpot CRM, improving pipeline quality and conversion forecasting.</li></ul>
+        </div>
+      </li>
+      <li class="job">
+        <span class="job__date">Jun 2018 — Dec 2018</span>
+        <div>
+          <h3 class="job__role">Video Content Developer</h3>
+          <p class="job__org">WSP Global Inc. · Toronto</p>
+          <ul><li>Produced six 30-minute corporate training videos for the WSP Marketing Team, researching, scripting, filming, and editing each end to end.</li></ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="resume__block resume__two">
+    <div>
+      <p class="resume__label">Education</p>
+      <ul class="entries">
+        <li><b>Postgrad Certificate · Marketing Management (Digital Media) <span>2024</span></b><p>George Brown College · Toronto · 4.0 GPA</p></li>
+        <li><b>Honours BA · Architecture, Minor in Digital Humanities <span>2020</span></b><p>University of Toronto · Toronto</p></li>
+        <li><b>Entrepreneurship Fellowship Program <span>2022</span></b><p>Venture for Canada · Toronto</p></li>
+      </ul>
+    </div>
+    <div>
+      <p class="resume__label">Awards</p>
+      <ul class="entries">
+        <li><b>Python’s Pit · 1st Place · $2,500 Grant <span>2016</span></b><p>RBC &amp; MNP LLP / University of Toronto. Indoor aquaponic food-growing system; built two working prototypes.</p></li>
+        <li><b>Python’s Pit · 2nd Place · $1,000 Grant <span>2015</span></b><p>RBC &amp; MNP LLP / University of Toronto. Indoor vape-smoke detection alarm system.</p></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resume__block">
+    <p class="resume__label">Toolkit</p>
+    <div class="toolkit">
+      <div><h4>Creative</h4><ul class="tags"><li>Brand storytelling</li><li>Campaign concepting</li><li>Art direction</li><li>Copywriting</li><li>Storyboarding</li></ul></div>
+      <div><h4>Production</h4><ul class="tags"><li>Premiere Pro</li><li>Adobe Creative Cloud</li><li>Descript</li><li>Logic Pro X</li><li>Audio engineering</li><li>Mixing &amp; mastering</li></ul></div>
+      <div><h4>Marketing</h4><ul class="tags"><li>Social strategy</li><li>Paid media</li><li>SEO &amp; SEM</li><li>Content marketing</li><li>HubSpot CRM</li></ul></div>
+      <div><h4>AI &amp; tools</h4><ul class="tags"><li>Claude</li><li>ChatGPT</li><li>Runway</li><li>Perplexity</li><li>Notion AI</li><li>Softr</li></ul></div>
+    </div>
+  </div>
+
+  <div class="resume__dl">
+    <a class="resume__btn" href="Kush_Swami_Resume.pdf" download>Download résumé (PDF) <span aria-hidden="true">↓</span></a>
   </div>
 </section>
 
@@ -776,7 +924,7 @@ window.EMBEDDED_IMAGES = {
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Creative brand', 'strategy'],
       body: 'Strategy first, then ideas — lots of them. Concepts built to stand out, shaped into content people actually stop for.' },
-    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .69, cxPortrait: .66, scalePortrait: .5, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
+    { bg: 'story-3', fg: { name: 'story-3-fg', cx: .6, cxPortrait: .66, scalePortrait: .5, bottom: .1, h: .55, enter: 'slide' }, fx: 3,
       title: ['Capture what', 'matters'],
       layout: 'tall', // vertical poster-style cards
       videos: [{ vimeo: '1234213035', title: 'Digital Marketing' }, { vimeo: '1234213221', title: 'Skills Competition' }, { vimeo: '1234212820', title: 'Low Code' }, { yt: 'Zq7hA_1XPM8' }, { yt: '2EtWv2c_vq0' }, { yt: '8opQdqDp4iM', tall: true }],

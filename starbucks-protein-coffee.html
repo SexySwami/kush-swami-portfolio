@@ -86,6 +86,12 @@
   .ph::after { content: attr(data-ratio); position: absolute; top: 16px; right: 18px; font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; }
   .ph figcaption { font-size: 14px; line-height: 1.5; color: var(--mute); max-width: 60ch; }
   .ph figcaption b { display: block; margin-bottom: 4px; font-size: 15px; color: var(--ink); }
+  .shot { margin: 0; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+  .shot.r-16x9, .shot.r-4x5, .shot.r-1x1 { aspect-ratio: auto; }
+  .shot.r-16x9 img { aspect-ratio: 16 / 9; } .shot.r-4x5 img { aspect-ratio: 4 / 5; } .shot.r-1x1 img { aspect-ratio: 1 / 1; }
+  .shot figcaption { margin-top: 10px; font-size: 13px; line-height: 1.45; color: var(--mute); }
+  .idea .shot figcaption { color: rgba(30,57,50,.7); }
   .r-16x9, .r-4x5, .r-1x1, .r-21x9, .r-9x16 { min-height: 0; }
   .r-16x9 { aspect-ratio: 16 / 9; } .r-4x5 { aspect-ratio: 4 / 5; } .r-1x1 { aspect-ratio: 1 / 1; } .r-21x9 { aspect-ratio: 21 / 9; } .r-9x16 { aspect-ratio: 9 / 16; }
 
@@ -208,7 +214,7 @@
   .timeline li:last-child::after { right: 0; }
   .timeline b { display: block; margin-bottom: 8px; font-size: 17px; letter-spacing: -.01em; }
   .timeline p { margin: 0 0 16px; font-size: 14px; line-height: 1.5; color: var(--mute); }
-  .timeline .ph { min-height: 0; padding: 14px; }
+  .timeline .ph { min-height: 0; padding: 30px 12px 12px; align-content: start; overflow: auto; }
   .timeline .ph::before { top: 10px; left: 12px; font-size: 9px; }
   .timeline .ph::after { top: 10px; right: 12px; font-size: 9px; }
   .timeline .ph figcaption { font-size: 12px; }
@@ -301,7 +307,7 @@
   <!-- ===== Hero ===== -->
   <section class="hero" id="top">
     <figure class="ph hero__bg" data-ratio="Full-bleed · 16:9">
-      <figcaption><b>Hero — the can in the wild.</b>A cinematic, low-angle shot of a Starbucks Protein Coffee can sweating on a gym bench at golden hour, a towel and earbuds beside it, colourful sticky notes blurred on the wall behind. Dark, moody grade so the white type reads on top.</figcaption>
+      <figcaption><b>Hero — the can in the wild.</b>A cinematic, low-angle shot of a plain matte-white aluminium coffee can (no logo, no text) beaded with condensation on a gym bench at golden hour, a towel and earbuds beside it, a wall of colourful sticky notes softly blurred behind. Dark green, moody grade so the white type reads on top.</figcaption>
     </figure>
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap">
@@ -352,7 +358,7 @@
   <section id="product">
     <div class="wrap split">
       <figure class="ph r-4x5 reveal" data-ratio="4:5">
-        <figcaption><b>Packaging hero.</b>Studio product shot of the Starbucks Protein Coffee can — matte white with the green siren, “10 g PROTEIN” in bold, and one of the campaign’s motivational phrases (“you got this!”) printed on the can. Clean seamless background, soft shadow.</figcaption>
+        <figcaption><b>Packaging hero.</b>Studio product shot of an unlabelled matte-white 355 ml can with a deep-green band and a small blank circular badge, on a seamless warm-cream background with a soft shadow. Leave it blank; the logo, “10 g protein” and a phrase like “you got this!” get added in design afterwards.</figcaption>
       </figure>
       <div>
         <span class="chapter-no">02 — The product</span>
@@ -414,9 +420,7 @@
       <h2 class="h2 reveal">Meet the person<br><span class="outline">we’re talking to.</span></h2>
       <p class="lead reveal">Canadians aged 20–34 who want a more active life but feel unsure where to start — alongside Starbucks’ existing loyal, health-conscious regulars.</p>
       <div class="persona">
-        <figure class="ph r-4x5 reveal" data-ratio="4:5">
-          <figcaption><b>Persona portrait.</b>Candid lifestyle photo of a 25-year-old woman in athleisure leaving a downtown Toronto condo with her dog, coffee can in hand, morning light, tennis bag over her shoulder. Natural, editorial — not stock-photo posed.</figcaption>
-        </figure>
+        <figure class="shot r-4x5 reveal"><img src="images/sbux/persona.jpg" alt="A young woman in a green jacket and tennis skirt leaves a downtown Toronto building with a can and her dog" loading="lazy"><figcaption>Alissa on her way out — tennis bag, dog, a protein coffee in hand.</figcaption></figure>
         <div class="persona__card reveal">
           <p class="kicker" style="margin-bottom:10px">Customer profile</p>
           <h3 class="persona__name">Alissa Rayner, 25</h3>
@@ -469,9 +473,7 @@
       </div>
 
       <div class="split split--top">
-        <figure class="ph r-16x9 reveal" data-ratio="16:9">
-          <figcaption><b>The activation.</b>Wide shot of the Wall of Motivation on a downtown Toronto street outside a GoodLife Fitness: a huge white wall covered in hundreds of colourful branded sticky notes, people mid-write, Starbucks siren and #ItsYourMove on the wall header.</figcaption>
-        </figure>
+        <figure class="shot r-16x9 reveal"><img src="images/sbux/wall-reading.jpg" alt="A young man smiling as he reads a street wall covered in colourful sticky notes" loading="lazy"><figcaption>The Wall of Motivation — strangers stopping to read encouragement left by other people.</figcaption></figure>
         <div>
           <p class="body reveal">The messages don’t stay on the wall. They’re printed on the cans, carried into GoodLife gyms across Canada, and become the copy for display and out-of-home ads — so the people who joined the campaign literally write it.</p>
           <p class="body reveal">No product sampling at the event: the wall, notes and materials carry the Starbucks logo and hashtag, keeping it about encouragement, not a sales pitch.</p>
@@ -494,15 +496,15 @@
       <p class="lead reveal">The event is recorded and becomes the engine for every channel.</p>
       <ol class="timeline">
         <li class="reveal"><b>The event</b><p>Wall of Motivation goes live at a downtown Toronto GoodLife Fitness.</p>
-          <figure class="ph r-1x1" data-ratio="1:1"><figcaption>Close-up of a hand sticking a pink “you got this!” note onto the wall.</figcaption></figure></li>
+          <figure class="shot r-1x1"><img src="images/sbux/note-you-got-this.jpg" alt="A hand sticking a pink note reading “you got this!” onto a wall of sticky notes" loading="lazy"></figure></li>
         <li class="reveal"><b>60-second TV spot</b><p>A pan-Canadian commercial cut from the real event footage.</p>
-          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Film still: a nervous first-timer reading notes on the wall, smiling.</figcaption></figure></li>
+          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Film still: a woman in workout clothes hesitating outside a glass gym door at dusk, reading a sticky note on the window, a small nervous smile.</figcaption></figure></li>
         <li class="reveal"><b>30s &amp; 15s social</b><p>Cut-downs for social, ending on #ItsYourMove and a call to post your own message.</p>
-          <figure class="ph r-9x16" data-ratio="9:16"><figcaption>Vertical social frame: can in hand, sticky-note text overlay, hashtag end card.</figcaption></figure></li>
+          <figure class="ph r-9x16" data-ratio="9:16"><figcaption>Vertical social frame: a hand holding a plain white can against a blurred gym, with a big handwritten sticky-note graphic and #ItsYourMove added on top.</figcaption></figure></li>
         <li class="reveal"><b>OOH &amp; display</b><p>Real messages from the wall become billboard and banner copy.</p>
-          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Transit-shelter mock-up: giant yellow sticky note reading “one day at a time!” beside the can.</figcaption></figure></li>
+          <figure class="ph r-16x9" data-ratio="16:9"><figcaption>Transit-shelter ad mock-up on a city street at night: the ad panel shows a giant yellow sticky note reading “one day at a time!” next to a plain white can.</figcaption></figure></li>
         <li class="reveal"><b>On the can &amp; in gyms</b><p>Phrases printed on packaging and placed in GoodLife locations nationwide.</p>
-          <figure class="ph r-1x1" data-ratio="1:1"><figcaption>Row of cans, each with a different motivational phrase, on a gym-front fridge shelf.</figcaption></figure></li>
+          <figure class="ph r-1x1" data-ratio="1:1"><figcaption>Row of plain white cans, each with a different handwritten-style phrase, lined up on a shelf in a glass-front drinks fridge.</figcaption></figure></li>
       </ol>
       <div class="budget reveal">
         <div><b>$500K</b><span>total quarter budget — event, production and broadcast</span></div>

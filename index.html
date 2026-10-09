@@ -1661,7 +1661,26 @@ window.EMBEDDED_IMAGES = {
     requestAnimationFrame(() => requestAnimationFrame(() => view.classList.add('is-ready')));
   }
 
+  // ---- Browser history: each open project gets its own entry (#project-slug), so the
+  // Back button closes it and returns to the page; links like #project-library open directly.
+  const hashFor = i => `#project-${PROJECTS[i].slug}`;
+  const indexFromHash = () => PROJECTS.findIndex(p => location.hash === `#project-${p.slug}`);
   function openProject(i) {
+    if (location.hash !== hashFor(i)) history.pushState({ project: i }, '', hashFor(i));
+    showProject(i);
+  }
+  function closeProject() {
+    // Go back if we opened it ourselves; otherwise (deep link) just drop the hash
+    if (history.state && history.state.project != null) history.back();
+    else { history.replaceState(null, '', location.pathname + location.search); hideProject(); }
+  }
+  addEventListener('popstate', () => {
+    const i = indexFromHash();
+    if (i >= 0) { if (projectOpen) fill(i); else showProject(i); }
+    else if (projectOpen) hideProject();
+  });
+
+  function showProject(i) {
     lastFocus = document.activeElement;
     projectOpen = true;
     document.documentElement.style.overflow = 'hidden';
@@ -1670,7 +1689,7 @@ window.EMBEDDED_IMAGES = {
     view.setAttribute('aria-hidden', 'false');
     setTimeout(() => { fill(i); view.querySelector('[data-act="close"]').focus({ preventScroll: true }); }, 350);
   }
-  function closeProject() {
+  function hideProject() {
     projectOpen = false;
     view.classList.remove('is-open', 'is-ready');
     view.setAttribute('aria-hidden', 'true');
@@ -1680,7 +1699,9 @@ window.EMBEDDED_IMAGES = {
   }
   function step(dir) {
     view.classList.remove('is-ready');
-    setTimeout(() => fill((openIndex + dir + PROJECTS.length) % PROJECTS.length), 450);
+    const i = (openIndex + dir + PROJECTS.length) % PROJECTS.length;
+    history.replaceState({ project: i }, '', hashFor(i));
+    setTimeout(() => fill(i), 450);
   }
   view.addEventListener('click', e => {
     const act = e.target.closest('[data-act]')?.dataset.act;
@@ -1696,6 +1717,7 @@ window.EMBEDDED_IMAGES = {
   });
 
   new ResizeObserver(() => { buildTiles(); layout(); }).observe(section);
+  if (indexFromHash() >= 0) showProject(indexFromHash());
   buildTiles();
   layout();
   requestAnimationFrame(frame);

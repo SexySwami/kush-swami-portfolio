@@ -151,6 +151,8 @@
   .vcard--tall .vcard__title { display: none; }
   /* Row of vertical 9:16 cards */
   /* three across, then the rest on a second row; sized so both rows fit the screen height */
+  /* Single intro video under the headline */
+  .scene-media--solo { width: min(380px, 34vw); }
   .scene-media--tall { width: auto; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; }
   .scene-media--tall .vcard { width: min(clamp(96px, 8vw, 156px), calc((100svh - 400px) / 2 * .5625)); aspect-ratio: 9 / 16; }
   .scene-media--tall .vcard__meta { flex-direction: column; gap: 3px; }
@@ -418,6 +420,7 @@
     .scene-media { width: auto; max-width: none; margin-right: var(--gutter); gap: 8px; margin-top: 22px; }
     .vcard__meta { left: 7px; bottom: 5px; font-size: 10px; }
     .vcard__title { display: none; }
+    .scene-media--solo { width: min(46vw, 220px); }
     .scene-media--tall .vcard { width: min(18vw, calc((100svh - 520px) / 2 * .5625)); }
     .scene-media--bento { position: absolute; left: var(--gutter); bottom: 7svh; margin: 0; --w: calc((100vw - 2 * var(--gutter) - 20px) / 2.63); --g: 8px; }
     .vcard__play { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
@@ -976,7 +979,9 @@ window.EMBEDDED_IMAGES = {
     { bg: 'story-1', fg: { name: 'story-1-fg', cx: .615, bottom: .053, h: .70, enter: 'walk' }, fx: 1,
       titleSize: .72, // longer headline: smaller so it sits beside Kush
       title: ['Let me', 'introduce myself.'],
-      body: 'I’m Kush — a creative strategist and video producer. Every brand has a story behind the door. I help you open it.' },
+      body: 'I’m Kush — a creative strategist and video producer. Every brand has a story behind the door. I help you open it.',
+      layout: 'solo', // one landscape card under the intro copy
+      videos: [{ vimeo: '1235168419' }] },
     { bg: 'story-2', fg: { name: 'story-2-fg', cx: .5, bottom: 0, h: 1, full: true, enter: 'rise' }, fx: 2,
       title: ['Creative brand', 'strategy'],
       links: [

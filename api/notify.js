@@ -1,15 +1,24 @@
-// Sends a push notification via ntfy.sh when someone visits or takes a key action.
-// The topic lives in the NTFY_TOPIC environment variable (Vercel → Settings →
-// Environment Variables) so it never appears in the page source.
+// Sends a push alert when someone visits or takes a key action on the site.
+// Delivery: Telegram (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID) and/or ntfy (NTFY_TOPIC),
+// all set in Vercel → Settings → Environment Variables, so nothing is in the page source.
+// Setup helpers (open in a browser):
+//   /api/notify          shows what's configured
+//   /api/notify?setup    finds your Telegram chat ID after you message the bot
+//   /api/notify?test     sends a test alert
 const ACTIONS = {
-  video_play: ['Played a video', 'clapper'],
-  case_study_open: ['Opened a case study', 'books'],
-  resume_download: ['Downloaded your résumé', 'page_facing_up'],
-  email_click: ['Clicked “Email me”', 'email'],
-  pdf_open: ['Opened a PDF', 'page_facing_up'],
-  linkedin_click: ['Clicked LinkedIn', 'link'],
+  video_play: ['🎬', 'Played a video'],
+  case_study_open: ['📚', 'Opened a case study'],
+  resume_download: ['📄', 'Downloaded your résumé'],
+  email_click: ['✉️', 'Clicked “Email me”'],
+  pdf_open: ['📄', 'Opened a PDF'],
+  linkedin_click: ['🔗', 'Clicked LinkedIn'],
 };
 const BOT = /bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|headless|lighthouse|vercel/i;
+
+const env = k => String(process.env[k] || '').trim().replace(/^["']|["']$/g, '').trim();
+const tgToken = () => env('TELEGRAM_BOT_TOKEN');
+const tgChat = () => env('TELEGRAM_CHAT_ID');
+const ntfyTopic = () => env('NTFY_TOPIC').replace(/^https?:\/\/ntfy\.sh\//i, '').replace(/\/+$/, '');
 
 function device(ua) {
   if (/iPhone/.test(ua)) return 'iPhone';
@@ -22,29 +31,63 @@ function device(ua) {
 }
 const clip = (v, n = 120) => String(v || '').replace(/[\r\n]+/g, ' ').slice(0, n);
 
-module.exports = async (req, res) => {
-  // Tolerate stray spaces, quotes or a pasted ntfy URL in the env var
-  const topic = String(process.env.NTFY_TOPIC || '').trim().replace(/^["']|["']$/g, '').replace(/^https?:\/\/ntfy\.sh\//i, '').replace(/\/+$/, '').trim();
-  const masked = topic.length > 8 ? topic.slice(0, 10) + '…' + topic.slice(-4) : topic;
-  const ua = req.headers['user-agent'] || '';
-  // Opening /api/notify in a browser shows whether alerts are set up (without revealing the topic)
-  if (req.method === 'GET') {
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    if (!topic) return res.status(200).send('Alerts NOT ready: NTFY_TOPIC is missing. Add it in Vercel → Settings → Environment Variables, then redeploy.');
-    if (req.query && 'test' in req.query) {
-      try {
-        const r = await fetch('https://ntfy.sh/', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ topic, title: 'Test from kushswami.com', message: 'If you can read this, website alerts work.', tags: ['white_check_mark'] }),
-        });
-        return res.status(200).send(r.ok ? `Test alert sent to topic ${masked}. Check your phone.` : `ntfy rejected the alert (HTTP ${r.status}).`);
-      } catch (e) {
-        return res.status(200).send('Could not reach ntfy: ' + e.message);
-      }
-    }
-    return res.status(200).send(`Alerts ready: sending to topic ${masked}. Add ?test to this address to send a test alert.`);
+// Send one alert to every configured channel; returns a short status per channel
+async function send(title, lines, urgent) {
+  const out = [];
+  if (tgToken() && tgChat()) {
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${tgToken()}/sendMessage`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: tgChat(), text: [title, ...lines].join('\n'), disable_notification: false, disable_web_page_preview: true }),
+      });
+      const j = await r.json().catch(() => ({}));
+      out.push(j.ok ? 'Telegram: sent' : `Telegram: failed (${j.description || r.status})`);
+    } catch (e) { out.push('Telegram: could not connect (' + e.message + ')'); }
   }
-  if (req.method !== 'POST' || !topic || BOT.test(ua)) return res.status(204).end();
+  if (ntfyTopic()) {
+    try {
+      const r = await fetch('https://ntfy.sh/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: ntfyTopic(), title, message: lines.join('\n'), priority: urgent ? 4 : 3, click: 'https://clarity.microsoft.com' }),
+      });
+      out.push(r.ok ? 'ntfy: sent' : `ntfy: failed (HTTP ${r.status})`);
+    } catch (e) { out.push('ntfy: could not connect (' + e.message + ')'); }
+  }
+  return out;
+}
+
+async function setupPage(req, res) {
+  const q = req.query || {};
+  const text = t => { res.setHeader('Content-Type', 'text/plain; charset=utf-8'); return res.status(200).send(t); };
+
+  if ('setup' in q) {
+    if (!tgToken()) return text('Step 1 not done: add TELEGRAM_BOT_TOKEN in Vercel → Settings → Environment Variables, then redeploy.');
+    try {
+      const j = await (await fetch(`https://api.telegram.org/bot${tgToken()}/getUpdates`)).json();
+      if (!j.ok) return text('Telegram rejected the bot token: ' + (j.description || 'unknown error') + '. Check TELEGRAM_BOT_TOKEN.');
+      const chats = [...new Map((j.result || []).map(u => u.message || u.my_chat_member || {}).filter(m => m.chat)
+        .map(m => [m.chat.id, m.chat])).values()];
+      if (!chats.length) return text('No messages found yet. Open your bot in Telegram, tap Start (or send it "hi"), then reload this page.');
+      return text('Found your chat. Add this in Vercel as TELEGRAM_CHAT_ID, then redeploy:\n\n' +
+        chats.map(c => `${c.id}   (${[c.first_name, c.last_name].filter(Boolean).join(' ') || c.title || c.username || 'chat'})`).join('\n'));
+    } catch (e) { return text('Could not reach Telegram: ' + e.message); }
+  }
+  if ('test' in q) {
+    const out = await send('✅ Test from kushswami.com', ['If you can read this, website alerts work.'], true);
+    return text(out.length ? out.join('\n') : 'No alert channel is set up yet.');
+  }
+  const status = [
+    tgToken() ? (tgChat() ? 'Telegram: ready' : 'Telegram: bot token set, chat ID missing. Open /api/notify?setup') : 'Telegram: not set up',
+    ntfyTopic() ? 'ntfy: ready' : 'ntfy: not set up',
+    '', 'Add ?test to this address to send a test alert.',
+  ];
+  return text(status.join('\n'));
+}
+
+module.exports = async (req, res) => {
+  if (req.method === 'GET') return setupPage(req, res);
+  const ua = req.headers['user-agent'] || '';
+  if (req.method !== 'POST' || BOT.test(ua)) return res.status(204).end();
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
@@ -55,28 +98,11 @@ module.exports = async (req, res) => {
   const where = [city, h['x-vercel-ip-country-region'], h['x-vercel-ip-country']].filter(Boolean).join(', ') || 'Unknown location';
   const page = clip(body.page, 60) || '/';
 
-  let title, tags, priority = '3', lines;
   if (body.type === 'action' && ACTIONS[body.action]) {
-    const [label, tag] = ACTIONS[body.action];
-    title = label; tags = tag; priority = '4';
-    lines = [body.label ? clip(body.label) : null, `${where} · ${device(ua)}`, `on ${page}`];
+    const [icon, label] = ACTIONS[body.action];
+    await send(`${icon} ${label}`, [body.label ? clip(body.label) : null, `${where} · ${device(ua)}`, `on ${page}`].filter(Boolean), true);
   } else if (body.type === 'visit') {
-    title = 'New visitor on kushswami.com'; tags = 'eyes';
-    lines = [`${where} · ${device(ua)}`, `Landed on ${page}`, body.ref ? `From ${clip(body.ref, 80)}` : 'Direct visit'];
-  } else {
-    return res.status(204).end();
+    await send('👀 New visitor on kushswami.com', [`${where} · ${device(ua)}`, `Landed on ${page}`, body.ref ? `From ${clip(body.ref, 80)}` : 'Direct visit'], false);
   }
-
-  try {
-    await fetch('https://ntfy.sh/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        topic, title, tags: [tags], priority: +priority,
-        message: lines.filter(Boolean).join('\n'),
-        click: 'https://clarity.microsoft.com',
-      }),
-    });
-  } catch {}
   res.status(204).end();
 };

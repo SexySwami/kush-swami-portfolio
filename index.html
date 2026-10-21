@@ -446,6 +446,36 @@
     .job { grid-template-columns: 1fr; gap: 8px; }
   }
 </style>
+<!-- Microsoft Clarity analytics. Visit any page with ?me once per device to stop
+     tracking yourself (?notme turns tracking back on). -->
+<script>
+(function () {
+  try {
+    var q = location.search;
+    if (/[?&]notme\b/.test(q)) localStorage.removeItem('ks-owner');
+    else if (/[?&]me\b/.test(q)) localStorage.setItem('ks-owner', '1');
+    if (localStorage.getItem('ks-owner')) return;
+  } catch (e) {}
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "z17t7qtagh");
+  // Name the clicks that matter so they show up as events in Clarity
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a, button');
+    if (!el) return;
+    var href = el.getAttribute('href') || '', name = null;
+    if (el.classList.contains('vcard')) name = 'video_play';
+    else if (href.indexOf('mailto:') === 0) name = 'email_click';
+    else if (/resume/i.test(href)) name = 'resume_download';
+    else if (/\.pdf$/i.test(href)) name = 'pdf_open';
+    else if (/(starbucks-protein-coffee|gully-klassics)\.html/.test(href)) name = 'case_study_open';
+    else if (/linkedin\.com/.test(href)) name = 'linkedin_click';
+    if (name) window.clarity('event', name);
+  }, true);
+})();
+</script>
 </head>
 <body>
 

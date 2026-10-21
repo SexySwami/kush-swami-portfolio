@@ -25,6 +25,11 @@ const clip = (v, n = 120) => String(v || '').replace(/[\r\n]+/g, ' ').slice(0, n
 module.exports = async (req, res) => {
   const topic = process.env.NTFY_TOPIC;
   const ua = req.headers['user-agent'] || '';
+  // Opening /api/notify in a browser shows whether alerts are set up (without revealing the topic)
+  if (req.method === 'GET') {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    return res.status(200).send(topic ? 'Alerts ready: NTFY_TOPIC is set.' : 'Alerts NOT ready: NTFY_TOPIC is missing. Add it in Vercel → Settings → Environment Variables, then redeploy.');
+  }
   if (req.method !== 'POST' || !topic || BOT.test(ua)) return res.status(204).end();
 
   let body = req.body;

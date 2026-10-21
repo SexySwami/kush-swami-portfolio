@@ -28,7 +28,19 @@ module.exports = async (req, res) => {
   // Opening /api/notify in a browser shows whether alerts are set up (without revealing the topic)
   if (req.method === 'GET') {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    return res.status(200).send(topic ? 'Alerts ready: NTFY_TOPIC is set.' : 'Alerts NOT ready: NTFY_TOPIC is missing. Add it in Vercel → Settings → Environment Variables, then redeploy.');
+    if (!topic) return res.status(200).send('Alerts NOT ready: NTFY_TOPIC is missing. Add it in Vercel → Settings → Environment Variables, then redeploy.');
+    if (req.query && 'test' in req.query) {
+      try {
+        const r = await fetch('https://ntfy.sh/', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic, title: 'Test from kushswami.com', message: 'If you can read this, website alerts work.', tags: ['white_check_mark'] }),
+        });
+        return res.status(200).send(r.ok ? 'Test alert sent. Check your phone.' : `ntfy rejected the alert (HTTP ${r.status}).`);
+      } catch (e) {
+        return res.status(200).send('Could not reach ntfy: ' + e.message);
+      }
+    }
+    return res.status(200).send('Alerts ready: NTFY_TOPIC is set. Add ?test to this address to send a test alert.');
   }
   if (req.method !== 'POST' || !topic || BOT.test(ua)) return res.status(204).end();
 

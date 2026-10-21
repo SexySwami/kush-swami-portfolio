@@ -413,7 +413,9 @@ a{color:#FF2D3D;text-decoration:none}a:hover{color:#fff}
   // key actions; /api/notify forwards these to ntfy.
   var ping = function (data) {
     data.page = location.pathname;
-    try { navigator.sendBeacon('/api/notify', new Blob([JSON.stringify(data)], { type: 'text/plain' })); } catch (e) {}
+    var body = JSON.stringify(data);
+    try { if (navigator.sendBeacon && navigator.sendBeacon('/api/notify', new Blob([body], { type: 'text/plain' }))) return; } catch (e) {}
+    try { fetch('/api/notify', { method: 'POST', body: body, keepalive: true, headers: { 'Content-Type': 'text/plain' } }); } catch (e) {}
   };
   try {
     if (!sessionStorage.getItem('ks-visit')) {

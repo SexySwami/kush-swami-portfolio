@@ -23,7 +23,9 @@ function device(ua) {
 const clip = (v, n = 120) => String(v || '').replace(/[\r\n]+/g, ' ').slice(0, n);
 
 module.exports = async (req, res) => {
-  const topic = process.env.NTFY_TOPIC;
+  // Tolerate stray spaces, quotes or a pasted ntfy URL in the env var
+  const topic = String(process.env.NTFY_TOPIC || '').trim().replace(/^["']|["']$/g, '').replace(/^https?:\/\/ntfy\.sh\//i, '').replace(/\/+$/, '').trim();
+  const masked = topic.length > 8 ? topic.slice(0, 10) + '…' + topic.slice(-4) : topic;
   const ua = req.headers['user-agent'] || '';
   // Opening /api/notify in a browser shows whether alerts are set up (without revealing the topic)
   if (req.method === 'GET') {
@@ -35,12 +37,12 @@ module.exports = async (req, res) => {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ topic, title: 'Test from kushswami.com', message: 'If you can read this, website alerts work.', tags: ['white_check_mark'] }),
         });
-        return res.status(200).send(r.ok ? 'Test alert sent. Check your phone.' : `ntfy rejected the alert (HTTP ${r.status}).`);
+        return res.status(200).send(r.ok ? `Test alert sent to topic ${masked}. Check your phone.` : `ntfy rejected the alert (HTTP ${r.status}).`);
       } catch (e) {
         return res.status(200).send('Could not reach ntfy: ' + e.message);
       }
     }
-    return res.status(200).send('Alerts ready: NTFY_TOPIC is set. Add ?test to this address to send a test alert.');
+    return res.status(200).send(`Alerts ready: sending to topic ${masked}. Add ?test to this address to send a test alert.`);
   }
   if (req.method !== 'POST' || !topic || BOT.test(ua)) return res.status(204).end();
 

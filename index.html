@@ -461,7 +461,21 @@
     t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   })(window, document, "clarity", "script", "z17t7qtagh");
-  // Name the clicks that matter so they show up as events in Clarity
+  // Push a notification for each new visit (once per browser session) and for
+  // key actions; /api/notify forwards these to ntfy.
+  var ping = function (data) {
+    data.page = location.pathname;
+    try { navigator.sendBeacon('/api/notify', new Blob([JSON.stringify(data)], { type: 'text/plain' })); } catch (e) {}
+  };
+  try {
+    if (!sessionStorage.getItem('ks-visit')) {
+      sessionStorage.setItem('ks-visit', '1');
+      var ref = document.referrer && new URL(document.referrer).host !== location.host ? new URL(document.referrer).host : '';
+      var utm = new URLSearchParams(location.search).get('utm_source');
+      ping({ type: 'visit', ref: utm || ref });
+    }
+  } catch (e) {}
+  // Name the clicks that matter so they show up as events in Clarity and as alerts
   document.addEventListener('click', function (e) {
     var el = e.target.closest && e.target.closest('a, button');
     if (!el) return;
@@ -472,7 +486,10 @@
     else if (/\.pdf$/i.test(href)) name = 'pdf_open';
     else if (/(starbucks-protein-coffee|gully-klassics)\.html/.test(href)) name = 'case_study_open';
     else if (/linkedin\.com/.test(href)) name = 'linkedin_click';
-    if (name) window.clarity('event', name);
+    if (!name) return;
+    window.clarity('event', name);
+    var label = el.getAttribute('aria-label') || (el.querySelector('.case-card__t') || {}).textContent || el.textContent || href;
+    ping({ type: 'action', action: name, label: label.replace(/\s+/g, ' ').trim().slice(0, 100) });
   }, true);
 })();
 </script>
